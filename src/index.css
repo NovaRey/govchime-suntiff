@@ -1,0 +1,527 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Professional fonts */
+.font-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Connected floating balls animation */
+@keyframes connected-float-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-8px, -12px) rotate(90deg); }
+  50% { transform: translate(6px, -8px) rotate(180deg); }
+  75% { transform: translate(-4px, 4px) rotate(270deg); }
+}
+
+@keyframes connected-float-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(12px, 8px) rotate(-90deg); }
+  50% { transform: translate(-6px, 12px) rotate(-180deg); }
+  75% { transform: translate(8px, -6px) rotate(-270deg); }
+}
+
+@keyframes connected-float-3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(4px, 10px) rotate(120deg); }
+  50% { transform: translate(-10px, -4px) rotate(240deg); }
+  75% { transform: translate(6px, -8px) rotate(360deg); }
+}
+
+@keyframes connection-line-pulse {
+  0%, 100% { opacity: 0.3; stroke-width: 1; }
+  50% { opacity: 0.7; stroke-width: 2; }
+}
+
+.connected-balls-1 {
+  animation: connected-float-1 6s ease-in-out infinite;
+}
+
+.connected-balls-2 {
+  animation: connected-float-2 8s ease-in-out infinite 1s;
+}
+
+.connected-balls-3 {
+  animation: connected-float-3 7s ease-in-out infinite 2s;
+}
+
+.connection-line {
+  animation: connection-line-pulse 4s ease-in-out infinite;
+}
+
+/* Professional fonts */
+.font-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Custom colors for chatbot */
+.bg-gray-850 {
+  background-color: rgb(30, 41, 59);
+}
+
+.from-gray-850 {
+  --tw-gradient-from: rgb(30, 41, 59);
+  --tw-gradient-to: rgba(30, 41, 59, 0);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-gray-850 {
+  --tw-gradient-to: rgb(30, 41, 59);
+}
+
+/* Apple-inspired animations */
+@keyframes slide-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-in-scale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-scale {
+  animation: fade-in-scale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom animations */
+@keyframes shimmer-logo {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes digital-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(59, 130, 246, 0.2);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes trending-up {
+  0% { 
+    transform: translateY(0) scale(1);
+  }
+  25% { 
+    transform: translateY(-2px) scale(1.15);
+  }
+  50% { 
+    transform: translateY(-1px) scale(1.13);
+  }
+  75% { 
+    transform: translateY(-3px) scale(1.17);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.3); }
+}
+
+@keyframes float-bubble-1 {
+  0%, 100% { 
+    transform: translateY(0px) translateX(0px) scale(1);
+    opacity: 0.7;
+  }
+  33% { 
+    transform: translateY(-15px) translateX(8px) scale(1.1);
+    opacity: 0.9;
+  }
+  66% { 
+    transform: translateY(-8px) translateX(-5px) scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+@keyframes float-bubble-2 {
+  0%, 100% { 
+    transform: translateY(0px) translateX(0px) scale(1);
+    opacity: 0.6;
+  }
+  40% { 
+    transform: translateY(-12px) translateX(-10px) scale(1.15);
+    opacity: 0.85;
+  }
+  80% { 
+    transform: translateY(-20px) translateX(6px) scale(0.9);
+    opacity: 0.75;
+  }
+}
+
+@keyframes float-bubble-3 {
+  0%, 100% { 
+    transform: translateY(0px) translateX(0px) scale(1);
+    opacity: 0.65;
+  }
+  50% { 
+    transform: translateY(-18px) translateX(12px) scale(1.05);
+    opacity: 0.9;
+  }
+  75% { 
+    transform: translateY(-5px) translateX(-8px) scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+/* Apple-style bar chart animations */
+@keyframes bar-chart-appear {
+  0% { 
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% { 
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes apple-fade-in {
+  0% { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced minimize/expand animations */
+@keyframes minimize-rotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(-180deg) scale(0.9); }
+  100% { transform: rotate(-360deg) scale(1); }
+}
+
+@keyframes expand-rotate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes minimize-bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes expand-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-shimmer-logo {
+  background-size: 200% 100%;
+  animation: shimmer-logo 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-bounce-gentle {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.animate-digital-pulse {
+  animation: digital-pulse 2s ease-in-out infinite;
+}
+
+.animate-trending-up {
+  animation: trending-up 1.5s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-bubble-1 {
+  animation: float-bubble-1 4s ease-in-out infinite;
+}
+
+.floating-bubble-2 {
+  animation: float-bubble-2 3.5s ease-in-out infinite 0.5s;
+}
+
+.floating-bubble-3 {
+  animation: float-bubble-3 4.5s ease-in-out infinite 1s;
+}
+
+.fintech-minimize-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.fintech-minimize-btn:hover {
+  animation: minimize-bounce 0.5s ease-in-out;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+}
+
+.fintech-minimize-btn:active {
+  animation: minimize-rotate 0.5s ease-in-out;
+}
+
+.fintech-expand-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.fintech-expand-btn:hover {
+  animation: expand-pulse 0.6s ease-in-out;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+}
+
+.fintech-expand-btn:active {
+  animation: expand-rotate 0.5s ease-in-out;
+}
+
+/* Apple-style chart animations */
+.bar-chart-appear {
+  animation: bar-chart-appear 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  transform-origin: bottom;
+}
+
+.chart-container {
+  animation: apple-fade-in 0.8s ease-out;
+}
+
+/* Recharts background override */
+.recharts-surface {
+  background-color: transparent !important;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(107, 114, 128, 0.3) !important;
+}
+
+/* Colored glow effects */
+.shadow-green-glow {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.4), 0 4px 20px rgba(34, 197, 94, 0.2);
+}
+
+.shadow-blue-glow {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4), 0 4px 20px rgba(59, 130, 246, 0.2);
+}
+
+.shadow-purple-glow {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 4px 20px rgba(139, 92, 246, 0.2);
+}
+
+.shadow-orange-glow {
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.4), 0 4px 20px rgba(249, 115, 22, 0.2);
+}
+
+/* Custom pie chart hover effects */
+.recharts-pie .recharts-pie-sector {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.recharts-pie .recharts-pie-sector:hover {
+  filter: brightness(1.15) drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  stroke-width: 3 !important;
+  transform: scale(1.02);
+  transform-origin: center;
+}
+
+/* Custom bar chart hover effects - remove white background */
+.recharts-bar-rectangle {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.recharts-bar-rectangle:hover {
+  filter: brightness(1.1) drop-shadow(0 4px 12px rgba(139, 92, 246, 0.3));
+  transform: scaleY(1.02);
+  transform-origin: bottom;
+}
+
+/* Prevent white background on bar hover */
+.recharts-tooltip-wrapper {
+  z-index: 1000 !important;
+}
+
+.recharts-active-bar {
+  fill-opacity: 1 !important;
+}
+
+.recharts-bar-background {
+  fill: none !important;
+}
+
+/* Remove default recharts hover highlights */
+.recharts-active-shape {
+  stroke: none !important;
+  fill: none !important;
+}
+
+.recharts-wrapper .recharts-surface {
+  overflow: visible !important;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Apple-like container hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Figma-style snappy button animations */
+.figma-button {
+  transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.figma-button:hover {
+  transform: translateY(-1px) scale(1.02);
+  transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.figma-button:active {
+  transform: translateY(0) scale(0.98);
+  transition: all 0.05s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Snappy hover for navigation items */
+.nav-item {
+  transition: all 0.12s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.nav-item:hover {
+  transform: translateY(-1px) scale(1.02);
+  transition: all 0.08s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Card hover effects with snappy animation */
+.snappy-card {
+  transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.snappy-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Ultra fast icon hover */
+.icon-hover {
+  transition: all 0.08s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.icon-hover:hover {
+  transform: scale(1.1);
+  transition: all 0.05s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Override any slow hover animations with snappy ones */
+[class*="hover:scale"]:hover {
+  transition: all 0.1s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.02) !important;
+  transition: all 0.08s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Grid pattern background */
+.bg-grid-pattern {
+  background-image: linear-gradient(rgba(34, 197, 94, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 197, 94, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Custom ping animations */
+.animate-ping-slow {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-ping-slower {
+  animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation-delay: 0.5s;
+}

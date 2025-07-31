@@ -1,0 +1,265 @@
+{
+  "type": "Topology",
+  "objects": {
+    "states": {
+      "type": "GeometryCollection",
+      "geometries": [
+        {
+          "type": "Polygon",
+          "properties": {"name": "Alabama", "id": "01"},
+          "arcs": [[[658, 550], [750, 550], [750, 650], [658, 650], [658, 550]]]
+        },
+        {
+          "type": "Polygon", 
+          "properties": {"name": "Alaska", "id": "02"},
+          "arcs": [[[50, 650], [200, 650], [200, 750], [50, 750], [50, 650]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Arizona", "id": "04"},
+          "arcs": [[[158, 450], [280, 450], [280, 580], [158, 580], [158, 450]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Arkansas", "id": "05"},
+          "arcs": [[[520, 480], [620, 480], [620, 550], [520, 550], [520, 480]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "California", "id": "06"},
+          "arcs": [[[50, 300], [158, 300], [158, 580], [50, 580], [50, 300]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Colorado", "id": "08"},
+          "arcs": [[[280, 380], [420, 380], [420, 450], [280, 450], [280, 380]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Connecticut", "id": "09"},
+          "arcs": [[[850, 280], [900, 280], [900, 320], [850, 320], [850, 280]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Delaware", "id": "10"},
+          "arcs": [[[820, 350], [840, 350], [840, 400], [820, 400], [820, 350]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Florida", "id": "12"},
+          "arcs": [[[750, 550], [900, 550], [900, 700], [750, 700], [750, 550]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Georgia", "id": "13"},
+          "arcs": [[[720, 480], [820, 480], [820, 580], [720, 580], [720, 480]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Hawaii", "id": "15"},
+          "arcs": [[[250, 650], [350, 650], [350, 750], [250, 750], [250, 650]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Idaho", "id": "16"},
+          "arcs": [[[158, 200], [280, 200], [280, 380], [158, 380], [158, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Illinois", "id": "17"},
+          "arcs": [[[580, 300], [620, 300], [620, 420], [580, 420], [580, 300]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Indiana", "id": "18"},
+          "arcs": [[[620, 320], [670, 320], [670, 420], [620, 420], [620, 320]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Iowa", "id": "19"},
+          "arcs": [[[520, 300], [580, 300], [580, 380], [520, 380], [520, 300]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Kansas", "id": "20"},
+          "arcs": [[[420, 380], [520, 380], [520, 450], [420, 450], [420, 380]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Kentucky", "id": "21"},
+          "arcs": [[[620, 420], [750, 420], [750, 480], [620, 480], [620, 420]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Louisiana", "id": "22"},
+          "arcs": [[[520, 550], [620, 550], [620, 620], [520, 620], [520, 550]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Maine", "id": "23"},
+          "arcs": [[[880, 150], [950, 150], [950, 250], [880, 250], [880, 150]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Maryland", "id": "24"},
+          "arcs": [[[750, 350], [820, 350], [820, 400], [750, 400], [750, 350]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Massachusetts", "id": "25"},
+          "arcs": [[[850, 250], [950, 250], [950, 280], [850, 280], [850, 250]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Michigan", "id": "26"},
+          "arcs": [[[620, 200], [720, 200], [720, 320], [620, 320], [620, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Minnesota", "id": "27"},
+          "arcs": [[[520, 200], [580, 200], [580, 300], [520, 300], [520, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Mississippi", "id": "28"},
+          "arcs": [[[620, 480], [658, 480], [658, 580], [620, 580], [620, 480]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Missouri", "id": "29"},
+          "arcs": [[[520, 380], [620, 380], [620, 480], [520, 480], [520, 380]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Montana", "id": "30"},
+          "arcs": [[[280, 200], [520, 200], [520, 280], [280, 280], [280, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Nebraska", "id": "31"},
+          "arcs": [[[420, 300], [520, 300], [520, 380], [420, 380], [420, 300]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Nevada", "id": "32"},
+          "arcs": [[[158, 300], [280, 300], [280, 450], [158, 450], [158, 300]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "New Hampshire", "id": "33"},
+          "arcs": [[[850, 200], [880, 200], [880, 280], [850, 280], [850, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "New Jersey", "id": "34"},
+          "arcs": [[[800, 300], [840, 300], [840, 380], [800, 380], [800, 300]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "New Mexico", "id": "35"},
+          "arcs": [[[280, 450], [420, 450], [420, 580], [280, 580], [280, 450]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "New York", "id": "36"},
+          "arcs": [[[750, 200], [850, 200], [850, 300], [750, 300], [750, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "North Carolina", "id": "37"},
+          "arcs": [[[720, 420], [850, 420], [850, 480], [720, 480], [720, 420]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "North Dakota", "id": "38"},
+          "arcs": [[[420, 200], [520, 200], [520, 280], [420, 280], [420, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Ohio", "id": "39"},
+          "arcs": [[[670, 300], [750, 300], [750, 400], [670, 400], [670, 300]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Oklahoma", "id": "40"},
+          "arcs": [[[420, 450], [520, 450], [520, 520], [420, 520], [420, 450]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Oregon", "id": "41"},
+          "arcs": [[[50, 200], [158, 200], [158, 300], [50, 300], [50, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Pennsylvania", "id": "42"},
+          "arcs": [[[720, 280], [800, 280], [800, 350], [720, 350], [720, 280]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Rhode Island", "id": "44"},
+          "arcs": [[[900, 270], [920, 270], [920, 290], [900, 290], [900, 270]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "South Carolina", "id": "45"},
+          "arcs": [[[750, 480], [820, 480], [820, 530], [750, 530], [750, 480]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "South Dakota", "id": "46"},
+          "arcs": [[[420, 280], [520, 280], [520, 350], [420, 350], [420, 280]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Tennessee", "id": "47"},
+          "arcs": [[[658, 450], [750, 450], [750, 480], [658, 480], [658, 450]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Texas", "id": "48"},
+          "arcs": [[[280, 520], [520, 520], [520, 700], [280, 700], [280, 520]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Utah", "id": "49"},
+          "arcs": [[[280, 350], [350, 350], [350, 450], [280, 450], [280, 350]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Vermont", "id": "50"},
+          "arcs": [[[820, 200], [850, 200], [850, 250], [820, 250], [820, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Virginia", "id": "51"},
+          "arcs": [[[720, 380], [820, 380], [820, 450], [720, 450], [720, 380]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Washington", "id": "53"},
+          "arcs": [[[50, 150], [158, 150], [158, 200], [50, 200], [50, 150]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "West Virginia", "id": "54"},
+          "arcs": [[[720, 350], [780, 350], [780, 420], [720, 420], [720, 350]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Wisconsin", "id": "55"},
+          "arcs": [[[580, 200], [620, 200], [620, 300], [580, 300], [580, 200]]]
+        },
+        {
+          "type": "Polygon",
+          "properties": {"name": "Wyoming", "id": "56"},
+          "arcs": [[[280, 280], [420, 280], [420, 350], [280, 350], [280, 280]]]
+        }
+      ]
+    }
+  },
+  "arcs": [],
+  "transform": {
+    "scale": [0.001, 0.001],
+    "translate": [0, 0]
+  }
+}
