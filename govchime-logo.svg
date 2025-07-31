@@ -1,0 +1,46 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" />
+      <stop offset="25%" stop-color="#3B82F6" />
+      <stop offset="50%" stop-color="#6366F1" />
+      <stop offset="75%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#3730A3" />
+    </linearGradient>
+    <linearGradient id="shineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.4)" />
+      <stop offset="50%" stop-color="rgba(255,255,255,0.2)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0.1)" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="innerShadow">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur stdDeviation="3" result="offset-blur"/>
+      <feFlood flood-color="rgba(0,0,0,0.3)"/>
+      <feComposite in2="offset-blur" operator="atop"/>
+      <feMerge> 
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Main logo shape -->
+  <path d="M256 64C141.12 64 48 157.12 48 272s93.12 208 208 208c51.2 0 99.84-18.24 137.6-48.96l-46.72-46.72C320.64 402.56 289.28 416 256 416c-79.36 0-144-64.64-144-144s64.64-144 144-144c39.68 0 75.52 16.32 101.44 42.24L384 192H256v64h192c1.6-13.44 1.6-26.88 0-40C448 157.12 370.88 64 256 64z" 
+        fill="url(#logoGradient)" 
+        filter="url(#glow)"/>
+  
+  <!-- Shine effect overlay -->
+  <path d="M256 64C141.12 64 48 157.12 48 272s93.12 208 208 208c51.2 0 99.84-18.24 137.6-48.96l-46.72-46.72C320.64 402.56 289.28 416 256 416c-79.36 0-144-64.64-144-144s64.64-144 144-144c39.68 0 75.52 16.32 101.44 42.24L384 192H256v64h192c1.6-13.44 1.6-26.88 0-40C448 157.12 370.88 64 256 64z" 
+        fill="url(#shineGradient)" 
+        opacity="0.6"/>
+  
+  <!-- Inner highlight -->
+  <ellipse cx="200" cy="180" rx="40" ry="25" fill="rgba(255,255,255,0.3)" opacity="0.8" transform="rotate(-30 200 180)"/>
+</svg>
