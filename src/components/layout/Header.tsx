@@ -45,38 +45,38 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="relative w-14 h-14 flex items-center justify-center transform group-hover:scale-105 transition-all duration-300">
-                {/* Enhanced background with multiple layers */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 via-blue-600/90 to-indigo-700/90 dark:from-purple-500/90 dark:via-blue-500/90 dark:to-indigo-600/90 rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.4)] dark:shadow-[0_8px_32px_rgba(139,92,246,0.3)] group-hover:shadow-[0_12px_40px_rgba(139,92,246,0.6)] transition-all duration-500"></div>
+            <Link to="/" className="flex items-center space-x-2.5 group">
+              <div className="relative w-12 h-12 flex items-center justify-center transform group-hover:scale-105 transition-all duration-300">
+                {/* Enhanced background with darker, more contrasted layers */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-800/95 via-gray-900/95 to-black/95 dark:from-slate-700/95 dark:via-gray-800/95 dark:to-black/95 rounded-xl shadow-[0_6px_24px_rgba(0,0,0,0.4)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.6)] group-hover:shadow-[0_8px_32px_rgba(139,92,246,0.5)] transition-all duration-500"></div>
                 
                 {/* Animated border glow */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-slow" style={{padding: '1px'}}>
-                  <div className="w-full h-full bg-gray-900 rounded-2xl"></div>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-slow" style={{padding: '1px'}}>
+                  <div className="w-full h-full bg-gray-900 rounded-xl"></div>
                 </div>
                 
-                {/* Multiple shine layers */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/20 to-transparent rounded-2xl group-hover:from-white/50 transition-all duration-500"></div>
-                <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-white/10 to-white/30 rounded-2xl opacity-60 group-hover:opacity-80 transition-all duration-500"></div>
+                {/* Subtle shine layers for depth */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-xl group-hover:from-white/25 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-white/5 to-white/15 rounded-xl opacity-60 group-hover:opacity-80 transition-all duration-500"></div>
                 
                 {/* Clear G+C logo shape with enhanced styling */}
-                <div className="relative z-10 w-8 h-8 flex items-center justify-center">
-                  <svg width="32" height="32" viewBox="0 0 32 32" className="text-white group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg">
+                <div className="relative z-10 w-7 h-7 flex items-center justify-center">
+                  <svg width="28" height="28" viewBox="0 0 32 32" className="text-white group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg">
                     <defs>
                       <linearGradient id="headerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-                        <stop offset="25%" stopColor="rgba(255,255,255,0.9)" />
-                        <stop offset="50%" stopColor="rgba(255,255,255,0.85)" />
-                        <stop offset="75%" stopColor="rgba(255,255,255,0.9)" />
-                        <stop offset="100%" stopColor="rgba(255,255,255,0.8)" />
+                        <stop offset="0%" stopColor="rgba(255,255,255,1)" />
+                        <stop offset="25%" stopColor="rgba(248,250,252,0.98)" />
+                        <stop offset="50%" stopColor="rgba(241,245,249,0.95)" />
+                        <stop offset="75%" stopColor="rgba(248,250,252,0.98)" />
+                        <stop offset="100%" stopColor="rgba(255,255,255,0.92)" />
                       </linearGradient>
                       <linearGradient id="headerShineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.6)" />
-                        <stop offset="50%" stopColor="rgba(255,255,255,0.3)" />
-                        <stop offset="100%" stopColor="rgba(255,255,255,0.1)" />
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.9)" />
+                        <stop offset="50%" stopColor="rgba(255,255,255,0.6)" />
+                        <stop offset="100%" stopColor="rgba(255,255,255,0.4)" />
                       </linearGradient>
                       <filter id="headerGlow">
-                        <feGaussianBlur stdDeviation="1" result="coloredBlur"/>
+                        <feGaussianBlur stdDeviation="0.8" result="coloredBlur"/>
                         <feMerge> 
                           <feMergeNode in="coloredBlur"/>
                           <feMergeNode in="SourceGraphic"/>
@@ -84,15 +84,19 @@ const Header: React.FC = () => {
                       </filter>
                     </defs>
                     
-                    {/* G shape - clear and defined */}
+                    {/* G shape - clear and defined with better contrast */}
                     <path d="M16 4C9.37 4 4 9.37 4 16s5.37 12 12 12c3.31 0 6.31-1.34 8.49-3.51L21.66 21.66C20.11 23.21 18.17 24 16 24c-4.42 0-8-3.58-8-8s3.58-8 8-8c2.21 0 4.21 0.89 5.66 2.34L24 14h-8v4h12c0.11-0.66 0.11-1.34 0-2C28 9.37 22.63 4 16 4z" 
                           fill="url(#headerLogoGradient)" 
+                          stroke="rgba(255,255,255,0.2)"
+                          strokeWidth="0.5"
                           filter="url(#headerGlow)"/>
                     
-                    {/* C shape - overlapping to create blend */}
+                    {/* C shape - overlapping to create blend with better visibility */}
                     <path d="M26 16c0 5.52-4.48 10-10 10-2.76 0-5.26-1.12-7.07-2.93l2.83-2.83C13.11 21.59 14.51 22 16 22c3.31 0 6-2.69 6-6s-2.69-6-6-6c-1.49 0-2.89 0.41-4.24 1.76L8.93 8.93C10.74 7.12 13.24 6 16 6c5.52 0 10 4.48 10 10z" 
                           fill="url(#headerLogoGradient)" 
-                          opacity="0.7"
+                          stroke="rgba(255,255,255,0.2)"
+                          strokeWidth="0.5"
+                          opacity="0.8"
                           transform="translate(1, 0)"
                           filter="url(#headerGlow)"/>
                     
@@ -116,7 +120,7 @@ const Header: React.FC = () => {
                 </div>
                 
                 {/* Rotating ring effect */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-500 opacity-0 group-hover:opacity-30 transition-all duration-500 animate-spin-slow" style={{padding: '1px', animationDuration: '8s'}}></div>
+                <div className="absolute inset-0 rounded-xl border border-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-500 opacity-0 group-hover:opacity-20 transition-all duration-500 animate-spin-slow"></div>
               </div>
               
               <div className="flex flex-col">

@@ -14,6 +14,8 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
   const [isLoading, setIsLoading] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
   const [showMainApp, setShowMainApp] = useState(false);
+  const [isErrorMode, setIsErrorMode] = useState(false);
+  const [isShaking, setIsShaking] = useState(false);
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,6 +48,9 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
     // Add a slight delay for smooth animation
     setTimeout(() => {
       if (password === SITE_PASSWORD) {
+        // Clear any error state
+        setIsErrorMode(false);
+        setIsShaking(false);
         setIsAuthenticated(true);
         sessionStorage.setItem('govchime_authenticated', 'true');
         // Navigate to dashboard after successful login
@@ -55,9 +60,23 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
           setShowMainApp(true);
         }, 200);
       } else {
-        setError('Incorrect password. Please try again.');
+        // Trigger dramatic error transformation
+        setIsErrorMode(true);
+        setIsShaking(true);
+        setError('Access Denied - Invalid Credentials');
         setPassword('');
         setIsAnimating(false);
+        
+        // Reset shake animation after it completes
+        setTimeout(() => {
+          setIsShaking(false);
+        }, 600);
+        
+        // Reset error mode after a few seconds
+        setTimeout(() => {
+          setIsErrorMode(false);
+          setError('');
+        }, 3000);
       }
     }, 500);
   };
@@ -65,8 +84,11 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setShowMainApp(false);
+    setIsErrorMode(false);
+    setIsShaking(false);
     sessionStorage.removeItem('govchime_authenticated');
     setPassword('');
+    setError('');
   };
 
   if (isLoading) {
@@ -83,50 +105,112 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
-        {/* Animated background elements */}
+        {/* Animated background elements - change based on error state */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-purple-500/10 to-transparent rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-blue-500/10 to-transparent rounded-full blur-3xl animate-pulse" data-delay="1s"></div>
+          <div className={`absolute -top-1/2 -left-1/2 w-full h-full rounded-full blur-3xl transition-all duration-500 ${
+            isErrorMode 
+              ? 'bg-gradient-to-br from-red-500/30 to-orange-500/20 animate-pulse' 
+              : 'bg-gradient-to-br from-purple-500/10 to-transparent animate-pulse'
+          }`}></div>
+          <div className={`absolute -bottom-1/2 -right-1/2 w-full h-full rounded-full blur-3xl transition-all duration-500 ${
+            isErrorMode 
+              ? 'bg-gradient-to-tl from-red-600/30 to-yellow-500/20 animate-pulse' 
+              : 'bg-gradient-to-tl from-blue-500/10 to-transparent animate-pulse'
+          }`} data-delay="1s"></div>
           
-          {/* Floating particles */}
+          {/* Floating particles - change color in error mode */}
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
-              className={`absolute w-1 h-1 bg-purple-400/30 rounded-full animate-ping`}
+              className={`absolute w-1 h-1 rounded-full transition-all duration-300 ${
+                isErrorMode 
+                  ? 'bg-red-400/50 animate-ping' 
+                  : 'bg-purple-400/30 animate-ping'
+              }`}
               data-position={`${20 + (i * 15)}-${30 + (i * 10)}`}
             ></div>
           ))}
+          
+          {/* Emergency strobe effect during error */}
+          {isErrorMode && (
+            <div className="absolute inset-0 bg-red-500/10 animate-pulse"></div>
+          )}
         </div>
 
-        <div className="relative z-10 bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl shadow-2xl p-8 w-full max-w-md transform transition-all duration-700 hover:scale-105">
-          {/* Glassmorphism overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 rounded-3xl"></div>
+        <div className={`relative z-10 backdrop-blur-xl border rounded-3xl shadow-2xl p-8 w-full max-w-md transition-all duration-500 ${
+          isShaking ? 'animate-shake' : ''
+        } ${
+          isErrorMode 
+            ? 'bg-red-900/60 border-red-500/60 shadow-red-500/25 shadow-2xl' 
+            : 'bg-slate-800/50 border-slate-700/50 hover:scale-105'
+        }`}>
+          {/* Glassmorphism overlay - changes in error mode */}
+          <div className={`absolute inset-0 rounded-3xl transition-all duration-500 ${
+            isErrorMode 
+              ? 'bg-gradient-to-br from-red-500/20 to-orange-500/10' 
+              : 'bg-gradient-to-br from-white/5 to-white/0'
+          }`}></div>
           
           <div className="relative text-center mb-8">
-            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-500 via-blue-500 to-indigo-600 rounded-3xl flex items-center justify-center mb-6 shadow-2xl transform transition-all duration-500 hover:rotate-6 relative group">
-              <Shield className="w-10 h-10 text-white" />
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/50 to-blue-500/50 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+            <div className={`mx-auto w-20 h-20 rounded-3xl flex items-center justify-center mb-6 shadow-2xl transform transition-all duration-500 relative group ${
+              isErrorMode 
+                ? 'bg-gradient-to-br from-red-500 via-orange-500 to-red-600 animate-pulse' 
+                : 'bg-gradient-to-br from-purple-500 via-blue-500 to-indigo-600 hover:rotate-6'
+            }`}>
+              {isErrorMode ? (
+                <Lock className="w-10 h-10 text-white animate-pulse" />
+              ) : (
+                <Shield className="w-10 h-10 text-white" />
+              )}
+              <div className={`absolute inset-0 rounded-3xl blur-xl transition-all duration-300 ${
+                isErrorMode 
+                  ? 'bg-gradient-to-r from-red-500/60 to-orange-500/60 group-hover:blur-2xl' 
+                  : 'bg-gradient-to-r from-purple-500/50 to-blue-500/50 group-hover:blur-2xl'
+              }`}></div>
             </div>
             
             <div className="relative">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-3">
-                GovChime Access
+              <h1 className={`text-3xl font-bold bg-clip-text text-transparent mb-3 transition-all duration-500 ${
+                isErrorMode 
+                  ? 'bg-gradient-to-r from-red-300 via-orange-200 to-red-300 animate-pulse' 
+                  : 'bg-gradient-to-r from-white via-purple-200 to-blue-200'
+              }`}>
+                {isErrorMode ? 'ACCESS DENIED' : 'GovChime Access'}
               </h1>
               <div className="flex items-center justify-center gap-2 mb-4">
-                <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
-                <p className="text-slate-300 text-sm">Secure Private Preview</p>
-                <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" data-delay="0.5s" />
+                <Sparkles className={`w-4 h-4 animate-pulse transition-colors duration-500 ${
+                  isErrorMode ? 'text-red-400' : 'text-purple-400'
+                }`} />
+                <p className={`text-sm transition-all duration-500 ${
+                  isErrorMode 
+                    ? 'text-red-300 font-medium animate-pulse' 
+                    : 'text-slate-300'
+                }`}>
+                  {isErrorMode ? 'SECURITY BREACH ATTEMPT' : 'Secure Private Preview'}
+                </p>
+                <Sparkles className={`w-4 h-4 animate-pulse transition-colors duration-500 ${
+                  isErrorMode ? 'text-orange-400' : 'text-blue-400'
+                }`} data-delay="0.5s" />
               </div>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Enter your access credentials to continue to the platform
+              <p className={`text-sm leading-relaxed transition-all duration-500 ${
+                isErrorMode 
+                  ? 'text-red-200 font-medium' 
+                  : 'text-slate-400'
+              }`}>
+                {isErrorMode 
+                  ? 'Invalid credentials detected - Access restricted' 
+                  : 'Enter your access credentials to continue to the platform'
+                }
               </p>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6 relative">
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-3">
-                Password
+              <label htmlFor="password" className={`block text-sm font-medium mb-3 transition-colors duration-500 ${
+                isErrorMode ? 'text-red-300' : 'text-slate-300'
+              }`}>
+                {isErrorMode ? 'RESTRICTED ACCESS' : 'Password'}
               </label>
               <div className="relative group">
                 <input
@@ -134,28 +218,48 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-4 bg-slate-900/50 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-white placeholder-slate-400 pr-12 transition-all duration-300 backdrop-blur-sm"
-                  placeholder="Enter your password"
+                  className={`w-full px-4 py-4 border rounded-xl text-white pr-12 transition-all duration-500 backdrop-blur-sm ${
+                    isErrorMode 
+                      ? 'bg-red-900/60 border-red-500/60 focus:ring-2 focus:ring-red-400/50 focus:border-red-400/50 placeholder-red-300' 
+                      : 'bg-slate-900/50 border-slate-600/50 focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 placeholder-slate-400'
+                  }`}
+                  placeholder={isErrorMode ? "Access Denied" : "Enter your password"}
                   required
                   disabled={isAnimating}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-purple-400 transition-colors duration-200"
+                  className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition-colors duration-500 ${
+                    isErrorMode 
+                      ? 'text-red-300 hover:text-red-200' 
+                      : 'text-slate-400 hover:text-purple-400'
+                  }`}
                   disabled={isAnimating}
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
                 {/* Input glow effect */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                <div className={`absolute inset-0 rounded-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none ${
+                  isErrorMode 
+                    ? 'bg-gradient-to-r from-red-500/20 to-orange-500/20' 
+                    : 'bg-gradient-to-r from-purple-500/10 to-blue-500/10'
+                }`}></div>
               </div>
             </div>
 
             {error && (
-              <div className="bg-red-900/30 border border-red-500/30 rounded-xl p-4 backdrop-blur-sm animate-pulse">
-                <p className="text-red-300 text-sm flex items-center">
-                  <Lock className="w-4 h-4 mr-2" />
+              <div className={`border rounded-xl p-4 backdrop-blur-sm transition-all duration-500 ${
+                isErrorMode 
+                  ? 'bg-red-600/40 border-red-400/50 animate-pulse' 
+                  : 'bg-red-900/30 border-red-500/30 animate-pulse'
+              }`}>
+                <p className={`text-sm flex items-center transition-colors duration-500 ${
+                  isErrorMode ? 'text-red-100 font-medium' : 'text-red-300'
+                }`}>
+                  <Lock className={`w-4 h-4 mr-2 transition-all duration-300 ${
+                    isErrorMode ? 'animate-bounce' : ''
+                  }`} />
                   {error}
                 </p>
               </div>
@@ -164,21 +268,38 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
             <button
               type="submit"
               disabled={isAnimating}
-              className="w-full bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 text-white py-4 px-6 rounded-xl hover:from-purple-700 hover:via-blue-700 hover:to-indigo-800 transition-all duration-300 font-medium flex items-center justify-center relative overflow-hidden group shadow-2xl disabled:opacity-50 transform hover:scale-105"
+              className={`w-full text-white py-4 px-6 rounded-xl font-medium flex items-center justify-center relative overflow-hidden group shadow-2xl disabled:opacity-50 transform transition-all duration-500 ${
+                isErrorMode 
+                  ? 'bg-gradient-to-r from-red-600 via-orange-600 to-red-700 hover:from-red-700 hover:via-orange-700 hover:to-red-800 animate-pulse' 
+                  : 'bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-800 hover:scale-105'
+              }`}
             >
               {/* Button glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/50 to-blue-600/50 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+              <div className={`absolute inset-0 rounded-xl blur-xl group-hover:blur-2xl transition-all duration-300 ${
+                isErrorMode 
+                  ? 'bg-gradient-to-r from-red-600/60 to-orange-600/60' 
+                  : 'bg-gradient-to-r from-purple-600/50 to-blue-600/50'
+              }`}></div>
               
               <span className="relative flex items-center">
                 {isAnimating ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white mr-3"></div>
-                    Authenticating...
+                    {isErrorMode ? 'Checking Security...' : 'Authenticating...'}
                   </>
                 ) : (
                   <>
-                    <Shield className="w-5 h-5 mr-3" />
-                    Access Platform
+                    {isErrorMode ? (
+                      <>
+                        <Lock className="w-5 h-5 mr-3 animate-pulse" />
+                        Security Lockdown
+                      </>
+                    ) : (
+                      <>
+                        <Shield className="w-5 h-5 mr-3" />
+                        Access Platform
+                      </>
+                    )}
                   </>
                 )}
               </span>
