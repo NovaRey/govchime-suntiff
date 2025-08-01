@@ -11,53 +11,60 @@ import ChatterWall from './components/chatter/ChatterWall';
 import PasswordProtection from './components/auth/PasswordProtection';
 import { mockSpendingData, mockSetAsideData } from './data/mockData';
 
+// Create a component that includes the routes and will be wrapped by PasswordProtection
+const AppRoutes = () => {
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      <Header />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Routes>
+          <Route 
+            path="/" 
+            element={<Dashboard />} 
+          />
+          <Route 
+            path="/test" 
+            element={<TestComponent />} 
+          />
+          <Route 
+            path="/spending" 
+            element={<SpendingAnalysis spendingData={mockSpendingData} />} 
+          />
+          <Route 
+            path="/contracts" 
+            element={<ContractAwardWall />} 
+          />
+          <Route 
+            path="/setasides" 
+            element={<SetAsideIntelligence setAsideData={mockSetAsideData} />} 
+          />
+          <Route 
+            path="/learning" 
+            element={<LearningCenter />} 
+          />
+          <Route 
+            path="/chatter" 
+            element={<ChatterWall />} 
+          />
+        </Routes>
+      </main>
+    </div>
+  );
+};
+
 function App() {
   // Debug: Check if mockData is loaded
   console.log('App: mockSpendingData loaded:', mockSpendingData?.length || 0, 'items');
   console.log('App: mockSetAsideData loaded:', mockSetAsideData?.length || 0, 'items');
 
   return (
-    <PasswordProtection>
-      <ThemeProvider>
-        <Router>
-          <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-            <Header />
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <Routes>
-                <Route 
-                  path="/" 
-                  element={<Dashboard />} 
-                />
-                <Route 
-                  path="/test" 
-                  element={<TestComponent />} 
-                />
-                <Route 
-                  path="/spending" 
-                  element={<SpendingAnalysis spendingData={mockSpendingData} />} 
-                />
-                <Route 
-                  path="/contracts" 
-                  element={<ContractAwardWall />} 
-                />
-                <Route 
-                  path="/setasides" 
-                  element={<SetAsideIntelligence setAsideData={mockSetAsideData} />} 
-                />
-                <Route 
-                  path="/learning" 
-                  element={<LearningCenter />} 
-                />
-                <Route 
-                  path="/chatter" 
-                  element={<ChatterWall />} 
-                />
-              </Routes>
-            </main>
-          </div>
-        </Router>
-      </ThemeProvider>
-    </PasswordProtection>
+    <ThemeProvider>
+      <Router>
+        <PasswordProtection>
+          <AppRoutes />
+        </PasswordProtection>
+      </Router>
+    </ThemeProvider>
   );
 }
 

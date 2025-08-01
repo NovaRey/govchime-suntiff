@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Lock, Eye, EyeOff, Shield, Sparkles, LogOut } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface PasswordProtectionProps {
   children: React.ReactNode;
@@ -12,6 +13,10 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showMainApp, setShowMainApp] = useState(false);
+  
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Set your password here - change this to whatever you want
   const SITE_PASSWORD = 'suntiff101';
@@ -21,9 +26,17 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
     const authStatus = sessionStorage.getItem('govchime_authenticated');
     if (authStatus === 'true') {
       setIsAuthenticated(true);
+      // Navigate to dashboard if not already there
+      if (location.pathname !== '/') {
+        navigate('/');
+      }
+      // Add a slight delay for the main app fade-in
+      setTimeout(() => {
+        setShowMainApp(true);
+      }, 50);
     }
     setIsLoading(false);
-  }, []);
+  }, [navigate, location.pathname]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +48,12 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
       if (password === SITE_PASSWORD) {
         setIsAuthenticated(true);
         sessionStorage.setItem('govchime_authenticated', 'true');
+        // Navigate to dashboard after successful login
+        navigate('/');
+        // Add Apple-like fade-in delay
+        setTimeout(() => {
+          setShowMainApp(true);
+        }, 200);
       } else {
         setError('Incorrect password. Please try again.');
         setPassword('');
@@ -45,6 +64,7 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setShowMainApp(false);
     sessionStorage.removeItem('govchime_authenticated');
     setPassword('');
   };
@@ -189,7 +209,17 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
           Logout
         </button>
       </div>
-      {children}
+      
+      {/* Main app with Apple-like fade-in animation */}
+      <div 
+        className={`${
+          showMainApp 
+            ? 'animate-apple-fade-in' 
+            : 'opacity-0 transform translate-y-5 scale-95'
+        }`}
+      >
+        {children}
+      </div>
     </div>
   );
 };

@@ -127,116 +127,132 @@ const Dashboard: React.FC = () => {
                 Welcome to <span className="relative inline-block group">
                   <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 dark:from-cyan-300 dark:via-blue-400 dark:to-emerald-300 bg-clip-text text-transparent animate-shimmer bg-size-200 bg-pos-0">GovChime</span>
                   
-                  {/* Connected floating balls behind GovChime */}
-                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-70 transition-opacity duration-1000" viewBox="0 0 200 60">
-                    {/* Ball 1 - Orange - Amoeba-like movement */}
-                    <circle cx="20" cy="15" r="4" fill="#f97316" className="amoeba-ball-1 drop-shadow-lg" opacity="0.9">
+                  {/* Fish-like swimming particles behind GovChime */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-90 transition-opacity duration-1000" viewBox="0 0 200 60">
+                    {/* Fish 1 - Blue - Long swimming path */}
+                    <circle cx="20" cy="15" r="3.5" fill="#3b82f6" className="drop-shadow-lg" opacity="1">
                       <animateTransform
                         attributeName="transform"
                         type="translate"
-                        values="0,0; 5,3; -2,5; 3,-2; 0,0"
-                        dur="4s"
+                        values="0,0; 8,5; 15,2; 25,-3; 35,4; 45,1; 55,-2; 65,6; 75,3; 85,-1; 95,5; 105,2; 115,-3; 125,4; 135,1; 145,-2; 155,6; 165,3; 175,-1; 180,2; 175,5; 165,1; 155,-2; 145,4; 135,-1; 125,3; 115,6; 105,2; 95,-3; 85,4; 75,-1; 65,3; 55,5; 45,2; 35,-2; 25,4; 15,1; 8,-2; 0,0"
+                        dur="25s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="r"
-                        values="4; 5.5; 3.5; 4.5; 4"
-                        dur="3s"
+                        values="3.5; 4.2; 3.8; 4.5; 3.2; 4; 3.7; 4.3; 3.5"
+                        dur="12s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="opacity"
-                        values="0.9; 0.6; 0.8; 0.7; 0.9"
-                        dur="2.5s"
+                        values="1; 0.7; 0.9; 0.8; 1; 0.6; 0.8; 0.9; 1"
+                        dur="15s"
                         repeatCount="indefinite"
                       />
                     </circle>
                     
-                    {/* Ball 2 - Blue - Slower floating */}
-                    <circle cx="180" cy="45" r="3" fill="#3b82f6" className="amoeba-ball-2 drop-shadow-lg" opacity="0.8">
+                    {/* Fish 2 - Orange - Reverse swimming */}
+                    <circle cx="180" cy="45" r="3" fill="#f97316" className="drop-shadow-lg" opacity="0.95">
                       <animateTransform
                         attributeName="transform"
                         type="translate"
-                        values="0,0; -3,2; 4,-3; -1,4; 0,0"
-                        dur="5s"
+                        values="0,0; -12,3; -25,-2; -38,5; -52,1; -65,-3; -78,4; -92,2; -105,-1; -118,6; -132,3; -145,-2; -158,5; -172,1; -185,-3; -180,-6; -165,-2; -150,3; -135,-1; -120,4; -105,2; -90,-3; -75,5; -60,1; -45,-2; -30,4; -15,2; -5,-1; 0,0"
+                        dur="28s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="r"
-                        values="3; 4; 2.5; 3.5; 3"
-                        dur="4s"
+                        values="3; 3.8; 2.8; 3.5; 3.2; 3.9; 2.5; 3.6; 3"
+                        dur="14s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="opacity"
-                        values="0.8; 0.5; 0.9; 0.6; 0.8"
-                        dur="3s"
+                        values="0.95; 0.6; 1; 0.7; 0.95; 0.5; 0.8; 0.9; 0.95"
+                        dur="16s"
                         repeatCount="indefinite"
                       />
                     </circle>
                     
-                    {/* Ball 3 - Purple - Organic movement */}
-                    <circle cx="100" cy="10" r="3.5" fill="#8b5cf6" className="amoeba-ball-3 drop-shadow-lg" opacity="0.85">
+                    {/* Fish 3 - Purple - Figure-8 swimming */}
+                    <circle cx="100" cy="10" r="3.2" fill="#8b5cf6" className="drop-shadow-lg" opacity="1">
                       <animateTransform
                         attributeName="transform"
                         type="translate"
-                        values="0,0; 2,4; -4,1; 3,3; 0,0"
-                        dur="6s"
+                        values="0,0; 5,8; 12,15; 20,20; 30,22; 40,20; 50,15; 58,8; 65,0; 70,-8; 75,-15; 78,-20; 75,-25; 70,-28; 60,-30; 50,-28; 40,-25; 30,-20; 20,-15; 12,-8; 5,0; 0,5; -5,10; -12,15; -20,18; -30,20; -40,18; -50,15; -58,10; -65,5; -70,0; -75,-5; -78,-10; -75,-15; -70,-18; -60,-20; -50,-18; -40,-15; -30,-10; -20,-5; -12,0; -5,5; 0,0"
+                        dur="32s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="r"
-                        values="3.5; 2.8; 4.2; 3; 3.5"
-                        dur="3.5s"
+                        values="3.2; 2.8; 4; 3.5; 3.8; 3; 4.2; 3.4; 3.2"
+                        dur="18s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="opacity"
-                        values="0.85; 0.7; 0.95; 0.6; 0.85"
-                        dur="2.8s"
+                        values="1; 0.7; 1; 0.6; 0.9; 0.8; 1; 0.5; 0.8; 1"
+                        dur="20s"
                         repeatCount="indefinite"
                       />
                     </circle>
 
-                    {/* Additional smaller amoeba balls */}
-                    <circle cx="60" cy="35" r="2" fill="#10b981" className="amoeba-ball-4 drop-shadow-md" opacity="0.6">
+                    {/* Fish 4 - Green - Gentle weaving */}
+                    <circle cx="60" cy="35" r="2.2" fill="#22c55e" className="drop-shadow-md" opacity="0.9">
                       <animateTransform
                         attributeName="transform"
                         type="translate"
-                        values="0,0; 3,-2; -1,3; 2,1; 0,0"
-                        dur="4.5s"
+                        values="0,0; 8,-4; 18,-6; 28,-4; 38,0; 48,4; 58,6; 68,4; 78,0; 88,-4; 98,-6; 108,-4; 118,0; 128,4; 138,6; 148,4; 158,0; 148,-4; 138,-8; 128,-6; 118,-2; 108,2; 98,6; 88,8; 78,6; 68,2; 58,-2; 48,-6; 38,-8; 28,-6; 18,-2; 8,2; 0,0"
+                        dur="30s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="r"
-                        values="2; 3; 1.5; 2.5; 2"
-                        dur="3.2s"
+                        values="2.2; 2.8; 2.4; 3; 2.6; 2.9; 2.3; 2.7; 2.2"
+                        dur="16s"
                         repeatCount="indefinite"
                       />
                     </circle>
 
-                    <circle cx="140" cy="25" r="2.5" fill="#ec4899" className="amoeba-ball-5 drop-shadow-md" opacity="0.7">
+                    {/* Fish 5 - Indigo - Circular swimming */}
+                    <circle cx="140" cy="25" r="2.5" fill="#4f46e5" className="drop-shadow-md" opacity="0.9">
                       <animateTransform
                         attributeName="transform"
                         type="translate"
-                        values="0,0; -2,3; 4,-1; -3,2; 0,0"
-                        dur="5.5s"
+                        values="0,0; 6,6; 10,12; 12,18; 10,24; 6,30; 0,34; -6,30; -10,24; -12,18; -10,12; -6,6; 0,0"
+                        dur="22s"
                         repeatCount="indefinite"
                       />
                       <animate
                         attributeName="r"
-                        values="2.5; 1.8; 3.2; 2; 2.5"
-                        dur="4.2s"
+                        values="2.5; 2; 3; 2.7; 3.2; 2.3; 2.8; 2.5"
+                        dur="13s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    
+                    {/* Small fish - Cyan - Quick darting */}
+                    <circle cx="45" cy="50" r="1.8" fill="#06b6d4" className="drop-shadow-sm" opacity="0.8">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; 12,-8; 25,-12; 38,-8; 52,-4; 65,0; 78,4; 92,8; 105,4; 118,0; 132,-4; 145,-8; 158,-4; 172,0; 158,4; 145,8; 132,4; 118,0; 105,-4; 92,-8; 78,-4; 65,0; 52,4; 38,8; 25,4; 12,0; 0,0"
+                        dur="35s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="r"
+                        values="1.8; 2.3; 1.5; 2.1; 1.8"
+                        dur="11s"
                         repeatCount="indefinite"
                       />
                     </circle>
                   </svg>
                   
-                  {/* Digital activation glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-300/30 to-transparent animate-shimmer bg-size-200 bg-pos-0 mix-blend-overlay"></div>
-                  {/* Digital pulse rings */}
-                  <div className="absolute inset-0 rounded-lg border border-cyan-400/30 opacity-0 group-hover:opacity-60 animate-ping-slow"></div>
-                  <div className="absolute inset-0 rounded-lg border border-blue-400/20 opacity-0 group-hover:opacity-40 animate-ping-slower"></div>
+                  {/* Only subtle pulse rings - no background highlighting */}
+                  <div className="absolute inset-0 rounded-lg border border-blue-400/10 opacity-0 group-hover:opacity-20 animate-ping-slow"></div>
+                  <div className="absolute inset-0 rounded-lg border border-indigo-400/8 opacity-0 group-hover:opacity-15 animate-ping-slower"></div>
                 </span>
               </h1>
               <h2 className="text-2xl font-semibold text-gray-700/90 dark:text-gray-300/90 tracking-wide">

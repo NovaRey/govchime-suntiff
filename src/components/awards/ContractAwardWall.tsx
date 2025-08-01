@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronDown, ChevronRight, Shield, Flag, Users, MapPin, Filter } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, Shield, Flag, Users, MapPin, Filter, Crown, Sparkles, FileText } from 'lucide-react';
 import { useSamGovData } from '../../hooks/useSamGovData';
 import ContractCard from '../dashboard/ContractCard';
 import NAICSCodeDirectory from './NAICSCodeDirectory';
@@ -10,6 +10,7 @@ const ContractAwardWall: React.FC = () => {
   const [selectedSetAside, setSelectedSetAside] = useState<string>('');
   const [selectedAgency, setSelectedAgency] = useState<string>('');
   const [dateRange, setDateRange] = useState<string>('30');
+  const [showProModal, setShowProModal] = useState<boolean>(false);
 
   const { data: opportunities, loading, error } = useSamGovData();
 
@@ -21,6 +22,10 @@ const ContractAwardWall: React.FC = () => {
     e.preventDefault();
     // For now, we'll just use the existing data from the hook
     // In a real implementation, this would trigger a new search
+  };
+
+  const handleCustomReport = () => {
+    setShowProModal(true);
   };
 
   const setAsideTypes = [
@@ -93,6 +98,16 @@ const ContractAwardWall: React.FC = () => {
               ) : (
                 <ChevronRight className="w-4 h-4 ml-2 text-gray-600 dark:text-gray-400" />
               )}
+            </button>
+            {/* Custom Report Button */}
+            <button
+              type="button"
+              onClick={handleCustomReport}
+              className="flex items-center justify-center px-4 py-3 bg-gray-800 dark:bg-gray-900 hover:bg-orange-600 hover:shadow-orange-glow dark:hover:bg-orange-600 text-white rounded-lg transition-all duration-300 shadow-soft hover:shadow-elevated transform hover:scale-[1.02]"
+              title="Generate Custom Contract Report - Pro Feature"
+            >
+              <FileText className="w-5 h-5 mr-2" />
+              <span className="text-sm font-medium text-center">Custom Report</span>
             </button>
           </form>
 
@@ -209,6 +224,75 @@ const ContractAwardWall: React.FC = () => {
           <NAICSCodeDirectory searchTerm="" />
         </div>
       </div>
+
+      {/* Pro Features Modal */}
+      {showProModal && (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowProModal(false)} />
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full animate-fade-in-scale">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-2">
+                    <Crown className="w-6 h-6 text-yellow-500" />
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                      Premium Feature
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => setShowProModal(false)}
+                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  >
+                    ✕
+                  </button>
+                </div>
+                
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    Professional Contract Reports
+                  </h4>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    Generate comprehensive contract award reports with AI-powered insights, 
+                    custom filtering, and professional formatting for competitive intelligence.
+                  </p>
+                  
+                  <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-4 rounded-lg mb-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Sparkles className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+                      <span className="font-medium text-orange-800 dark:text-orange-200">Pro Features Include:</span>
+                    </div>
+                    <ul className="text-sm text-orange-700 dark:text-orange-300 space-y-1">
+                      <li>• Contract award trend analysis</li>
+                      <li>• Competitor intelligence reports</li>
+                      <li>• Advanced filtering & segmentation</li>
+                      <li>• Export to PDF with branding</li>
+                      <li>• Historical award data access</li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => setShowProModal(false)}
+                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    Maybe Later
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowProModal(false);
+                      window.open('https://govchime.com/pro', '_blank');
+                    }}
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white rounded-lg transition-all duration-300 shadow-orange-glow"
+                  >
+                    Upgrade Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

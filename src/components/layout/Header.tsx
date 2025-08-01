@@ -129,12 +129,12 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-1 transition-all duration-500 group-has-hover:space-x-2">
             {navigation.map((item, index) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold nav-item flex items-center justify-center min-h-[40px] ${
+                className={`px-4 py-2 rounded-lg text-sm font-semibold nav-item flex items-center justify-center min-h-[40px] transition-all duration-300 ${
                   isActiveRoute(item.href)
                     ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 shadow-3d dark:shadow-dark-3d'
                     : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:shadow-3d dark:hover:shadow-dark-3d'
@@ -146,22 +146,21 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
-          {/* Animated Search Button */}
+          {/* Enhanced Expandable Search Bar */}
           <div className="hidden lg:flex items-center justify-center flex-1 max-w-sm mx-4">
-            <div className="relative group">
+            <div className="relative group/search w-full">
               {/* Collapsed search button */}
-              <div className="relative">
-                <button className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-600/20 border border-blue-500/30 rounded-xl flex items-center justify-center shadow-[0_4px_20px_rgba(59,130,246,0.3)] hover:shadow-[0_8px_32px_rgba(59,130,246,0.5)] transition-all duration-500 backdrop-blur-sm group-hover:w-80 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-purple-600/10">
-                  <Search className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors duration-300 group-hover:absolute group-hover:left-4 group-hover:top-1/2 group-hover:transform group-hover:-translate-y-1/2 drop-shadow-sm" />
+              <div className="relative flex justify-center">
+                <button className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-600/20 border border-blue-500/30 rounded-xl flex items-center justify-center shadow-[0_4px_20px_rgba(59,130,246,0.3)] hover:shadow-[0_8px_32px_rgba(59,130,246,0.5)] transition-all duration-700 backdrop-blur-sm group-hover/search:w-full group-hover/search:max-w-md group-hover/search:bg-gradient-to-br group-hover/search:from-blue-500/10 group-hover/search:to-purple-600/10 group-focus-within/search:w-full group-focus-within/search:max-w-md">
+                  <Search className="w-5 h-5 text-blue-400 group-hover/search:text-blue-300 transition-all duration-500 group-hover/search:absolute group-hover/search:left-4 group-hover/search:top-1/2 group-hover/search:transform group-hover/search:-translate-y-1/2 group-focus-within/search:absolute group-focus-within/search:left-4 group-focus-within/search:top-1/2 group-focus-within/search:transform group-focus-within/search:-translate-y-1/2 drop-shadow-sm z-10" />
                   
                   {/* Expanded input field */}
                   <input
                     type="text"
-                    placeholder="Search contracts, vendors..."
+                    placeholder="Search contracts, vendors, agencies..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    onSubmit={handleSearch}
-                    className="absolute inset-0 w-full h-full bg-transparent border-0 outline-0 text-gray-100 placeholder-gray-400 pl-12 pr-4 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100"
+                    className="absolute inset-0 w-full h-full bg-transparent border-0 outline-0 text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 pl-12 pr-4 rounded-xl opacity-0 group-hover/search:opacity-100 group-focus-within/search:opacity-100 transition-opacity duration-500 delay-200"
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         handleSearch(e);
@@ -170,8 +169,9 @@ const Header: React.FC = () => {
                   />
                 </button>
                 
-                {/* Glowing ring effect */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-sm -z-10"></div>
+                {/* Enhanced glowing ring effect */}
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover/search:opacity-40 group-focus-within/search:opacity-40 transition-opacity duration-700 blur-sm -z-10 scale-110"></div>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-300 to-blue-400 opacity-0 group-hover/search:opacity-20 group-focus-within/search:opacity-20 transition-opacity duration-700 blur-lg -z-20 scale-125"></div>
               </div>
             </div>
           </div>
