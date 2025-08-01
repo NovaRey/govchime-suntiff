@@ -16,6 +16,8 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
   const [showMainApp, setShowMainApp] = useState(false);
   const [isErrorMode, setIsErrorMode] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const [isUnlocking, setIsUnlocking] = useState(false);
+  const [showHoverParticles, setShowHoverParticles] = useState(false);
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,17 +50,22 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
     // Add a slight delay for smooth animation
     setTimeout(() => {
       if (password === SITE_PASSWORD) {
-        // Clear any error state
+        // Clear any error state and trigger unlock animation
         setIsErrorMode(false);
         setIsShaking(false);
-        setIsAuthenticated(true);
-        sessionStorage.setItem('govchime_authenticated', 'true');
-        // Navigate to dashboard after successful login
-        navigate('/');
-        // Add Apple-like fade-in delay
+        setIsUnlocking(true);
+        
+        // After unlock animation, proceed with authentication
         setTimeout(() => {
-          setShowMainApp(true);
-        }, 200);
+          setIsAuthenticated(true);
+          sessionStorage.setItem('govchime_authenticated', 'true');
+          // Navigate to dashboard after successful login
+          navigate('/');
+          // Add Apple-like fade-in delay
+          setTimeout(() => {
+            setShowMainApp(true);
+          }, 200);
+        }, 1000); // Wait for unlock animation to complete
       } else {
         // Trigger dramatic error transformation
         setIsErrorMode(true);
@@ -86,6 +93,8 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
     setShowMainApp(false);
     setIsErrorMode(false);
     setIsShaking(false);
+    setIsUnlocking(false);
+    setShowHoverParticles(false);
     sessionStorage.removeItem('govchime_authenticated');
     setPassword('');
     setError('');
@@ -135,6 +144,19 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
           {isErrorMode && (
             <div className="absolute inset-0 bg-red-500/10 animate-pulse"></div>
           )}
+          
+          {/* Hoverable floating particles - similar to dashboard effect */}
+          {showHoverParticles && !isErrorMode && (
+            <>
+              {/* Floating particles with different colors and movements */}
+              <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-blue-400/60 rounded-full animate-bounce-gentle opacity-0 animate-fade-in"></div>
+              <div className="absolute top-1/3 right-1/4 w-2 h-2 bg-purple-400/60 rounded-full animate-bounce-gentle opacity-0 animate-fade-in animation-delay-500"></div>
+              <div className="absolute bottom-1/3 left-1/3 w-4 h-4 bg-indigo-400/50 rounded-full animate-bounce-gentle opacity-0 animate-fade-in animation-delay-1000"></div>
+              <div className="absolute top-1/2 right-1/3 w-2.5 h-2.5 bg-cyan-400/60 rounded-full animate-bounce-gentle opacity-0 animate-fade-in animation-delay-1500"></div>
+              <div className="absolute bottom-1/4 right-1/2 w-3.5 h-3.5 bg-violet-400/50 rounded-full animate-bounce-gentle opacity-0 animate-fade-in animation-delay-2000"></div>
+              <div className="absolute top-3/4 left-1/2 w-2 h-2 bg-pink-400/60 rounded-full animate-bounce-gentle opacity-0 animate-fade-in animation-delay-800"></div>
+            </>
+          )}
         </div>
 
         <div className={`relative z-10 backdrop-blur-xl border rounded-3xl shadow-2xl p-8 w-full max-w-md transition-all duration-500 ${
@@ -155,27 +177,45 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
             <div className={`mx-auto w-20 h-20 rounded-3xl flex items-center justify-center mb-6 shadow-2xl transform transition-all duration-500 relative group ${
               isErrorMode 
                 ? 'bg-gradient-to-br from-red-500 via-orange-500 to-red-600 animate-pulse' 
+                : isUnlocking
+                ? 'bg-gradient-to-br from-green-500 via-emerald-500 to-green-600 animate-pulse'
                 : 'bg-gradient-to-br from-purple-500 via-blue-500 to-indigo-600 hover:rotate-6'
             }`}>
               {isErrorMode ? (
                 <Lock className="w-10 h-10 text-white animate-pulse" />
+              ) : isUnlocking ? (
+                <div className="relative w-10 h-10 text-white">
+                  {/* Unlocking animation - lock turns and opens */}
+                  <Lock className={`absolute w-10 h-10 transition-all duration-1000 ${
+                    isUnlocking ? 'rotate-90 opacity-0' : 'rotate-0 opacity-100'
+                  }`} />
+                  <Shield className={`absolute w-10 h-10 transition-all duration-1000 ${
+                    isUnlocking ? 'rotate-0 opacity-100 scale-110' : 'rotate-90 opacity-0 scale-50'
+                  }`} />
+                </div>
               ) : (
                 <Shield className="w-10 h-10 text-white" />
               )}
               <div className={`absolute inset-0 rounded-3xl blur-xl transition-all duration-300 ${
                 isErrorMode 
                   ? 'bg-gradient-to-r from-red-500/60 to-orange-500/60 group-hover:blur-2xl' 
+                  : isUnlocking
+                  ? 'bg-gradient-to-r from-green-500/60 to-emerald-500/60 group-hover:blur-2xl'
                   : 'bg-gradient-to-r from-purple-500/50 to-blue-500/50 group-hover:blur-2xl'
               }`}></div>
             </div>
             
             <div className="relative">
-              <h1 className={`text-3xl font-bold bg-clip-text text-transparent mb-3 transition-all duration-500 ${
-                isErrorMode 
-                  ? 'bg-gradient-to-r from-red-300 via-orange-200 to-red-300 animate-pulse' 
-                  : 'bg-gradient-to-r from-white via-purple-200 to-blue-200'
-              }`}>
-                {isErrorMode ? 'ACCESS DENIED' : 'GovChime Access'}
+              <h1 
+                className={`text-3xl font-bold bg-clip-text text-transparent mb-3 transition-all duration-500 cursor-default ${
+                  isErrorMode 
+                    ? 'bg-gradient-to-r from-red-300 via-orange-200 to-red-300 animate-pulse' 
+                    : 'bg-gradient-to-r from-white via-purple-200 to-blue-200'
+                }`}
+                onMouseEnter={() => !isErrorMode && setShowHoverParticles(true)}
+                onMouseLeave={() => setShowHoverParticles(false)}
+              >
+                {isErrorMode ? 'ACCESS DENIED' : isUnlocking ? 'ACCESS GRANTED' : 'GovChime Access'}
               </h1>
               <div className="flex items-center justify-center gap-2 mb-4">
                 <Sparkles className={`w-4 h-4 animate-pulse transition-colors duration-500 ${
