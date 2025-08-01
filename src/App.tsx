@@ -4,7 +4,7 @@ import Header from './components/layout/Header';
 import Dashboard from './components/dashboard/Dashboard';
 import SpendingAnalysis from './components/spending/SpendingAnalysis';
 import TestComponent from './TestComponent';
-import ContractAwardWall from './components/awards/ContractAwardWallNew';
+import ContractAwardWall from './components/awards/ContractAwardWall';
 import SetAsideIntelligence from './components/setaside/SetAsideIntelligence';
 import LearningCenter from './components/learning/LearningCenter';
 import ChatterWall from './components/chatter/ChatterWall';
@@ -31,11 +31,11 @@ const AppRoutes = () => {
             element={<SpendingAnalysis spendingData={mockSpendingData} />} 
           />
           <Route 
-            path="/contracts" 
+            path="/awards" 
             element={<ContractAwardWall />} 
           />
           <Route 
-            path="/setasides" 
+            path="/set-aside" 
             element={<SetAsideIntelligence setAsideData={mockSetAsideData} />} 
           />
           <Route 
@@ -59,7 +59,7 @@ function App() {
 
   return (
     <ThemeProvider>
-      <Router>
+      <Router basename="/govchime-suntiff">
         <PasswordProtection>
           <AppRoutes />
         </PasswordProtection>

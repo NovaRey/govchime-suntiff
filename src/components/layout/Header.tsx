@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useClickTracking } from '../../hooks/useClickTracking';
-import { Search, Menu, X, User, Bell, Sun, Moon } from 'lucide-react';
+import { Menu, X, User, Bell, Sun, Moon, Telescope } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const Header: React.FC = () => {
@@ -12,12 +12,11 @@ const Header: React.FC = () => {
   const { isDarkMode, toggleTheme } = useTheme();
 
   const navigation = [
-    { name: 'Dashboard', href: '/' },
-    { name: 'Spending Analysis', href: '/spending' },
-    { name: 'Contracts', href: '/awards' },
-    { name: 'Set-Aside', href: '/set-aside' },
-    { name: 'Chatter Wall', href: '/chatter' },
-    { name: 'Learning Center', href: '/learning' },
+    { name: 'Dashboard', href: '/', short: 'Home' },
+    { name: 'Spending Analysis', href: '/spending', short: 'Spending' },
+    { name: 'Contracts', href: '/awards', short: 'Awards' },
+    { name: 'Chatter Wall', href: '/chatter', short: 'Chatter' },
+    { name: 'Learning Center', href: '/learning', short: 'Learning' },
   ];
 
   const isActiveRoute = (href: string) => {
@@ -40,175 +39,280 @@ const Header: React.FC = () => {
     }
   };
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2.5 group">
-              <div className="relative w-12 h-12 flex items-center justify-center transform group-hover:scale-105 transition-all duration-300">
-                {/* Enhanced background with darker, more contrasted layers */}
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-800/95 via-gray-900/95 to-black/95 dark:from-slate-700/95 dark:via-gray-800/95 dark:to-black/95 rounded-xl shadow-[0_6px_24px_rgba(0,0,0,0.4)] dark:shadow-[0_6px_24px_rgba(0,0,0,0.6)] group-hover:shadow-[0_8px_32px_rgba(139,92,246,0.5)] transition-all duration-500"></div>
+    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors duration-200 relative z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 navbar-container">
+        <div className="flex justify-between items-center h-16 relative">
+          {/* Logo - Fixed width */}
+          <div className="flex items-center flex-shrink-0 w-48">
+            <Link 
+              to="/" 
+              className="flex items-center space-x-3 group no-focus-outline" 
+              style={{
+                outline: 'none !important', 
+                border: 'none !important', 
+                boxShadow: 'none !important',
+                textDecoration: 'none !important'
+              }}
+              onFocus={(e) => e.target.style.outline = 'none'}
+              onMouseEnter={(e) => e.target.style.outline = 'none'}
+            >
+              <div className="relative w-10 h-10 flex items-center justify-center transform group-hover:scale-105 transition-all duration-300">
+                {/* Minimal, tight background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-800/98 via-gray-900/98 to-black/98 dark:from-slate-700/98 dark:via-gray-800/98 dark:to-black/98 rounded-lg shadow-[0_4px_16px_rgba(0,0,0,0.4)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.6)] group-hover:shadow-[0_6px_20px_rgba(139,92,246,0.4)] transition-all duration-500"></div>
                 
-                {/* Animated border glow */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-slow" style={{padding: '1px'}}>
-                  <div className="w-full h-full bg-gray-900 rounded-xl"></div>
+                {/* Clean G+C lettering */}
+                <div className="relative z-10 flex items-center justify-center space-x-0.5">
+                  <span className="text-white font-black text-lg tracking-tighter drop-shadow-lg">G</span>
+                  <span className="text-white font-black text-lg tracking-tighter drop-shadow-lg">C</span>
                 </div>
-                
-                {/* Subtle shine layers for depth */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-transparent rounded-xl group-hover:from-white/25 transition-all duration-500"></div>
-                <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-white/5 to-white/15 rounded-xl opacity-60 group-hover:opacity-80 transition-all duration-500"></div>
-                
-                {/* Clear G+C logo shape with enhanced styling */}
-                <div className="relative z-10 w-7 h-7 flex items-center justify-center">
-                  <svg width="28" height="28" viewBox="0 0 32 32" className="text-white group-hover:scale-110 transition-transform duration-500 filter drop-shadow-lg">
-                    <defs>
-                      <linearGradient id="headerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="rgba(255,255,255,1)" />
-                        <stop offset="25%" stopColor="rgba(248,250,252,0.98)" />
-                        <stop offset="50%" stopColor="rgba(241,245,249,0.95)" />
-                        <stop offset="75%" stopColor="rgba(248,250,252,0.98)" />
-                        <stop offset="100%" stopColor="rgba(255,255,255,0.92)" />
-                      </linearGradient>
-                      <linearGradient id="headerShineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.9)" />
-                        <stop offset="50%" stopColor="rgba(255,255,255,0.6)" />
-                        <stop offset="100%" stopColor="rgba(255,255,255,0.4)" />
-                      </linearGradient>
-                      <filter id="headerGlow">
-                        <feGaussianBlur stdDeviation="0.8" result="coloredBlur"/>
-                        <feMerge> 
-                          <feMergeNode in="coloredBlur"/>
-                          <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                      </filter>
-                    </defs>
-                    
-                    {/* G shape - clear and defined with better contrast */}
-                    <path d="M16 4C9.37 4 4 9.37 4 16s5.37 12 12 12c3.31 0 6.31-1.34 8.49-3.51L21.66 21.66C20.11 23.21 18.17 24 16 24c-4.42 0-8-3.58-8-8s3.58-8 8-8c2.21 0 4.21 0.89 5.66 2.34L24 14h-8v4h12c0.11-0.66 0.11-1.34 0-2C28 9.37 22.63 4 16 4z" 
-                          fill="url(#headerLogoGradient)" 
-                          stroke="rgba(255,255,255,0.2)"
-                          strokeWidth="0.5"
-                          filter="url(#headerGlow)"/>
-                    
-                    {/* C shape - overlapping to create blend with better visibility */}
-                    <path d="M26 16c0 5.52-4.48 10-10 10-2.76 0-5.26-1.12-7.07-2.93l2.83-2.83C13.11 21.59 14.51 22 16 22c3.31 0 6-2.69 6-6s-2.69-6-6-6c-1.49 0-2.89 0.41-4.24 1.76L8.93 8.93C10.74 7.12 13.24 6 16 6c5.52 0 10 4.48 10 10z" 
-                          fill="url(#headerLogoGradient)" 
-                          stroke="rgba(255,255,255,0.2)"
-                          strokeWidth="0.5"
-                          opacity="0.8"
-                          transform="translate(1, 0)"
-                          filter="url(#headerGlow)"/>
-                    
-                    {/* Enhanced shine effect overlay */}
-                    <path d="M16 4C9.37 4 4 9.37 4 16s5.37 12 12 12c3.31 0 6.31-1.34 8.49-3.51L21.66 21.66C20.11 23.21 18.17 24 16 24c-4.42 0-8-3.58-8-8s3.58-8 8-8c2.21 0 4.21 0.89 5.66 2.34L24 14h-8v4h12c0.11-0.66 0.11-1.34 0-2C28 9.37 22.63 4 16 4z" 
-                          fill="url(#headerShineGradient)" 
-                          opacity="0.6"
-                          className="group-hover:opacity-80 transition-opacity duration-500"/>
-                    
-                    {/* Central connection point */}
-                    <circle cx="16" cy="16" r="2" fill="url(#headerLogoGradient)" opacity="0.9" className="animate-pulse-slow"/>
-                    
-                    {/* Additional sparkle effects */}
-                    <circle cx="24" cy="12" r="1.5" fill="rgba(255,255,255,0.8)" opacity="0" className="group-hover:opacity-100 transition-opacity duration-700 delay-100">
-                      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+              </div>
+              
+              <div className="flex flex-col relative no-border-container">
+                <div className="relative inline-block no-border-container">
+                  <span className="text-lg font-black bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 dark:from-purple-400 dark:via-blue-400 dark:to-indigo-500 bg-clip-text text-transparent tracking-tight leading-none group-hover:animate-shimmer bg-size-200 bg-pos-0 transition-all duration-300 filter drop-shadow-sm">
+                    GovChime
+                  </span>
+                  
+                  {/* Swimming dots that traverse across GovChime width */}
+                  <svg 
+                    className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-90 transition-opacity duration-1000 no-border-container" 
+                    viewBox="0 0 100 24" 
+                    preserveAspectRatio="none"
+                  >
+                    {/* Dot 1 - Blue - Full width traverse */}
+                    <circle cx="5" cy="12" r="1.5" fill="#3b82f6" className="drop-shadow-sm" opacity="1">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; 10,2; 20,-1; 30,3; 40,1; 50,-2; 60,2; 70,-1; 80,3; 90,1; 95,0; 90,-2; 80,-1; 70,2; 60,-3; 50,1; 40,-2; 30,3; 20,1; 10,-1; 0,0"
+                        dur="15s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="r"
+                        values="1.5; 2.2; 1.8; 2.5; 1.3; 2; 1.7; 2.3; 1.5"
+                        dur="8s"
+                        repeatCount="indefinite"
+                      />
                     </circle>
-                    <circle cx="10" cy="20" r="1" fill="rgba(255,255,255,0.7)" opacity="0" className="group-hover:opacity-100 transition-opacity duration-700 delay-300">
-                      <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite"/>
+                    
+                    {/* Dot 2 - Orange - Reverse direction */}
+                    <circle cx="95" cy="18" r="1.2" fill="#f97316" className="drop-shadow-sm" opacity="0.9">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; -8,1; -18,-2; -28,2; -38,-1; -48,3; -58,1; -68,-2; -78,2; -88,-1; -95,0; -88,2; -78,-1; -68,3; -58,-2; -48,1; -38,2; -28,-1; -18,3; -8,1; 0,0"
+                        dur="18s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="r"
+                        values="1.2; 1.8; 1.4; 2.1; 1; 1.6; 1.3; 1.9; 1.2"
+                        dur="10s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    
+                    {/* Dot 3 - Purple - Wave motion */}
+                    <circle cx="50" cy="6" r="1.3" fill="#8b5cf6" className="drop-shadow-sm" opacity="1">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; -15,4; -25,8; -20,6; -10,2; 0,0; 10,-2; 20,-6; 25,-8; 15,-4; 0,0"
+                        dur="12s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="r"
+                        values="1.3; 1.9; 1.5; 2.2; 1.1; 1.7; 1.4; 2; 1.3"
+                        dur="9s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+
+                    {/* Dot 4 - Green - Small darting */}
+                    <circle cx="25" cy="20" r="1" fill="#22c55e" className="drop-shadow-sm" opacity="0.8">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; 15,-3; 35,-5; 55,-3; 75,0; 70,2; 50,4; 30,2; 10,0; 0,0"
+                        dur="20s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="r"
+                        values="1; 1.5; 1.2; 1.8; 0.8; 1.4; 1.1; 1.6; 1"
+                        dur="7s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                    
+                    {/* Dot 5 - Cyan - Quick traverse */}
+                    <circle cx="75" cy="15" r="0.8" fill="#06b6d4" className="drop-shadow-sm" opacity="0.7">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        values="0,0; -20,3; -40,1; -60,-2; -80,1; -85,0; -60,2; -40,-1; -20,-3; 0,0"
+                        dur="25s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="r"
+                        values="0.8; 1.3; 1; 1.6; 0.6; 1.2; 0.9; 1.4; 0.8"
+                        dur="11s"
+                        repeatCount="indefinite"
+                      />
                     </circle>
                   </svg>
                 </div>
-                
-                {/* Rotating ring effect */}
-                <div className="absolute inset-0 rounded-xl border border-transparent bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-500 opacity-0 group-hover:opacity-20 transition-all duration-500 animate-spin-slow"></div>
-              </div>
-              
-              <div className="flex flex-col">
-                <span className="text-xl font-black bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 dark:from-purple-400 dark:via-blue-400 dark:to-indigo-500 bg-clip-text text-transparent tracking-tight leading-none group-hover:animate-shimmer bg-size-200 bg-pos-0 transition-all duration-300 filter drop-shadow-sm">
-                  GovChime
-                </span>
-                <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold -mt-0.5 tracking-widest opacity-80 group-hover:opacity-100 transition-opacity duration-300 filter drop-shadow-sm">FEDERAL INTEL</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold -mt-0.5 tracking-widest opacity-80 group-hover:opacity-100 transition-opacity duration-300 filter drop-shadow-sm">INTEL</span>
               </div>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 transition-all duration-500 group-has-hover:space-x-2">
-            {navigation.map((item, index) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold nav-item flex items-center justify-center min-h-[40px] transition-all duration-300 ${
-                  isActiveRoute(item.href)
-                    ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 shadow-3d dark:shadow-dark-3d'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:shadow-3d dark:hover:shadow-dark-3d'
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {item.name}
-              </Link>
-            ))}
+          {/* Medium Screen Navigation - Compact */}
+          <nav className="hidden md:flex lg:hidden items-center space-x-0.5 transition-all duration-500 flex-1 justify-center nav-container">
+            <div className="flex items-center bg-slate-50/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl px-2 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-slate-200/30 dark:border-slate-700/30 transition-all duration-500">
+              {navigation.map((item, index) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`relative px-2.5 py-2 mx-0.5 text-xs font-medium nav-item flex items-center justify-center min-h-[36px] transition-all duration-400 overflow-hidden whitespace-nowrap group hover:scale-[1.02] ${
+                    isActiveRoute(item.href)
+                      ? 'text-slate-800 dark:text-slate-100 active-nav'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                  }`}
+                  style={{ 
+                    animationDelay: `${index * 0.08}s`,
+                    outline: 'none',
+                    border: 'none',
+                  }}
+                >
+                  {/* Pulsing Green Active Indicator Line */}
+                  {isActiveRoute(item.href) && (
+                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.6)] animate-pulse-glow"></div>
+                  )}
+                  
+                  {/* Subtle hover background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-100/0 via-slate-100/40 to-slate-100/0 dark:from-slate-800/0 dark:via-slate-800/40 dark:to-slate-800/0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                  
+                  <span className="relative z-10 tracking-wide font-semibold">{item.short}</span>
+                  
+                  {/* Elegant separators */}
+                  {index < navigation.length - 1 && (
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-px h-5 bg-gradient-to-b from-transparent via-slate-300/60 to-transparent dark:via-slate-600/60"></div>
+                  )}
+                </Link>
+              ))}
+            </div>
           </nav>
 
-          {/* Enhanced Expandable Search Bar */}
-          <div className="hidden lg:flex items-center justify-center flex-1 max-w-sm mx-4">
-            <div className="relative group/search w-full">
-              {/* Collapsed search button */}
-              <div className="relative flex justify-center">
-                <button className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-600/20 border border-blue-500/30 rounded-xl flex items-center justify-center shadow-[0_4px_20px_rgba(59,130,246,0.3)] hover:shadow-[0_8px_32px_rgba(59,130,246,0.5)] transition-all duration-700 backdrop-blur-sm group-hover/search:w-full group-hover/search:max-w-md group-hover/search:bg-gradient-to-br group-hover/search:from-blue-500/10 group-hover/search:to-purple-600/10 group-focus-within/search:w-full group-focus-within/search:max-w-md">
-                  <Search className="w-5 h-5 text-blue-400 group-hover/search:text-blue-300 transition-all duration-500 group-hover/search:absolute group-hover/search:left-4 group-hover/search:top-1/2 group-hover/search:transform group-hover/search:-translate-y-1/2 group-focus-within/search:absolute group-focus-within/search:left-4 group-focus-within/search:top-1/2 group-focus-within/search:transform group-focus-within/search:-translate-y-1/2 drop-shadow-sm z-10" />
+          {/* Desktop Navigation - Ultra Modern Fintech Design - Optimized for 5 items */}
+          <nav className="hidden lg:flex items-center space-x-0.5 transition-all duration-500 flex-1 justify-center nav-container">
+            <div className="flex items-center bg-slate-50/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl px-2 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-slate-200/30 dark:border-slate-700/30 transition-all duration-500">
+              {navigation.map((item, index) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`relative px-3 py-2 mx-0.5 text-xs lg:text-sm font-medium nav-item flex items-center justify-center min-h-[36px] transition-all duration-400 overflow-hidden whitespace-nowrap group hover:scale-[1.02] ${
+                    isActiveRoute(item.href)
+                      ? 'text-slate-800 dark:text-slate-100 active-nav'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                  }`}
+                  style={{ 
+                    animationDelay: `${index * 0.08}s`,
+                    outline: 'none',
+                    border: 'none',
+                  }}
+                >
+                  {/* Pulsing Green Active Indicator Line */}
+                  {isActiveRoute(item.href) && (
+                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-10 h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.6)] animate-pulse-glow"></div>
+                  )}
                   
-                  {/* Expanded input field */}
+                  {/* Subtle hover background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-100/0 via-slate-100/40 to-slate-100/0 dark:from-slate-800/0 dark:via-slate-800/40 dark:to-slate-800/0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                  
+                  <span className="relative z-10 tracking-wide font-semibold">{item.name}</span>
+                  
+                  {/* Elegant separators */}
+                  {index < navigation.length - 1 && (
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-px h-5 bg-gradient-to-b from-transparent via-slate-300/60 to-transparent dark:via-slate-600/60"></div>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </nav>
+
+          {/* Right side container - Fixed width, only search expands */}
+          <div className="flex items-center space-x-2 flex-shrink-0 w-auto justify-end">
+            {/* Action Buttons - Fixed position, only responsive to search hover */}
+            <div className="hidden sm:flex items-center space-x-2">
+              <button 
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover transition-all duration-300"
+                title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {isDarkMode ? (
+                  <Sun className="w-5 h-5 text-yellow-500 hover:text-yellow-400 icon-hover transition-all duration-300" />
+                ) : (
+                  <Moon className="w-5 h-5 text-indigo-600 hover:text-indigo-500 icon-hover transition-all duration-300" />
+                )}
+              </button>
+              <button 
+                title="Notifications"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover transition-all duration-300"
+              >
+                <Bell className="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 icon-hover transition-all duration-300" />
+              </button>
+              <button 
+                title="User Profile"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover transition-all duration-300"
+              >
+                <User className="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 icon-hover transition-all duration-300" />
+              </button>
+            </div>
+
+            {/* Expandable Telescope Search - Only this component affects layout */}
+            <div className="relative group/search search-container">
+              <form onSubmit={handleSearch} className="relative">
+                {/* Compact Search Container - Expands on Hover */}
+                <div className="relative flex items-center w-10 h-10 group-hover/search:w-64 sm:group-hover/search:w-72 md:group-hover/search:w-80 group-focus-within/search:w-64 sm:group-focus-within/search:w-72 md:group-focus-within/search:w-80 bg-gradient-to-r from-slate-50/80 to-slate-100/80 dark:from-slate-800/80 dark:to-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_30px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_6px_30px_rgba(0,0,0,0.35)] transition-all duration-500 ease-out backdrop-blur-md group-focus-within/search:shadow-[0_8px_40px_rgba(34,197,94,0.15)] group-focus-within/search:border-emerald-400/50 overflow-hidden">
+                  
+                  {/* Telescope Icon - Always Visible */}
+                  <div className="flex items-center justify-center w-10 h-10 flex-shrink-0 z-10">
+                    <Telescope className="w-5 h-5 text-emerald-500 dark:text-emerald-400 group-hover/search:text-emerald-400 dark:group-hover/search:text-emerald-300 group-focus-within/search:text-emerald-600 dark:group-focus-within/search:text-emerald-400 transition-all duration-300 drop-shadow-sm" />
+                  </div>
+                  
+                  {/* Expanding Input Field - Hidden by default, appears on hover/focus */}
                   <input
                     type="text"
-                    placeholder="Search contracts, vendors, agencies..."
+                    placeholder="Search contracts, vendors, insights..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="absolute inset-0 w-full h-full bg-transparent border-0 outline-0 text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 pl-12 pr-4 rounded-xl opacity-0 group-hover/search:opacity-100 group-focus-within/search:opacity-100 transition-opacity duration-500 delay-200"
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         handleSearch(e);
                       }
                     }}
+                    className="flex-1 h-full bg-transparent text-slate-700 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 pl-1 pr-4 focus:outline-none transition-all duration-500 text-sm font-medium tracking-wide no-focus-outline opacity-0 group-hover/search:opacity-100 group-focus-within/search:opacity-100 pointer-events-none group-hover/search:pointer-events-auto group-focus-within/search:pointer-events-auto"
                   />
-                </button>
-                
-                {/* Enhanced glowing ring effect */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover/search:opacity-40 group-focus-within/search:opacity-40 transition-opacity duration-700 blur-sm -z-10 scale-110"></div>
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyan-300 to-blue-400 opacity-0 group-hover/search:opacity-20 group-focus-within/search:opacity-20 transition-opacity duration-700 blur-lg -z-20 scale-125"></div>
-              </div>
+                  
+                  {/* Subtle search hint glow */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 opacity-0 group-focus-within/search:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"></div>
+                </div>
+              </form>
             </div>
-          </div>
 
-          {/* Action Buttons */}
-          <div className="hidden lg:flex items-center space-x-3">
-            <button 
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover"
-              title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {isDarkMode ? (
-                <Sun className="w-5 h-5 text-yellow-500 hover:text-yellow-400 icon-hover" />
-              ) : (
-                <Moon className="w-5 h-5 text-indigo-600 hover:text-indigo-500 icon-hover" />
-              )}
-            </button>
-            <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover">
-              <Bell className="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 icon-hover" />
-            </button>
-            <button className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover">
-              <User className="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 icon-hover" />
-            </button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover"
-            >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            {/* Mobile menu button - only show on very small screens */}
+            <div className="sm:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover transition-all duration-300"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -222,18 +326,18 @@ const Header: React.FC = () => {
                 key={item.name}
                 to={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`flex items-center px-4 py-3 rounded-lg text-base font-semibold figma-button ${
+                className={`relative flex items-center px-4 py-3 rounded-lg text-base font-semibold figma-button overflow-hidden ${
                   isActiveRoute(item.href)
-                    ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 shadow-3d dark:shadow-dark-3d'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 hover:shadow-3d dark:hover:shadow-dark-3d'
+                    ? 'text-purple-400 dark:text-purple-300 glow-text'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400 hover:bg-purple-50/30 dark:hover:bg-purple-900/10 hover:shadow-3d dark:hover:shadow-dark-3d'
                 }`}
               >
-                {item.name}
+                <span className="relative z-10">{item.name}</span>
               </Link>
             ))}
             <div className="mt-4 px-3">
               <form onSubmit={handleSearch} className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                <Telescope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                 <input
                   type="text"
                   placeholder="Search..."

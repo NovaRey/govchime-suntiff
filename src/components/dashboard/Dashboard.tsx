@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSamGovData } from '../../hooks/useSamGovData';
+import { useAutoScrollAnimations } from '../../utils/scrollAnimations';
 import { 
   ArrowRight, 
   BookOpen, 
@@ -16,6 +17,9 @@ import {
 } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
+  // Auto-initialize scroll animations
+  useAutoScrollAnimations();
+  
   const { 
     data: contracts, 
     loading, 
@@ -98,172 +102,187 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-16">
-      {/* Error Banner */}
+    <div className="space-y-16 responsive-container">
+      {/* Error Banner - Compact */}
       {error && (
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-          <div className="flex items-center">
-            <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2" />
-            <div>
-              <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-400">Using Sample Data</h3>
-              <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                API connection unavailable. Showing demonstration data for preview.
-              </p>
-            </div>
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-4 py-2 scroll-animate">
+          <div className="flex items-center justify-center">
+            <AlertCircle className="w-4 h-4 text-yellow-600 dark:text-yellow-400 mr-2 flex-shrink-0" />
+            <span className="text-xs font-medium text-yellow-800 dark:text-yellow-400 whitespace-nowrap">
+              Using Sample Data - API connection unavailable. Showing demonstration data for preview.
+            </span>
           </div>
         </div>
       )}
 
-      {/* Hero Section */}
-      <div className="text-center max-w-4xl mx-auto">
-                <div className="relative mb-12 flex justify-center items-center min-h-[200px]">
-          {/* Digital fintech background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-blue-500/10 to-emerald-500/5 blur-xl transform scale-110 animate-pulse-slow"></div>
-          <div className="relative bg-white/10 dark:bg-gray-800/10 backdrop-blur-md px-16 py-10 shadow-elevated hover:shadow-3d-hover transition-all duration-500 rounded-xl">
-            {/* Digital grid pattern */}
-            <div className="absolute inset-0 opacity-20 bg-grid-pattern"></div>
-            <div className="relative">
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-cyan-800 dark:from-white dark:via-blue-200 dark:to-cyan-200 bg-clip-text text-transparent mb-2 leading-tight">
-                Welcome to <span className="relative inline-block group">
-                  <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 dark:from-cyan-300 dark:via-blue-400 dark:to-emerald-300 bg-clip-text text-transparent animate-shimmer bg-size-200 bg-pos-0">GovChime</span>
-                  
-                  {/* Fish-like swimming particles behind GovChime */}
-                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-90 transition-opacity duration-1000" viewBox="0 0 200 60">
-                    {/* Fish 1 - Blue - Long swimming path */}
-                    <circle cx="20" cy="15" r="3.5" fill="#3b82f6" className="drop-shadow-lg" opacity="1">
-                      <animateTransform
-                        attributeName="transform"
-                        type="translate"
-                        values="0,0; 8,5; 15,2; 25,-3; 35,4; 45,1; 55,-2; 65,6; 75,3; 85,-1; 95,5; 105,2; 115,-3; 125,4; 135,1; 145,-2; 155,6; 165,3; 175,-1; 180,2; 175,5; 165,1; 155,-2; 145,4; 135,-1; 125,3; 115,6; 105,2; 95,-3; 85,4; 75,-1; 65,3; 55,5; 45,2; 35,-2; 25,4; 15,1; 8,-2; 0,0"
-                        dur="25s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="r"
-                        values="3.5; 4.2; 3.8; 4.5; 3.2; 4; 3.7; 4.3; 3.5"
-                        dur="12s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="opacity"
-                        values="1; 0.7; 0.9; 0.8; 1; 0.6; 0.8; 0.9; 1"
-                        dur="15s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
+      {/* Hero Section - Enhanced with scroll animations */}
+      <div className="text-center max-w-6xl mx-auto scroll-animate">
+        {/* Main Headline Box - Static container */}
+        <div className="relative mb-8">
+          <div className="bg-white/70 dark:bg-gray-800/80 backdrop-blur-lg border border-gray-300/40 dark:border-gray-600/40 rounded-3xl shadow-2xl overflow-hidden static-container">
+            {/* Subtle background pattern - darker with gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-100/40 via-blue-50/30 to-purple-50/25 dark:from-gray-900/30 dark:via-blue-900/20 dark:to-purple-900/15"></div>
+            
+            <div className="relative px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-12">
+              {/* Main Headline - Enhanced responsive typography */}
+              <div className="space-y-4 sm:space-y-6">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight">
+                  <span className="block text-gray-900 dark:text-white mb-2 sm:mb-4 filter drop-shadow-[0_2px_8px_rgba(255,255,255,0.6)] dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.3)]">Welcome to</span>
+                  <span className="relative inline-block group govchime-hover-group no-border-container">
+                    <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-500 bg-clip-text text-transparent animate-shimmer bg-size-200 bg-pos-0 leading-none tracking-tighter no-border-container transition-all duration-500 govchime-text group-hover:scale-105 group-hover:rotate-1">
+                      GovChime
+                    </span>
                     
-                    {/* Fish 2 - Orange - Reverse swimming */}
-                    <circle cx="180" cy="45" r="3" fill="#f97316" className="drop-shadow-lg" opacity="0.95">
-                      <animateTransform
-                        attributeName="transform"
-                        type="translate"
-                        values="0,0; -12,3; -25,-2; -38,5; -52,1; -65,-3; -78,4; -92,2; -105,-1; -118,6; -132,3; -145,-2; -158,5; -172,1; -185,-3; -180,-6; -165,-2; -150,3; -135,-1; -120,4; -105,2; -90,-3; -75,5; -60,1; -45,-2; -30,4; -15,2; -5,-1; 0,0"
-                        dur="28s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="r"
-                        values="3; 3.8; 2.8; 3.5; 3.2; 3.9; 2.5; 3.6; 3"
-                        dur="14s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="opacity"
-                        values="0.95; 0.6; 1; 0.7; 0.95; 0.5; 0.8; 0.9; 0.95"
-                        dur="16s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
-                    
-                    {/* Fish 3 - Purple - Figure-8 swimming */}
-                    <circle cx="100" cy="10" r="3.2" fill="#8b5cf6" className="drop-shadow-lg" opacity="1">
-                      <animateTransform
-                        attributeName="transform"
-                        type="translate"
-                        values="0,0; 5,8; 12,15; 20,20; 30,22; 40,20; 50,15; 58,8; 65,0; 70,-8; 75,-15; 78,-20; 75,-25; 70,-28; 60,-30; 50,-28; 40,-25; 30,-20; 20,-15; 12,-8; 5,0; 0,5; -5,10; -12,15; -20,18; -30,20; -40,18; -50,15; -58,10; -65,5; -70,0; -75,-5; -78,-10; -75,-15; -70,-18; -60,-20; -50,-18; -40,-15; -30,-10; -20,-5; -12,0; -5,5; 0,0"
-                        dur="32s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="r"
-                        values="3.2; 2.8; 4; 3.5; 3.8; 3; 4.2; 3.4; 3.2"
-                        dur="18s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="opacity"
-                        values="1; 0.7; 1; 0.6; 0.9; 0.8; 1; 0.5; 0.8; 1"
-                        dur="20s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
+                    {/* Fish-like swimming particles behind GovChime - Keep existing animation */}
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-90 transition-opacity duration-1000 no-border-container" viewBox="0 0 200 60">
+                      {/* Fish 1 - Blue - Long swimming path */}
+                      <circle cx="20" cy="15" r="3.5" fill="#3b82f6" className="drop-shadow-lg" opacity="1">
+                        <animateTransform
+                          attributeName="transform"
+                          type="translate"
+                          values="0,0; 8,5; 15,2; 25,-3; 35,4; 45,1; 55,-2; 65,6; 75,3; 85,-1; 95,5; 105,2; 115,-3; 125,4; 135,1; 145,-2; 155,6; 165,3; 175,-1; 180,2; 175,5; 165,1; 155,-2; 145,4; 135,-1; 125,3; 115,6; 105,2; 95,-3; 85,4; 75,-1; 65,3; 55,5; 45,2; 35,-2; 25,4; 15,1; 8,-2; 0,0"
+                          dur="25s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="r"
+                          values="3.5; 4.2; 3.8; 4.5; 3.2; 4; 3.7; 4.3; 3.5"
+                          dur="12s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          values="1; 0.7; 0.9; 0.8; 1; 0.6; 0.8; 0.9; 1"
+                          dur="15s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                      
+                      {/* Fish 2 - Orange - Reverse swimming */}
+                      <circle cx="180" cy="45" r="3" fill="#f97316" className="drop-shadow-lg" opacity="0.95">
+                        <animateTransform
+                          attributeName="transform"
+                          type="translate"
+                          values="0,0; -12,3; -25,-2; -38,5; -52,1; -65,-3; -78,4; -92,2; -105,-1; -118,6; -132,3; -145,-2; -158,5; -172,1; -185,-3; -180,-6; -165,-2; -150,3; -135,-1; -120,4; -105,2; -90,-3; -75,5; -60,1; -45,-2; -30,4; -15,2; -5,-1; 0,0"
+                          dur="28s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="r"
+                          values="3; 3.8; 2.8; 3.5; 3.2; 3.9; 2.5; 3.6; 3"
+                          dur="14s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          values="0.95; 0.6; 1; 0.7; 0.95; 0.5; 0.8; 0.9; 0.95"
+                          dur="16s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                      
+                      {/* Fish 3 - Purple - Figure-8 swimming */}
+                      <circle cx="100" cy="10" r="3.2" fill="#8b5cf6" className="drop-shadow-lg" opacity="1">
+                        <animateTransform
+                          attributeName="transform"
+                          type="translate"
+                          values="0,0; 5,8; 12,15; 20,20; 30,22; 40,20; 50,15; 58,8; 65,0; 70,-8; 75,-15; 78,-20; 75,-25; 70,-28; 60,-30; 50,-28; 40,-25; 30,-20; 20,-15; 12,-8; 5,0; 0,5; -5,10; -12,15; -20,18; -30,20; -40,18; -50,15; -58,10; -65,5; -70,0; -75,-5; -78,-10; -75,-15; -70,-18; -60,-20; -50,-18; -40,-15; -30,-10; -20,-5; -12,0; -5,5; 0,0"
+                          dur="32s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="r"
+                          values="3.2; 2.8; 4; 3.5; 3.8; 3; 4.2; 3.4; 3.2"
+                          dur="18s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          values="1; 0.7; 1; 0.6; 0.9; 0.8; 1; 0.5; 0.8; 1"
+                          dur="20s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
 
-                    {/* Fish 4 - Green - Gentle weaving */}
-                    <circle cx="60" cy="35" r="2.2" fill="#22c55e" className="drop-shadow-md" opacity="0.9">
-                      <animateTransform
-                        attributeName="transform"
-                        type="translate"
-                        values="0,0; 8,-4; 18,-6; 28,-4; 38,0; 48,4; 58,6; 68,4; 78,0; 88,-4; 98,-6; 108,-4; 118,0; 128,4; 138,6; 148,4; 158,0; 148,-4; 138,-8; 128,-6; 118,-2; 108,2; 98,6; 88,8; 78,6; 68,2; 58,-2; 48,-6; 38,-8; 28,-6; 18,-2; 8,2; 0,0"
-                        dur="30s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="r"
-                        values="2.2; 2.8; 2.4; 3; 2.6; 2.9; 2.3; 2.7; 2.2"
-                        dur="16s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
+                      {/* Fish 4 - Green - Gentle weaving */}
+                      <circle cx="60" cy="35" r="2.2" fill="#22c55e" className="drop-shadow-md" opacity="0.9">
+                        <animateTransform
+                          attributeName="transform"
+                          type="translate"
+                          values="0,0; 8,-4; 18,-6; 28,-4; 38,0; 48,4; 58,6; 68,4; 78,0; 88,-4; 98,-6; 108,-4; 118,0; 128,4; 138,6; 148,4; 158,0; 148,-4; 138,-8; 128,-6; 118,-2; 108,2; 98,6; 88,8; 78,6; 68,2; 58,-2; 48,-6; 38,-8; 28,-6; 18,-2; 8,2; 0,0"
+                          dur="30s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="r"
+                          values="2.2; 2.8; 2.4; 3; 2.6; 2.9; 2.3; 2.7; 2.2"
+                          dur="16s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
 
-                    {/* Fish 5 - Indigo - Circular swimming */}
-                    <circle cx="140" cy="25" r="2.5" fill="#4f46e5" className="drop-shadow-md" opacity="0.9">
-                      <animateTransform
-                        attributeName="transform"
-                        type="translate"
-                        values="0,0; 6,6; 10,12; 12,18; 10,24; 6,30; 0,34; -6,30; -10,24; -12,18; -10,12; -6,6; 0,0"
-                        dur="22s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="r"
-                        values="2.5; 2; 3; 2.7; 3.2; 2.3; 2.8; 2.5"
-                        dur="13s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
+                      {/* Fish 5 - Indigo - Circular swimming */}
+                      <circle cx="140" cy="25" r="2.5" fill="#4f46e5" className="drop-shadow-md" opacity="0.9">
+                        <animateTransform
+                          attributeName="transform"
+                          type="translate"
+                          values="0,0; 6,6; 10,12; 12,18; 10,24; 6,30; 0,34; -6,30; -10,24; -12,18; -10,12; -6,6; 0,0"
+                          dur="22s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="r"
+                          values="2.5; 2; 3; 2.7; 3.2; 2.3; 2.8; 2.5"
+                          dur="13s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                      
+                      {/* Small fish - Cyan - Quick darting */}
+                      <circle cx="45" cy="50" r="1.8" fill="#06b6d4" className="drop-shadow-sm" opacity="0.8">
+                        <animateTransform
+                          attributeName="transform"
+                          type="translate"
+                          values="0,0; 12,-8; 25,-12; 38,-8; 52,-4; 65,0; 78,4; 92,8; 105,4; 118,0; 132,-4; 145,-8; 158,-4; 172,0; 158,4; 145,8; 132,4; 118,0; 105,-4; 92,-8; 78,-4; 65,0; 52,4; 38,8; 25,4; 12,0; 0,0"
+                          dur="35s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="r"
+                          values="1.8; 2.3; 1.5; 2.1; 1.8"
+                          dur="11s"
+                          repeatCount="indefinite"
+                        />
+                      </circle>
+                    </svg>
                     
-                    {/* Small fish - Cyan - Quick darting */}
-                    <circle cx="45" cy="50" r="1.8" fill="#06b6d4" className="drop-shadow-sm" opacity="0.8">
-                      <animateTransform
-                        attributeName="transform"
-                        type="translate"
-                        values="0,0; 12,-8; 25,-12; 38,-8; 52,-4; 65,0; 78,4; 92,8; 105,4; 118,0; 132,-4; 145,-8; 158,-4; 172,0; 158,4; 145,8; 132,4; 118,0; 105,-4; 92,-8; 78,-4; 65,0; 52,4; 38,8; 25,4; 12,0; 0,0"
-                        dur="35s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="r"
-                        values="1.8; 2.3; 1.5; 2.1; 1.8"
-                        dur="11s"
-                        repeatCount="indefinite"
-                      />
-                    </circle>
-                  </svg>
-                  
-                  {/* Only subtle pulse rings - no background highlighting */}
-                  <div className="absolute inset-0 rounded-lg border border-blue-400/10 opacity-0 group-hover:opacity-20 animate-ping-slow"></div>
-                  <div className="absolute inset-0 rounded-lg border border-indigo-400/8 opacity-0 group-hover:opacity-15 animate-ping-slower"></div>
-                </span>
-              </h1>
-              <h2 className="text-2xl font-semibold text-gray-700/90 dark:text-gray-300/90 tracking-wide">
-                Federal Contracting Intelligence Platform
-              </h2>
+                    {/* Only subtle pulse rings - no background highlighting */}
+                    <div className="absolute inset-0 rounded-lg border border-blue-400/10 opacity-0 group-hover:opacity-20 animate-ping-slow"></div>
+                    <div className="absolute inset-0 rounded-lg border border-indigo-400/8 opacity-0 group-hover:opacity-15 animate-ping-slower"></div>
+                  </span>
+                </h1>
+                
+                {/* Subheading under main title */}
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-700 dark:text-gray-300 tracking-wide leading-tight mt-6">
+                  Federal Contracting Intelligence Platform
+                </h2>
+              </div>
             </div>
           </div>
         </div>
-        <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-3xl mx-auto">
-          We make government contracting simple. Find federal contracts, understand spending data, and learn how to win government business - all in one easy-to-use platform designed for small business owners.
-        </p>
+
+        {/* Description Box */}
+        <div className="mb-12">
+          <div className="bg-white/60 dark:bg-gray-800/75 backdrop-blur-md border border-gray-300/35 dark:border-gray-600/35 rounded-lg shadow-lg">
+            {/* Subtle gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-50/20 via-blue-50/15 to-gray-50/20 dark:from-gray-900/20 dark:via-blue-900/15 dark:to-gray-900/20 rounded-lg"></div>
+            <div className="relative px-6 py-8">
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-4xl mx-auto font-medium">
+                We make government contracting simple. Find federal contracts, understand spending data, and learn how to win government business - all in one easy-to-use platform designed for small business owners.
+              </p>
+            </div>
+          </div>
+        </div>
         
         {/* Value Propositions - Smaller */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -296,34 +315,35 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Platform Tools Section - Moved Up with GovChime Style */}
-        <div className="mb-12">
+        {/* Platform Tools Section - Enhanced with scroll animations */}
+        <div className="mb-12 scroll-animate-scale">
           <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 dark:from-cyan-300 dark:via-blue-400 dark:to-emerald-300 bg-clip-text text-transparent animate-shimmer bg-size-200 bg-pos-0 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 dark:from-cyan-300 dark:via-blue-400 dark:to-emerald-300 bg-clip-text text-transparent animate-shimmer bg-size-200 bg-pos-0 mb-4">
               Platform Tools
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
               Comprehensive suite of tools for government contracting intelligence
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {tools.map((tool) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
+            {tools.map((tool, index) => {
               const Icon = tool.icon;
               const isActive = tool.status === 'active';
               
               return (
                 <div
                   key={tool.title}
-                  className={`group relative bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 transition-all duration-500 hover:border-gray-300 dark:hover:border-gray-600 ${
+                  className={`group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 dark:border-gray-700/60 p-4 sm:p-6 transition-all duration-500 card-hover scroll-animate ${
                     isActive 
-                      ? 'hover:shadow-elevated hover:-translate-y-2 cursor-pointer shadow-soft' 
-                      : 'opacity-75 cursor-not-allowed shadow-subtle'
+                      ? 'hover:border-emerald-300 dark:hover:border-emerald-600 cursor-pointer shadow-lg hover:shadow-2xl' 
+                      : 'opacity-75 cursor-not-allowed shadow-md'
                   }`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  {/* Subtle glow effect */}
+                  {/* Enhanced glow effect */}
                   {isActive && (
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-500/5 via-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   )}
                   
                   <Link 
@@ -407,10 +427,11 @@ const Dashboard: React.FC = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              {contracts.slice(0, 3).map((contract) => (
+              {contracts.slice(0, 3).map((contract, index) => (
                 <div 
                   key={contract.id} 
-                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-102 shadow-subtle hover:shadow-soft"
+                  className="flex items-center justify-between p-4 bg-gray-50/80 dark:bg-gray-700/80 backdrop-blur-sm rounded-2xl hover:bg-gray-100/80 dark:hover:bg-gray-600/80 transition-all duration-500 card-hover shadow-md hover:shadow-xl scroll-animate-right border border-gray-200/50 dark:border-gray-600/50"
+                  style={{ animationDelay: `${index * 0.15}s` }}
                 >
                   <div className="flex-1">
                     <h3 className="font-medium text-gray-900 dark:text-white mb-1">

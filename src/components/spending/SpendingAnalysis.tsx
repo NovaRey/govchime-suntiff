@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { SpendingData } from '../../types';
 import { mockNAICSSpendingData, mockSpendingData2024 } from '../../data/mockData';
 import DataSourceBadge from '../common/DataSourceBadge';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Area, AreaChart } from 'recharts';
 import { 
   TrendingUp, 
   ChevronDown,
@@ -25,7 +25,8 @@ import {
   Info,
   Cpu,
   Heart,
-  Truck
+  Truck,
+  ArrowUpRight
 } from 'lucide-react';
 
 interface SpendingAnalysisProps {
@@ -59,6 +60,35 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
     visible: boolean;
     data: any;
   }>({ visible: false, data: null });
+  const [showYoYChart, setShowYoYChart] = useState<boolean>(false);
+  const [showTotalSpendingData, setShowTotalSpendingData] = useState<boolean>(false);
+
+  // Mock YoY Growth Data (Fixed and enhanced)
+  const mockYoYGrowthData = [
+    { month: 'Jan', current: 125.2, previous: 98.1, label: 'January 2025' },
+    { month: 'Feb', current: 142.8, previous: 122.3, label: 'February 2025' },
+    { month: 'Mar', current: 138.6, previous: 131.7, label: 'March 2025' },
+    { month: 'Apr', current: 161.4, previous: 148.9, label: 'April 2025' },
+    { month: 'May', current: 158.9, previous: 152.1, label: 'May 2025' },
+    { month: 'Jun', current: 167.3, previous: 154.8, label: 'June 2025' },
+    { month: 'Jul', current: 172.5, previous: 158.2, label: 'July 2025' },
+    { month: 'Aug', current: 169.8, previous: 161.4, label: 'August 2025' },
+    { month: 'Sep', current: 175.2, previous: 163.9, label: 'September 2025' },
+    { month: 'Oct', current: 178.6, previous: 165.7, label: 'October 2025' },
+    { month: 'Nov', current: 181.3, previous: 167.2, label: 'November 2025' },
+    { month: 'Dec', current: 184.7, previous: 169.8, label: 'December 2025' }
+  ];
+
+  // Mock Total Spending Breakdown Data
+  const mockTotalSpendingData = [
+    { category: 'Defense', amount: 423.7, percentage: 32.1, change: '+8.3%' },
+    { category: 'Health & Human Services', amount: 298.4, percentage: 22.6, change: '+12.7%' },
+    { category: 'Homeland Security', amount: 187.9, percentage: 14.2, change: '+6.8%' },
+    { category: 'Energy', amount: 156.3, percentage: 11.8, change: '+15.2%' },
+    { category: 'Veterans Affairs', amount: 124.8, percentage: 9.5, change: '+9.4%' },
+    { category: 'Transportation', amount: 89.2, percentage: 6.8, change: '+4.1%' },
+    { category: 'Other Agencies', amount: 39.7, percentage: 3.0, change: '+2.8%' }
+  ];
 
   // Early return if no data
   if (!spendingData || spendingData.length === 0) {
@@ -459,102 +489,6 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
     // - Market opportunity assessment
   };
 
-  const CustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, index }: any) => {
-    const RADIAN = Math.PI / 180;
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.4;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-    const data = chartData[index];
-
-    // Get short description for NAICS codes
-    const getShortDescription = (fullName: string) => {
-      if (selectedView.includes('naics')) {
-        // Extract key words from NAICS description
-        const words = fullName.toLowerCase().split(' ');
-        if (words.includes('computer') || words.includes('programming')) return 'IT Services';
-        if (words.includes('construction') || words.includes('building')) return 'Construction';
-        if (words.includes('engineering')) return 'Engineering';
-        if (words.includes('consulting') || words.includes('management')) return 'Consulting';
-        if (words.includes('research') || words.includes('development')) return 'R&D';
-        if (words.includes('manufacturing')) return 'Manufacturing';
-        if (words.includes('medical') || words.includes('surgical')) return 'Medical';
-        if (words.includes('facilities') || words.includes('support')) return 'Facilities';
-        if (words.includes('security') || words.includes('guard')) return 'Security';
-        if (words.includes('testing') || words.includes('laboratories')) return 'Testing';
-        if (words.includes('aircraft') || words.includes('aerospace')) return 'Aerospace';
-        if (words.includes('scientific') || words.includes('technical')) return 'Tech Services';
-        if (words.includes('advertising') || words.includes('marketing')) return 'Marketing';
-        if (words.includes('janitorial') || words.includes('cleaning')) return 'Cleaning';
-        if (words.includes('landscaping') || words.includes('grounds')) return 'Landscaping';
-        return 'Services'; // Default fallback
-      }
-      return data.name; // For states, just return the state name
-    };
-    return (
-      <g>
-        {/* Connection line from pie slice to label */}
-        <line
-          x1={cx + (outerRadius + 10) * Math.cos(-midAngle * RADIAN)}
-          y1={cy + (outerRadius + 10) * Math.sin(-midAngle * RADIAN)}
-          x2={x}
-          y2={y}
-          stroke="#ffffff"
-          strokeWidth={1.5}
-          strokeDasharray="2,2"
-          opacity={0.7}
-          style={{
-            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))'
-          }}
-        />
-        {/* Label background circle */}
-        <circle
-          cx={x}
-          cy={y}
-          r={8}
-          fill="white"
-          stroke={pieColors[index % pieColors.length]}
-          strokeWidth={2}
-          opacity={0.9}
-          style={{
-            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-          }}
-        />
-        {/* State/NAICS indicator in circle */}
-        <circle
-          x={x}
-          y={y}
-          r={3}
-          fill={pieColors[index % pieColors.length]}
-        />
-        {/* State name or NAICS code label */}
-        <text
-          x={x + (x > cx ? 15 : -15)}
-          y={y}
-          textAnchor={x > cx ? 'start' : 'end'}
-          dominantBaseline="central"
-          className="fill-gray-700 dark:fill-gray-300 text-sm font-semibold"
-          style={{
-            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
-          }}
-        >
-          {selectedView.includes('naics') ? data.name : data.name}
-        </text>
-        {/* Description/Value label */}
-        <text
-          x={x + (x > cx ? 15 : -15)}
-          y={y + 12}
-          textAnchor={x > cx ? 'start' : 'end'}
-          dominantBaseline="central"
-          className="fill-purple-600 dark:fill-purple-400 text-xs font-medium"
-          style={{
-            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
-          }}
-        >
-          {getShortDescription((data as any).fullName || data.name)}
-        </text>
-      </g>
-    );
-  };
   const viewOptions = [
     { id: 'states-2025', label: '2025 State Spending', icon: MapPin },
     { id: 'states-2024', label: '2024 State Spending', icon: MapPin },
@@ -568,7 +502,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Spending Analysis</h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1 flex items-center">
+          <p className="text-gray-700 dark:text-gray-300 mt-1 flex items-center">
             Federal contract spending patterns and trends
             <DataSourceBadge source="USASpending.gov" className="ml-2" />
           </p>
@@ -591,13 +525,19 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group">
+        <div 
+          onClick={() => {
+            setSelectedView('states-2025');
+            setShowTotalSpendingData(true);
+          }}
+          className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group"
+        >
           <div className="flex items-center">
             <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg shadow-3d dark:shadow-dark-3d group-hover:shadow-green-glow figma-button">
               <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400 icon-hover" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400 figma-button">Total 2025 Spending</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-green-600 dark:group-hover:text-green-400 figma-button">Total 2025 Spending</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 figma-button">
                 {formatCurrency(spendingData.reduce((sum, state) => sum + state.totalSpending, 0))}
               </p>
@@ -605,13 +545,16 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group">
+        <div 
+          onClick={() => navigate('/awards')}
+          className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group"
+        >
           <div className="flex items-center">
             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg shadow-3d dark:shadow-dark-3d group-hover:shadow-blue-glow figma-button">
               <FileText className="w-6 h-6 text-blue-600 dark:text-blue-400 icon-hover" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 figma-button">Active Contracts</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 figma-button">Active Contracts</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 figma-button">
                 {spendingData.reduce((sum, state) => sum + state.contractCount, 0).toLocaleString()}
               </p>
@@ -619,13 +562,16 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group">
+        <div 
+          onClick={() => setSelectedView('naics-top10')}
+          className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group"
+        >
           <div className="flex items-center">
             <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg shadow-3d dark:shadow-dark-3d group-hover:shadow-purple-glow figma-button">
               <Building2 className="w-6 h-6 text-purple-600 dark:text-purple-400 icon-hover" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 figma-button">Top NAICS Spending</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 figma-button">Top NAICS Spending</p>
               <p className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 figma-button">
                 {formatCurrency((mockNAICSSpendingData && mockNAICSSpendingData[0]?.totalSpending2025) || 0)}
               </p>
@@ -633,14 +579,17 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group">
+        <div 
+          onClick={() => setShowYoYChart(!showYoYChart)}
+          className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover snappy-card cursor-pointer group"
+        >
           <div className="flex items-center">
             <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg shadow-3d dark:shadow-dark-3d group-hover:shadow-orange-glow figma-button">
               <TrendingUp className="w-6 h-6 text-orange-600 dark:text-orange-400 icon-hover" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-400 figma-button">YoY Growth</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 figma-button">+12.4%</p>
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-orange-600 dark:group-hover:text-orange-400 figma-button">YoY Growth</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 figma-button">+8.7%</p>
             </div>
           </div>
         </div>
@@ -648,160 +597,310 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
 
       {/* Interactive Chart Section */}
       <div id="spending-charts" className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-3d dark:shadow-dark-3d">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{getViewTitle()}</h2>
           </div>
           
-          {/* View Switcher */}
-          <div className="flex flex-wrap gap-2">
-            {viewOptions.map((option) => {
-              const Icon = option.icon;
-              return (
+          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+            {/* View Switcher */}
+            <div className="flex flex-wrap gap-2">
+              {viewOptions.map((option) => {
+                const Icon = option.icon;
+                return (
+                  <button
+                    key={option.id}
+                    onClick={() => setSelectedView(option.id as ChartView)}
+                    className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover ${
+                      selectedView === option.id
+                        ? 'bg-purple-600 dark:bg-purple-500 text-white'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 mr-2" />
+                    {option.label}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <div className="flex items-center gap-2">
+              {/* Chart Type Switcher */}
+              <div className="flex items-center space-x-2 bg-gray-50 dark:bg-gray-700 p-1 rounded-lg border border-gray-200 dark:border-gray-600">
                 <button
-                  key={option.id}
-                  onClick={() => setSelectedView(option.id as ChartView)}
-                  className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover ${
-                    selectedView === option.id
-                      ? 'bg-purple-600 dark:bg-purple-500 text-white'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  onClick={() => setChartType('bar')}
+                  className={`p-2 rounded-md figma-button transition-all duration-200 ${
+                    chartType === 'bar'
+                      ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-gray-600'
                   }`}
+                  title="Bar Chart"
                 >
-                  <Icon className="w-4 h-4 mr-2" />
-                  {option.label}
+                  <BarChart3 className="w-4 h-4" />
                 </button>
-              );
-            })}
-          </div>
-          
-          {/* Chart Type Switcher */}
-          <div className="flex items-center space-x-2 ml-4">
-            <button
-              onClick={() => setChartType('bar')}
-              className={`p-2 rounded-lg figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover ${
-                chartType === 'bar'
-                  ? 'bg-blue-600 dark:bg-blue-500 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              title="Bar Chart"
-            >
-              <BarChart3 className="w-4 h-4 icon-hover" />
-            </button>
-            <button
-              onClick={() => setChartType('pie')}
-              className={`p-2 rounded-lg figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover ${
-                chartType === 'pie'
-                  ? 'bg-blue-600 dark:bg-blue-500 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-              title="Pie Chart"
-            >
-              <PieChartIcon className="w-4 h-4 icon-hover" />
-            </button>
-          </div>
+                <button
+                  onClick={() => setChartType('pie')}
+                  className={`p-2 rounded-md figma-button transition-all duration-200 ${
+                    chartType === 'pie'
+                      ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-gray-600'
+                  }`}
+                  title="Pie Chart"
+                >
+                  <PieChartIcon className="w-4 h-4" />
+                </button>
+              </div>
 
-          {/* Custom Report Button */}
-          <div className="flex items-center space-x-2 ml-4">
-            <button
-              onClick={handleCustomReport}
-              className="px-3 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg transition-all duration-300 shadow-3d dark:shadow-dark-3d hover:shadow-purple-glow flex items-center space-x-2 group"
-              title="Generate Customized Report"
-            >
-              <Users className="w-4 h-4 group-hover:text-yellow-300 transition-colors duration-300" />
-              <span className="text-sm font-medium">Custom Report</span>
-            </button>
+              {/* Custom Report Button */}
+              <div className="relative group">
+                <button
+                  onClick={handleCustomReport}
+                  className="flex items-center px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm hover:shadow-purple-glow text-sm figma-button group"
+                  title="Generate Customized Report"
+                >
+                  <Crown className="w-3.5 h-3.5 mr-1.5 group-hover:text-yellow-300 transition-colors duration-300" />
+                  <span className="font-medium text-xs">Custom</span>
+                </button>
+                {/* Pro feature tooltip */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+                  ⚡ Pro Feature
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-900"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Chart */}
-        <div className="h-96 mb-6 chart-container">
+        <div className="h-96 mb-6">
+          <style>{`
+            @keyframes harmonious-wave {
+              0%, 100% { transform: translateX(0px); }
+              25% { transform: translateX(0.5px); }
+              50% { transform: translateX(0px); }
+              75% { transform: translateX(-0.5px); }
+            }
+            
+            @keyframes fadeIn {
+              from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+              }
+              to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+              }
+            }
+            
+            @keyframes pieSliceIn {
+              from { 
+                opacity: 0; 
+                transform: scale(0.8) rotate(-10deg); 
+              }
+              to { 
+                opacity: 1; 
+                transform: scale(1) rotate(0deg); 
+              }
+            }
+            
+            .animate-fade-in {
+              animation: fadeIn 0.8s ease-out forwards;
+            }
+            
+            .pie-slice {
+              animation: pieSliceIn 1.2s ease-out forwards;
+            }
+            
+            .bar-cell:hover {
+              transform: scaleY(1.03) !important;
+              opacity: 1 !important;
+              transition: all 0.6s ease;
+            }
+            
+            .bar-cell {
+              transition: all 0.6s ease;
+              transform-origin: bottom;
+            }
+            
+            .label-float {
+              transition: all 0.6s ease;
+            }
+            
+            .bar-cell:hover + .label-float {
+              transform: translateY(-1px);
+              opacity: 1;
+            }
+          `}</style>
           {chartType === 'bar' ? (
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="transparent" opacity={0.3} />
-                <XAxis 
-                  dataKey="name" 
-                  angle={-45}
-                  textAnchor="end"
-                  height={80}
-                  interval={0}
-                  fontSize={12}
-                  stroke="#6B7280"
-                />
-                <YAxis 
-                  tickFormatter={(value) => formatCurrency(value)}
-                  fontSize={12}
-                  stroke="#6B7280"
-                />
+              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <defs>
+                  <filter id="barShadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feDropShadow dx="3" dy="6" stdDeviation="4" floodOpacity="0.3"/>
+                  </filter>
+                  <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopOpacity="1"/>
+                    <stop offset="100%" stopOpacity="0.8"/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis tickFormatter={(value) => formatCurrency(value)} />
                 <Tooltip 
-                  content={<CustomTooltip />}
-                  wrapperStyle={{ backgroundColor: 'transparent', border: 'none' }}
-                  contentStyle={{ backgroundColor: 'transparent', border: 'none' }}
+                  content={({ active, payload, label }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg p-4">
+                          <h4 className="font-bold text-gray-900 dark:text-white mb-2">{label}</h4>
+                          <p className="text-green-600 dark:text-green-400 font-semibold">
+                            Total Spending: {formatCurrency(data.value)}
+                          </p>
+                          {data.contracts && (
+                            <p className="text-blue-600 dark:text-blue-400">
+                              Contracts: {data.contracts.toLocaleString()}
+                            </p>
+                          )}
+                          {data.average && (
+                            <p className="text-purple-600 dark:text-purple-400">
+                              Avg Award: {formatCurrency(data.average)}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
                 <Bar 
                   dataKey="value" 
-                  radius={[4, 4, 0, 0]}
-                  className="hover:opacity-80 transition-opacity duration-200 bar-chart-appear"
+                  radius={[8, 8, 0, 0]}
+                  className="hover:opacity-80 transition-opacity duration-200"
+                  filter="url(#barShadow)"
+                  animationBegin={0}
+                  animationDuration={2000}
                 >
                   {chartData.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={`url(#barGradient)`} 
+                      className="bar-cell"
+                      style={{ 
+                        fill: pieColors[index % pieColors.length]
+                      }}
+                    />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
           ) : (
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={140}
-                  innerRadius={60}
-                  dataKey="value"
-                 onClick={(data) => {
-                   // Show detailed information for clicked piece
-                   try {
-                     const pieceData = data?.payload || data;
-                     if (pieceData && pieceData.name) {
-                       // Position modal in center-right of the chart area
-                       setInfoModal({
-                         visible: true,
-                         data: pieceData,
-                         position: { 
-                           x: 350, // Fixed position relative to chart
-                           y: 200 
-                         }
-                       });
-                     }
-                   } catch (error) {
-                     console.error('Error handling pie chart click:', error);
-                   }
-                 }}
-                  animationBegin={0}
-                  animationDuration={1000}
-                  className="drop-shadow-lg"
-                 style={{ cursor: 'pointer' }}
-                >
-                  {chartData.map((_, index) => (
-                    <Cell 
-                      key={`cell-${index}`} 
-                      fill={pieColors[index % pieColors.length]}
-                      stroke="#ffffff"
-                      strokeWidth={2}
-                      className="transition-all duration-300 hover:brightness-110 hover:drop-shadow-lg cursor-pointer"
-                      style={{
-                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-                      }}
-                    />
+            <div className="w-full h-full relative">
+              {/* Professional Title */}
+              <div className="absolute top-4 left-4 z-10">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white bg-white dark:bg-gray-800 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm">
+                  {selectedView === 'states-2025' && 'TOP 15 STATES (2025)'}
+                  {selectedView === 'states-2024' && 'TOP 15 STATES (2024)'}
+                  {selectedView === 'naics-top10' && 'TOP 10 NAICS CODES'}
+                  {selectedView === 'naics-top50' && 'TOP 50 NAICS CODES'}
+                </h3>
+              </div>
+
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart width={800} height={400}>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={140}
+                    innerRadius={60}
+                    fill="#8884d8"
+                    dataKey="value"
+                    animationBegin={0}
+                    animationDuration={1500}
+                    onClick={(data) => {
+                      console.log('Pie clicked:', data);
+                      if (data && data.name) {
+                        setInfoModal({
+                          visible: true,
+                          data: data,
+                          position: { x: 400, y: 200 }
+                        });
+                      }
+                    }}
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={pieColors[index % pieColors.length]}
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip content={<CustomPieTooltip />} />
+                </PieChart>
+              </ResponsiveContainer>
+              
+              {/* Dynamic Legend */}
+              <div className="absolute top-4 right-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg p-3 text-sm shadow-lg max-w-xs">
+                <div className="font-bold text-gray-800 dark:text-gray-200 mb-2">
+                  {selectedView.includes('states') ? 'Federal Spending by State' : 'Federal Spending by NAICS'}
+                </div>
+                <div className="space-y-1 max-h-40 overflow-y-auto">
+                  {chartData.slice(0, 8).map((item, index) => (
+                    <div key={item.name} className="flex items-center text-xs">
+                      <div 
+                        className="w-3 h-3 rounded-full mr-2 flex-shrink-0" 
+                        style={{ backgroundColor: pieColors[index % pieColors.length] }}
+                      ></div>
+                      <span className="text-gray-600 dark:text-gray-400 truncate">
+                        {selectedView.includes('naics') 
+                          ? `${item.name} - ${item.fullName?.substring(0, 20)}...` 
+                          : item.name
+                        }
+                      </span>
+                    </div>
                   ))}
-                  <LabelList content={<CustomLabel />} />
-                </Pie>
-                <Tooltip content={<CustomPieTooltip />} />
-              </PieChart>
-            </ResponsiveContainer>
+                  {chartData.length > 8 && (
+                    <div className="text-xs text-gray-500 dark:text-gray-500 pt-1 border-t border-gray-200 dark:border-gray-600">
+                      +{chartData.length - 8} more items
+                    </div>
+                  )}
+                </div>
+                <div className="text-gray-500 dark:text-gray-500 text-xs mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                  💡 Click slices for details
+                </div>
+              </div>
+            </div>
           )}
         </div>
+
+        {/* Chart Data Table for Bar Chart */}
+        {chartType === 'bar' && (
+          <div className="mb-6 bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+              Quick Reference: {selectedView.includes('naics') ? 'NAICS Codes' : 'States'} & Spending Values
+            </h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 text-xs">
+              {chartData.slice(0, 15).map((item, index) => (
+                <div 
+                  key={item.name} 
+                  className="flex items-center justify-between p-2 bg-white dark:bg-gray-600 rounded border-l-4"
+                  style={{ borderLeftColor: pieColors[index % pieColors.length] }}
+                >
+                  <span className="font-medium text-gray-700 dark:text-gray-200 truncate mr-2">
+                    {item.name}
+                  </span>
+                  <span className="text-gray-900 dark:text-white font-bold whitespace-nowrap">
+                    {formatCurrency(item.value)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Data Summary */}
         <div className="border-t border-gray-100 dark:border-gray-700 pt-4">
@@ -810,25 +909,182 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
               <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
                 {formatCurrency(chartData.reduce((sum, item) => sum + item.value, 0))}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total Displayed</p>
+              <p className="text-sm text-gray-700 dark:text-gray-300">Total Displayed</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                 {chartData.reduce((sum, item) => sum + (item.contracts || 0), 0).toLocaleString()}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total Contracts</p>
+              <p className="text-sm text-gray-700 dark:text-gray-300">Total Contracts</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                 {chartData.length}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 {selectedView.includes('naics') ? 'NAICS Codes' : 'States'} Shown
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* YoY Growth Chart */}
+      {showYoYChart && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-3d dark:shadow-dark-3d animate-fade-in">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                <ArrowUpRight className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Year-over-Year Growth Analysis
+              </h3>
+            </div>
+            <button
+              onClick={() => setShowYoYChart(false)}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <X className="w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+            </button>
+          </div>
+          
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={mockYoYGrowthData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+                <defs>
+                  <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#f97316" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="grayGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#6b7280" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#6b7280" stopOpacity={0.05}/>
+                  </linearGradient>
+                  <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feDropShadow dx="2" dy="4" stdDeviation="3" floodOpacity="0.3"/>
+                  </filter>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.4} />
+                <XAxis 
+                  dataKey="month" 
+                  stroke="#1f2937"
+                  fontSize={13}
+                  fontWeight="600"
+                  tick={{ fill: '#1f2937', fontWeight: 600 }}
+                />
+                <YAxis 
+                  stroke="#1f2937"
+                  fontSize={13}
+                  fontWeight="600"
+                  tick={{ fill: '#1f2937', fontWeight: 600 }}
+                  tickFormatter={(value) => `$${value}B`}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.98)', 
+                    border: '2px solid #e5e7eb',
+                    borderRadius: '12px',
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                    color: '#1f2937',
+                    fontWeight: '600'
+                  }}
+                  labelStyle={{ color: '#1f2937', fontWeight: '700', marginBottom: '8px' }}
+                  formatter={(value, name) => [
+                    <span style={{ color: name === 'current' ? '#f97316' : '#6b7280', fontWeight: '700' }}>
+                      ${value}B
+                    </span>, 
+                    name === 'current' ? '2025' : '2024'
+                  ]}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="previous" 
+                  stroke="#6b7280" 
+                  strokeWidth={3}
+                  fill="url(#grayGradient)"
+                  name="previous"
+                  filter="url(#shadow)"
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="current" 
+                  stroke="#f97316" 
+                  strokeWidth={4}
+                  fill="url(#orangeGradient)"
+                  name="current"
+                  filter="url(#shadow)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          
+          <div className="mt-4 grid grid-cols-3 gap-4 text-center border-t pt-4">
+            <div>
+              <p className="text-lg font-bold text-orange-600 dark:text-orange-400">+8.7%</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Average Growth</p>
+            </div>
+            <div>
+              <p className="text-lg font-bold text-green-600 dark:text-green-400">$184.7B</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Current Peak</p>
+            </div>
+            <div>
+              <p className="text-lg font-bold text-blue-600 dark:text-blue-400">$169.8B</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Previous Peak</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Total Spending Breakdown */}
+      {showTotalSpendingData && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-3d dark:shadow-dark-3d animate-fade-in">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                <DollarSign className="w-5 h-5 text-green-600 dark:text-green-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                2025 Federal Spending Breakdown
+              </h3>
+            </div>
+            <button
+              onClick={() => setShowTotalSpendingData(false)}
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <X className="w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            {mockTotalSpendingData.map((item, index) => (
+              <div key={item.category} className={`flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors animate-slide-in delay-${index}`}>
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-green-600 text-white rounded-lg flex items-center justify-center font-bold text-lg">
+                    {index + 1}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">{item.category}</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{item.percentage}% of total spending</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold text-green-600 dark:text-green-400">${item.amount}B</p>
+                  <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{item.change}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              <strong>Source:</strong> USASpending.gov - Federal spending data aggregated from multiple agencies and departments. 
+              Data reflects obligated amounts for fiscal year 2025 as of the latest reporting period.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* NAICS Detailed List */}
       {selectedView.includes('naics') && (
@@ -877,22 +1133,22 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
               <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Rank
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     NAICS Code
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Description
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     2025 Spending
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Contracts
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">
                     Growth
                   </th>
                 </tr>
@@ -967,7 +1223,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
                         <p className="font-mono text-purple-600 dark:text-purple-400 font-medium">
                           {naics.code}
                         </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 truncate max-w-md">
+                        <p className="text-sm text-gray-700 dark:text-gray-300 truncate max-w-md">
                           {naics.description}
                         </p>
                       </div>
@@ -976,7 +1232,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
                       <p className="font-semibold text-green-600 dark:text-green-400">
                         {formatCurrency(naics.totalSpending2025)}
                       </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
                         {naics.contractCount2025.toLocaleString()} contracts
                       </p>
                     </div>

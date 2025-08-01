@@ -17,10 +17,18 @@ import ChatBot from './ChatBot';
 
 const LearningCenter: React.FC = () => {
   const { trackExternalClick } = useClickTracking();
-  const [selectedCategory, setSelectedCategory] = useState<string>('getting-started');
+  const [selectedCategory, setSelectedCategory] = useState<string>('set-asides');
   const [showChatBot, setShowChatBot] = useState(false);
 
   const categories = [
+    {
+      id: 'set-asides',
+      name: 'Set-Aside Programs',
+      icon: Award,
+      description: 'Small business contracting opportunities & intelligence',
+      color: 'text-purple-600 dark:text-purple-400',
+      priority: true
+    },
     {
       id: 'getting-started',
       name: 'Getting Started',
@@ -41,13 +49,6 @@ const LearningCenter: React.FC = () => {
       icon: Search,
       description: 'Master the System for Award Management',
       color: 'text-green-600 dark:text-green-400'
-    },
-    {
-      id: 'set-asides',
-      name: 'Set-Aside Programs',
-      icon: Award,
-      description: 'Small business contracting opportunities',
-      color: 'text-purple-600 dark:text-purple-400'
     },
     {
       id: 'advanced',
@@ -232,6 +233,15 @@ const LearningCenter: React.FC = () => {
     ],
     'set-asides': [
       {
+        title: 'Set-Aside Intelligence Dashboard',
+        description: 'Real-time data and analytics on all set-aside programs',
+        type: 'dashboard',
+        duration: 'Interactive',
+        url: '/set-aside-dashboard',
+        featured: true,
+        internal: true
+      },
+      {
         title: 'Set-Aside Program Overview',
         description: 'Complete guide to all small business programs',
         type: 'guide',
@@ -248,28 +258,61 @@ const LearningCenter: React.FC = () => {
         featured: true
       },
       {
+        title: 'Service-Disabled Veteran-Owned Small Business (SDVOSB)',
+        description: 'Veterans business certification program',
+        type: 'guide',
+        duration: '20 min read',
+        url: 'https://www.va.gov/osdbu/verification/',
+        featured: true
+      },
+      {
         title: '8(a) Business Development Program',
-        description: 'Nine-year program for disadvantaged businesses',
+        description: 'Nine-year program for socially disadvantaged businesses',
         type: 'guide',
         duration: '25 min read',
         url: 'https://www.sba.gov/federal-contracting/contracting-assistance-programs/8a-business-development-program',
         featured: true
       },
       {
-        title: 'HubZone Certification',
-        description: 'Historically underutilized business zones',
+        title: 'HUBZone Program',
+        description: 'Historically underutilized business zone certification',
         type: 'guide',
-        duration: '20 min read',
+        duration: '18 min read',
         url: 'https://www.sba.gov/federal-contracting/contracting-assistance-programs/hubzone-program',
         featured: false
       },
       {
-        title: 'Service Disabled Veteran (SDVOSB)',
-        description: 'Service-disabled veteran-owned small business certification',
+        title: 'Small Disadvantaged Business (SDB)',
+        description: 'Certification for disadvantaged small businesses',
         type: 'guide',
-        duration: '18 min read',
-        url: 'https://www.sba.gov/federal-contracting/contracting-assistance-programs/service-disabled-veteran-owned-small-businesses-program',
-        featured: true
+        duration: '15 min read',
+        url: 'https://www.sba.gov/federal-contracting/contracting-assistance-programs/small-disadvantaged-business',
+        featured: false
+      },
+      {
+        title: 'AbilityOne Program',
+        description: 'Employment opportunities for people with disabilities',
+        type: 'guide',
+        duration: '12 min read',
+        url: 'https://www.abilityone.gov/',
+        featured: false
+      },
+      {
+        title: 'NAICS Code Strategy for Set-Asides',
+        description: 'Choosing the right codes for maximum opportunities',
+        type: 'tutorial',
+        duration: '20 min read',
+        url: 'https://www.sba.gov/size-standards',
+        featured: false
+      },
+      {
+        title: 'Set-Aside Opportunity Trends 2024',
+        description: 'Market analysis and forecasting',
+        type: 'report',
+        duration: '35 min read',
+        url: '/set-aside-trends-2024',
+        featured: false,
+        internal: true
       }
     ],
     'advanced': [
@@ -356,36 +399,78 @@ const LearningCenter: React.FC = () => {
 
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Category Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-3d dark:shadow-dark-3d">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Categories</h2>
-            <div className="space-y-2">
+        {/* Enhanced Category Sidebar */}
+        <div className="lg:col-span-1 lg:sticky lg:top-6 lg:h-fit">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-xl dark:shadow-2xl backdrop-blur-sm">
+            <div className="flex items-center mb-6">
+              <BookOpen className="w-6 h-6 text-purple-600 dark:text-purple-400 mr-3" />
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Learning Hub</h2>
+            </div>
+            
+            <div className="space-y-3">
               {categories.map((category) => {
                 const Icon = category.icon;
                 return (
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`w-full flex items-center p-3 rounded-lg transition-all duration-200 text-left group ${
+                    className={`w-full flex items-center p-4 rounded-xl transition-all duration-300 text-left group shadow-md hover:shadow-lg transform hover:scale-105 ${
                       selectedCategory === category.id
-                        ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400 shadow-3d dark:shadow-dark-3d'
-                        : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
+                        ? 'bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100 dark:from-purple-900/40 dark:via-blue-900/30 dark:to-indigo-900/40 text-purple-800 dark:text-purple-300 border-2 border-purple-300 dark:border-purple-600 shadow-lg shadow-purple-200 dark:shadow-purple-900/30'
+                        : 'bg-gray-50 dark:bg-gray-700/50 hover:bg-gradient-to-br hover:from-gray-100 hover:to-purple-50 dark:hover:from-gray-600 dark:hover:to-purple-900/20 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-600'
                     }`}
                   >
-                    <Icon className={`w-5 h-5 mr-3 ${category.color}`} />
-                    <div className="flex-1">
-                      <h3 className="font-medium">{category.name}</h3>
-                      <p className="text-xs opacity-75">{category.description}</p>
+                    <div className={`p-2 rounded-lg mr-4 transition-all duration-300 ${
+                      selectedCategory === category.id
+                        ? 'bg-white dark:bg-purple-800/30 shadow-md'
+                        : 'bg-white dark:bg-gray-600 group-hover:bg-purple-50 dark:group-hover:bg-purple-800/20'
+                    }`}>
+                      <Icon className={`w-5 h-5 ${category.color} ${
+                        selectedCategory === category.id ? 'animate-pulse' : ''
+                      }`} />
                     </div>
-                    <ChevronRight className={`w-4 h-4 transition-all duration-300 ${
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`font-semibold text-sm mb-1 ${
+                        selectedCategory === category.id ? 'text-purple-800 dark:text-purple-300' : ''
+                      }`}>
+                        {category.name}
+                      </h3>
+                      <p className="text-xs opacity-75 line-clamp-2">{category.description}</p>
+                      {category.priority && (
+                        <span className="inline-block mt-1 px-2 py-0.5 bg-purple-200 dark:bg-purple-800 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">
+                          Priority
+                        </span>
+                      )}
+                    </div>
+                    <ChevronRight className={`w-5 h-5 flex-shrink-0 transition-all duration-300 ${
                       selectedCategory === category.id 
-                        ? 'text-purple-600 dark:text-purple-400 transform rotate-45 scale-110' 
-                        : 'text-gray-400 group-hover:text-orange-500 group-hover:transform group-hover:rotate-45 group-hover:scale-110'
+                        ? 'text-purple-600 dark:text-purple-400 transform rotate-90 scale-110' 
+                        : 'text-gray-400 group-hover:text-purple-500 group-hover:transform group-hover:translate-x-1'
                     }`} />
                   </button>
                 );
               })}
+            </div>
+
+            {/* Quick Access Actions */}
+            <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                <MessageCircle className="w-4 h-4 text-blue-500 mr-2" />
+                Quick Actions
+              </h3>
+              <div className="space-y-2">
+                <button
+                  onClick={() => setShowChatBot(true)}
+                  className="w-full flex items-center p-3 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30 text-blue-700 dark:text-blue-300 transition-all duration-200 group shadow-sm hover:shadow-md"
+                >
+                  <MessageCircle className="w-4 h-4 mr-3 group-hover:animate-bounce" />
+                  <span className="text-sm font-medium">Ask AI Assistant</span>
+                </button>
+                <button className="w-full flex items-center p-3 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900/30 dark:hover:to-emerald-900/30 text-green-700 dark:text-green-300 transition-all duration-200 group shadow-sm hover:shadow-md">
+                  <Search className="w-4 h-4 mr-3 group-hover:animate-pulse" />
+                  <span className="text-sm font-medium">Browse All Resources</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -415,7 +500,7 @@ const LearningCenter: React.FC = () => {
                   {/* TikTok Section */}
                   <div className="mb-8">
                     <div className="flex items-center mb-4">
-                      <svg className="w-6 h-6 mr-3 text-pink-500 drop-shadow-lg filter" viewBox="0 0 24 24" fill="currentColor" style={{filter: 'drop-shadow(0 0 8px rgba(236, 72, 153, 0.4))'}}>
+                      <svg className="w-6 h-6 mr-3 text-pink-500 drop-shadow-lg filter tiktok-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
                       </svg>
                       <h4 className="text-md font-semibold text-gray-900 dark:text-white">TikTok - Quick Tips</h4>

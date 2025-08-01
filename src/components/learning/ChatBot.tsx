@@ -410,30 +410,29 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] border border-gray-700/50 w-full max-w-4xl h-[85vh] flex flex-col backdrop-blur-xl">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50">
+      <div className="bg-gradient-to-br from-slate-950/95 to-gray-950/95 border border-slate-700/60 rounded-2xl shadow-[0_32px_80px_rgba(0,0,0,0.8)] w-full max-w-2xl h-[600px] flex flex-col backdrop-blur-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-700/50 bg-gradient-to-r from-gray-800/80 to-gray-900/80 rounded-t-2xl">
-          <div className="flex items-center space-x-4">
-            <div className="relative p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-[0_8px_32px_rgba(59,130,246,0.3)] hover:shadow-[0_8px_32px_rgba(147,51,234,0.4)] transition-all duration-300">
-              <Bot className="w-7 h-7 text-white drop-shadow-lg" />
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-500/20 rounded-xl"></div>
+        <div className="flex items-center justify-between p-6 border-b border-slate-700/60 bg-gradient-to-r from-slate-900/80 to-gray-900/80 rounded-t-2xl">
+          <div className="flex items-center space-x-3">
+            <div className="p-3 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-[0_12px_40px_rgba(6,182,212,0.4)]">
+              <Bot className="w-6 h-6 text-white drop-shadow-lg" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white drop-shadow-sm">AI Federal Contracting Assistant</h2>
-              <p className="text-sm text-gray-300">Powered by OpenAI - Ask me anything about government contracting</p>
+              <h2 className="text-xl font-bold text-white drop-shadow-sm font-mono tracking-wide">AI Assistant</h2>
+              <p className="text-xs text-slate-300 font-mono tracking-wider">FEDERAL CONTRACTING INTEL</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2.5 text-gray-400 hover:text-white rounded-xl hover:bg-gray-700/50 transition-all duration-200 shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+            className="p-2 text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-200 shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
           >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-gray-850 to-gray-900">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-slate-950/60 to-gray-950/80">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -443,7 +442,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
                 <div className={`p-2.5 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] ${
                   message.type === 'user' 
                     ? 'bg-gradient-to-br from-emerald-500 to-teal-600' 
-                    : 'bg-gradient-to-br from-blue-500 to-purple-600'
+                    : 'bg-gradient-to-br from-cyan-500 to-blue-600'
                 }`}>
                   {message.type === 'user' ? (
                     <User className="w-5 h-5 text-white drop-shadow-lg" />
@@ -452,12 +451,12 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-xl pointer-events-none"></div>
                 </div>
-                <div className={`p-4 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] border backdrop-blur-sm ${
+                <div className={`p-4 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] border backdrop-blur-sm ${
                   message.type === 'user'
-                    ? 'bg-gradient-to-br from-emerald-600 to-teal-700 text-white border-emerald-500/30'
-                    : 'bg-gradient-to-br from-gray-800 to-gray-900 text-gray-100 border-gray-600/40'
+                    ? 'bg-gradient-to-br from-emerald-600/90 to-teal-700/90 text-white border-emerald-500/40'
+                    : 'bg-gradient-to-br from-slate-900/95 to-gray-950/95 text-slate-100 border-slate-600/50'
                 }`}>
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</div>
+                  <div className="whitespace-pre-wrap text-sm leading-relaxed font-mono tracking-wide">{message.content}</div>
                   {message.links && (
                     <div className="mt-4 space-y-2">
                       {message.links.map((link, index) => (
@@ -466,18 +465,18 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center p-3 bg-gray-700/50 border border-gray-600/40 rounded-lg hover:bg-gray-600/60 transition-all duration-200 text-sm shadow-[0_4px_16px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_24px_rgba(59,130,246,0.2)]"
+                          className="flex items-center p-3 bg-slate-800/60 border border-slate-600/50 rounded-lg hover:bg-slate-700/70 transition-all duration-200 text-sm shadow-[0_4px_16px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_24px_rgba(6,182,212,0.3)]"
                         >
-                          <ExternalLink className="w-4 h-4 mr-3 text-blue-400 drop-shadow-sm" />
+                          <ExternalLink className="w-4 h-4 mr-3 text-cyan-400 drop-shadow-sm" />
                           <div>
-                            <div className="font-medium text-gray-100 drop-shadow-sm">{link.title}</div>
-                            <div className="text-gray-400 text-xs">{link.description}</div>
+                            <div className="font-medium text-slate-100 drop-shadow-sm font-mono">{link.title}</div>
+                            <div className="text-slate-400 text-xs font-mono">{link.description}</div>
                           </div>
                         </a>
                       ))}
                     </div>
                   )}
-                  <div className="text-xs opacity-60 mt-3 text-gray-300">
+                  <div className="text-xs opacity-60 mt-3 text-slate-300 font-mono">
                     {message.timestamp.toLocaleTimeString()}
                   </div>
                   {/* Subtle glow effect */}
@@ -490,13 +489,13 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
           {isLoading && (
             <div className="flex justify-start">
               <div className="flex gap-3">
-                <div className="p-2.5 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+                <div className="p-2.5 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl shadow-[0_8px_32px_rgba(6,182,212,0.4)]">
                   <Bot className="w-5 h-5 text-white drop-shadow-lg" />
                 </div>
-                <div className="p-4 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-600/40 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-sm">
+                <div className="p-4 bg-gradient-to-br from-slate-900/95 to-gray-950/95 border border-slate-600/50 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-sm">
                   <div className="flex items-center space-x-3">
-                    <Loader2 className="w-5 h-5 animate-spin text-blue-400 drop-shadow-sm" />
-                    <span className="text-sm text-gray-300">Thinking...</span>
+                    <Loader2 className="w-5 h-5 animate-spin text-cyan-400 drop-shadow-sm" />
+                    <span className="text-sm text-slate-300 font-mono">PROCESSING...</span>
                   </div>
                 </div>
               </div>
@@ -525,21 +524,21 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
         )}
 
         {/* Input */}
-        <div className="p-6 border-t border-gray-700/50 bg-gradient-to-r from-gray-800/80 to-gray-900/80 rounded-b-2xl">
+        <div className="p-6 border-t border-slate-700/60 bg-gradient-to-r from-slate-900/90 to-gray-950/90 rounded-b-2xl">
           <div className="flex space-x-4">
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask me about federal contracting..."
-              className="flex-1 p-4 border border-gray-600/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 resize-none bg-gradient-to-br from-gray-800 to-gray-900 text-gray-100 placeholder-gray-400 shadow-[inset_0_4px_12px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-all duration-200"
+              placeholder="ENTER QUERY: Federal contracting intel..."
+              className="flex-1 p-4 border border-slate-600/50 rounded-xl focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 resize-none bg-gradient-to-br from-slate-900/95 to-gray-950/95 text-slate-100 placeholder-slate-400 shadow-[inset_0_4px_12px_rgba(0,0,0,0.5)] backdrop-blur-sm transition-all duration-200 font-mono text-sm"
               rows={2}
               disabled={isLoading}
             />
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className="px-6 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-[0_8px_32px_rgba(59,130,246,0.3)] hover:shadow-[0_12px_40px_rgba(147,51,234,0.4)] backdrop-blur-sm border border-blue-400/20"
+              className="px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-xl hover:from-cyan-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-[0_8px_32px_rgba(6,182,212,0.4)] hover:shadow-[0_12px_40px_rgba(6,182,212,0.6)] backdrop-blur-sm border border-cyan-400/30"
             >
               <Send className="w-5 h-5 drop-shadow-sm" />
             </button>

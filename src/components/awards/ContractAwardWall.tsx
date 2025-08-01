@@ -173,13 +173,12 @@ const ContractAwardWall: React.FC = () => {
       {/* Results */}
       <div className="p-6">
         {error && (
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-6">
-            <div className="flex items-center">
-              <Flag className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2" />
-              <div>
-                <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-400">Using Sample Data</h3>
-                <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">{error}</p>
-              </div>
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-4 py-2 mb-6">
+            <div className="flex items-center justify-center">
+              <Flag className="w-4 h-4 text-yellow-600 dark:text-yellow-400 mr-2 flex-shrink-0" />
+              <span className="text-xs font-medium text-yellow-800 dark:text-yellow-400 whitespace-nowrap">
+                Using Sample Data - {error}
+              </span>
             </div>
           </div>
         )}

@@ -294,7 +294,7 @@ const ContractAwardWall: React.FC<ContractAwardWallProps> = () => {
                       </span>
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                      Avg Value: <span className="font-bold text-purple-600 dark:text-purple-400">
+                      Avg Value: <span className="font-bold text-green-600 dark:text-green-400">
                         {filteredContracts.length > 0 ? formatCurrency(filteredContracts.reduce((sum, contract) => sum + contract.amount, 0) / filteredContracts.length) : '$0'}
                       </span>
                     </div>
@@ -537,9 +537,9 @@ const ContractAwardWall: React.FC<ContractAwardWallProps> = () => {
                   </span>
                 )}
                 {selectedLocation !== 'all' && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-sm">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm">
                     Location: {selectedLocation}
-                    <button onClick={() => setSelectedLocation('all')} className="hover:text-purple-600">
+                    <button onClick={() => setSelectedLocation('all')} className="hover:text-blue-600">
                       <X className="w-3 h-3" />
                     </button>
                   </span>
@@ -583,7 +583,7 @@ const ContractAwardWall: React.FC<ContractAwardWallProps> = () => {
               return (
                 <div
                   key={contract.id}
-                  className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl border border-white/30 dark:border-slate-700/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 p-8 relative overflow-hidden"
+                  className="group card-3d bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl border border-white/30 dark:border-slate-700/30 p-8 relative overflow-hidden"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {/* Background Gradient */}
@@ -610,7 +610,7 @@ const ContractAwardWall: React.FC<ContractAwardWallProps> = () => {
                               <span>{contract.location}</span>
                             </div>
                             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                              <Calendar className="w-4 h-4 text-purple-500" />
+                              <Calendar className="w-4 h-4 text-blue-500" />
                               <span>{formatDate(contract.awardDate)}</span>
                             </div>
                           </div>
@@ -648,7 +648,7 @@ const ContractAwardWall: React.FC<ContractAwardWallProps> = () => {
                       {/* NAICS Code Button */}
                       <button
                         onClick={() => handleNAICSClick(contract.naicsCode)}
-                        className="group/naics flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-all duration-200 border border-blue-200 dark:border-blue-800"
+                        className="group/naics naics-code-hover flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-200"
                       >
                         <Tag className="w-4 h-4" />
                         <span className="font-medium">NAICS {contract.naicsCode}</span>
@@ -658,7 +658,7 @@ const ContractAwardWall: React.FC<ContractAwardWallProps> = () => {
                       {/* Set-aside Type Button */}
                       <button
                         onClick={() => handleSetAsideClick(contract.setAside)}
-                        className={`group/setaside flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${setAsideColor} bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 hover:bg-gradient-to-r hover:from-purple-100 hover:to-green-100 dark:hover:from-purple-900/50 dark:hover:to-green-900/50`}
+                        className={`group/setaside flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 ${setAsideColor} bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 hover:bg-gradient-to-r hover:from-orange-100 hover:to-blue-100 dark:hover:from-orange-900/30 dark:hover:to-blue-900/50 hover:border-orange-warm`}
                       >
                         <SetAsideIcon className="w-4 h-4" />
                         <span className="font-medium">{contract.setAside}</span>
@@ -675,7 +675,7 @@ const ContractAwardWall: React.FC<ContractAwardWallProps> = () => {
                       <button className="p-2 text-gray-400 hover:text-blue-500 transition-colors duration-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg">
                         <ExternalLink className="w-4 h-4" />
                       </button>
-                      <button className="p-2 text-gray-400 hover:text-purple-500 transition-colors duration-200 hover:bg-purple-50 dark:hover:bg-purple-900/30 rounded-lg">
+                      <button className="p-2 text-gray-400 hover:text-blue-500 transition-colors duration-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg">
                         <InfoIcon className="w-4 h-4" />
                       </button>
                     </div>
