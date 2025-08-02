@@ -15,7 +15,6 @@ import {
   Building2,
   MapPin,
   X,
-  Users,
   Crown,
   ChevronUp,
   Sparkles,
@@ -26,7 +25,9 @@ import {
   Cpu,
   Heart,
   Truck,
-  ArrowUpRight
+  ArrowUpRight,
+  Medal,
+  Award
 } from 'lucide-react';
 
 interface SpendingAnalysisProps {
@@ -233,8 +234,8 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
       title: 'Service-Disabled Veteran-Owned Small Business',
       fullName: 'Service-Disabled Veteran-Owned Small Business Program',
       description: 'Program providing contracting opportunities for small businesses owned by veterans with service-connected disabilities.',
-      icon: Users,
-      color: 'bg-blue-500',
+      icon: Medal,
+      color: 'bg-cyan-400',
       requirements: [
         'Owned by veterans with service-connected disabilities',
         'Veteran must control day-to-day operations',
@@ -1776,17 +1777,66 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
             onClick={() => setSetAsideModal({ visible: false, data: null })}
           />
           
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto animate-fade-in-scale">
-              <div className="p-6">
+          <div className="fixed inset-0 flex items-center justify-center z-50 p-4 overflow-y-auto">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-2xl max-w-4xl w-full my-8 animate-fade-in-scale">
+              <div className="p-6 max-h-[85vh] overflow-y-auto">
+                <style>{`
+                  @keyframes sparkle-rotate {
+                    0% { transform: rotate(0deg) scale(1); }
+                    50% { transform: rotate(180deg) scale(1.1); }
+                    100% { transform: rotate(360deg) scale(1); }
+                  }
+                  
+                  @keyframes shield-rotate {
+                    0% { transform: rotateY(0deg) scale(1); }
+                    100% { transform: rotateY(360deg) scale(1.05); }
+                  }
+                  
+                  @keyframes pulse-glow {
+                    0%, 100% { 
+                      transform: scale(1); 
+                      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+                    }
+                    50% { 
+                      transform: scale(1.05); 
+                      box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+                    }
+                  }
+                  
+                  @keyframes bounce-subtle {
+                    0%, 100% { transform: translateY(0px); }
+                    50% { transform: translateY(-3px); }
+                  }
+                  
+                  .sparkle-hover:hover .star-icon {
+                    animation: sparkle-rotate 0.8s ease-in-out;
+                    color: #facc15 !important;
+                  }
+                  
+                  .shield-hover:hover .shield-icon {
+                    animation: shield-rotate 0.6s ease-in-out;
+                  }
+                  
+                  .stats-hover:hover {
+                    animation: pulse-glow 1.2s ease-in-out;
+                  }
+                  
+                  .bounce-hover:hover {
+                    animation: bounce-subtle 0.6s ease-in-out;
+                  }
+                `}</style>
+                
                 {/* Header */}
                 <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-4">
                     {setAsideModal.data?.icon && (
-                      <div className={`p-3 ${setAsideModal.data.color} bg-opacity-20 rounded-lg`}>
+                      <div className={`p-4 ${setAsideModal.data.color} bg-opacity-20 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105`}>
                         {React.createElement(setAsideModal.data.icon, { 
-                          className: "w-8 h-8", 
-                          style: { color: setAsideModal.data.color?.replace('bg-', '').replace('-500', '') } 
+                          className: "w-10 h-10 transition-all duration-300", 
+                          style: { 
+                            color: setAsideModal.data.color?.includes('cyan') ? '#06b6d4' : 
+                                   setAsideModal.data.color?.replace('bg-', '').replace('-500', '') 
+                          } 
                         })}
                       </div>
                     )}
@@ -1802,67 +1852,68 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
                   <button
                     onClick={() => setSetAsideModal({ visible: false, data: null })}
                     className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    title="Close modal"
                   >
                     <X className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
                   </button>
                 </div>
 
                 {/* Description */}
-                <div className="mb-6">
+                <div className="mb-8">
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
                     {setAsideModal.data?.description}
                   </p>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center">
-                    <h5 className="font-semibold text-green-800 dark:text-green-300 mb-1">Total Value</h5>
-                    <p className="text-xl font-bold text-green-600 dark:text-green-400">
+                {/* Enhanced Stats Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div className="stats-hover bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 p-6 rounded-xl text-center border border-green-200 dark:border-green-700 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <h5 className="font-semibold text-green-800 dark:text-green-300 mb-2 text-sm uppercase tracking-wider">Total Value</h5>
+                    <p className="text-2xl font-bold text-green-600 dark:text-green-400 bounce-hover">
                       {setAsideModal.data?.totalValue}
                     </p>
                   </div>
-                  <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg text-center">
-                    <h5 className="font-semibold text-blue-800 dark:text-blue-300 mb-1">Growth Rate</h5>
-                    <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                  <div className="stats-hover bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/30 p-6 rounded-xl text-center border border-blue-200 dark:border-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <h5 className="font-semibold text-blue-800 dark:text-blue-300 mb-2 text-sm uppercase tracking-wider">Growth Rate</h5>
+                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 bounce-hover">
                       {setAsideModal.data?.growthRate}
                     </p>
                   </div>
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg text-center">
-                    <h5 className="font-semibold text-purple-800 dark:text-purple-300 mb-1">Contracts</h5>
-                    <p className="text-xl font-bold text-purple-600 dark:text-purple-400">
+                  <div className="stats-hover bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30 p-6 rounded-xl text-center border border-purple-200 dark:border-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <h5 className="font-semibold text-purple-800 dark:text-purple-300 mb-2 text-sm uppercase tracking-wider">Contracts</h5>
+                    <p className="text-2xl font-bold text-purple-600 dark:text-purple-400 bounce-hover">
                       {setAsideModal.data?.contractCount}
                     </p>
                   </div>
                 </div>
 
                 {/* Requirements and Benefits */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                      <Shield className="w-5 h-5 mr-2 text-red-500" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                  <div className="shield-hover">
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                      <Shield className="shield-icon w-6 h-6 mr-3 text-yellow-500 transition-all duration-300" />
                       Eligibility Requirements
                     </h4>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {setAsideModal.data?.requirements?.map((req: string, index: number) => (
-                        <div key={index} className="flex items-start space-x-2 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                          <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span className="text-sm text-gray-700 dark:text-gray-300">{req}</span>
+                        <div key={index} className="flex items-start space-x-3 p-4 bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
+                          <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full mt-2.5 flex-shrink-0 shadow-sm"></div>
+                          <span className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{req}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div>
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                      <Star className="w-5 h-5 mr-2 text-green-500" />
+                  <div className="sparkle-hover">
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                      <Star className="star-icon w-6 h-6 mr-3 text-green-500 transition-all duration-300" />
                       Program Benefits
                     </h4>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {setAsideModal.data?.benefits?.map((benefit: string, index: number) => (
-                        <div key={index} className="flex items-start space-x-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                          <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                          <span className="text-sm text-gray-700 dark:text-gray-300">{benefit}</span>
+                        <div key={index} className="flex items-start space-x-3 p-4 bg-gradient-to-r from-yellow-50 to-lime-50 dark:from-yellow-900/20 dark:to-lime-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
+                          <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full mt-2.5 flex-shrink-0 shadow-sm"></div>
+                          <span className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{benefit}</span>
                         </div>
                       ))}
                     </div>
@@ -1871,14 +1922,14 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
 
                 {/* Key Industries */}
                 {setAsideModal.data?.industries && (
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-                      <Building2 className="w-5 h-5 mr-2 text-blue-500" />
+                  <div className="mb-8">
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                      <Building2 className="w-6 h-6 mr-3 text-blue-500 hover:text-blue-600 transition-colors duration-300" />
                       Key Industries
                     </h4>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {setAsideModal.data.industries.map((industry: string, index: number) => (
-                        <div key={index} className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-center">
+                        <div key={index} className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl text-center border border-blue-200 dark:border-blue-700 shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                           <span className="text-sm font-medium text-blue-700 dark:text-blue-300">{industry}</span>
                         </div>
                       ))}
@@ -1886,27 +1937,37 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
                   </div>
                 )}
 
-                {/* Call to Action */}
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 p-6 rounded-lg border border-purple-200 dark:border-purple-700">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <Sparkles className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                    <h4 className="text-lg font-semibold text-purple-800 dark:text-purple-300">Ready to Get Started?</h4>
+                {/* Enhanced Call to Action */}
+                <div className="bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 dark:from-purple-900/20 dark:via-indigo-900/20 dark:to-blue-900/20 p-8 rounded-xl border border-purple-200 dark:border-purple-700 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-full">
+                      <Sparkles className="w-8 h-8 text-purple-600 dark:text-purple-400 hover:rotate-12 transition-transform duration-300" />
+                    </div>
+                    <h4 className="text-xl font-semibold text-purple-800 dark:text-purple-300">Ready to Get Started?</h4>
                   </div>
-                  <p className="text-purple-700 dark:text-purple-300 mb-4">
-                    Learn more about {setAsideModal.data?.title} certification and start accessing federal contracting opportunities.
+                  <p className="text-purple-700 dark:text-purple-300 mb-6 text-lg leading-relaxed">
+                    Learn more about {setAsideModal.data?.title} certification and start accessing federal contracting opportunities today.
                   </p>
-                  <div className="flex space-x-3">
+                  <div className="flex flex-col sm:flex-row gap-4">
                     <button
                       onClick={() => window.open('https://www.sba.gov', '_blank')}
-                      className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium"
+                      className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                      title="Visit SBA for certification"
                     >
-                      SBA Certification
+                      <div className="flex items-center justify-center space-x-2">
+                        <Award className="w-4 h-4" />
+                        <span>SBA Certification</span>
+                      </div>
                     </button>
                     <button
                       onClick={() => window.open('https://sam.gov', '_blank')}
-                      className="px-4 py-2 border border-purple-600 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors duration-200 text-sm font-medium"
+                      className="flex-1 px-6 py-3 border-2 border-purple-600 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-xl transition-all duration-300 text-sm font-medium shadow-md hover:shadow-lg transform hover:scale-[1.02]"
+                      title="Find opportunities on SAM.gov"
                     >
-                      Find Opportunities
+                      <div className="flex items-center justify-center space-x-2">
+                        <Star className="w-4 h-4" />
+                        <span>Find Opportunities</span>
+                      </div>
                     </button>
                   </div>
                 </div>
