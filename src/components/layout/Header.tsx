@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useClickTracking } from '../../hooks/useClickTracking';
-import { Menu, X, User, Bell, Sun, Moon, Telescope } from 'lucide-react';
+import { Menu, X, Bell, Sun, Moon, Telescope, Mailbox } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import ContactModal from '../common/ContactModal';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const { trackSearchClick } = useClickTracking();
   const location = useLocation();
   const { isDarkMode, toggleTheme } = useTheme();
@@ -54,7 +56,6 @@ const Header: React.FC = () => {
                 textDecoration: 'none !important'
               }}
               onFocus={(e) => e.target.style.outline = 'none'}
-              onMouseEnter={(e) => e.target.style.outline = 'none'}
             >
               <div className="relative w-10 h-10 flex items-center justify-center transform group-hover:scale-105 transition-all duration-300">
                 {/* Minimal, tight background */}
@@ -263,13 +264,14 @@ const Header: React.FC = () => {
                 title="Notifications"
                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover transition-all duration-300"
               >
-                <Bell className="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 icon-hover transition-all duration-300" />
+                <Bell className="w-5 h-5 text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 icon-hover transition-all duration-300" />
               </button>
               <button 
-                title="User Profile"
+                onClick={() => setIsContactModalOpen(true)}
+                title="Contact Us"
                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 figma-button shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover transition-all duration-300"
               >
-                <User className="w-5 h-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 icon-hover transition-all duration-300" />
+                <Mailbox className="w-5 h-5 text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 icon-hover transition-all duration-300" />
               </button>
             </div>
 
@@ -363,6 +365,12 @@ const Header: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
     </header>
   );
 };

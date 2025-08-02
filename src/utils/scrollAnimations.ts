@@ -25,6 +25,8 @@ export const initializeScrollAnimations = () => {
     '.tool-card',
     '.contract-card',
     '.stats-card',
+    '[class*="tool-card-"]',
+    '[class*="contract-card-"]',
   ];
 
   selectors.forEach(selector => {

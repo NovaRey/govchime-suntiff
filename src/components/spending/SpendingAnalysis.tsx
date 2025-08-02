@@ -510,9 +510,9 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
         <div className="relative group">
           <button 
             onClick={handleExportPDF}
-            className="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-3d dark:shadow-dark-3d hover:shadow-orange-glow group"
+            className="flex items-center px-4 py-2.5 bg-gradient-to-r from-slate-50/80 to-slate-100/80 dark:from-slate-800/80 dark:to-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 text-white dark:text-white rounded-xl hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(255,165,0,0.3)] backdrop-blur-sm group font-medium"
           >
-            <Crown className="w-4 h-4 mr-2 group-hover:text-yellow-300 transition-colors duration-300" />
+            <Crown className="w-4 h-4 mr-2 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300 drop-shadow-sm" />
             Export Pro Report
           </button>
           {/* Pro feature tooltip */}
@@ -655,10 +655,10 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
               <div className="relative group">
                 <button
                   onClick={handleCustomReport}
-                  className="flex items-center px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm hover:shadow-purple-glow text-sm figma-button group"
+                  className="flex items-center px-3 py-2 bg-gradient-to-r from-slate-50/80 to-slate-100/80 dark:from-slate-800/80 dark:to-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 text-white dark:text-white rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(147,51,234,0.3)] backdrop-blur-sm group text-sm font-medium"
                   title="Generate Customized Report"
                 >
-                  <Crown className="w-3.5 h-3.5 mr-1.5 group-hover:text-yellow-300 transition-colors duration-300" />
+                  <Crown className="w-3.5 h-3.5 mr-1.5 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300 drop-shadow-sm" />
                   <span className="font-medium text-xs">Custom</span>
                 </button>
                 {/* Pro feature tooltip */}
@@ -1627,7 +1627,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
                       setShowCustomReportModal(false);
                       generateCustomReport('Selected Area', 'General Analysis');
                     }}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg transition-all duration-300 shadow-purple-glow"
+                    className="flex-1 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl transition-all duration-300 shadow-[0_8px_32px_rgba(147,51,234,0.3)] hover:shadow-[0_12px_40px_rgba(147,51,234,0.5)] font-medium backdrop-blur-sm"
                   >
                     Generate Report
                   </button>

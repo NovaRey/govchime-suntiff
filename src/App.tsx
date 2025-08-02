@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import Dashboard from './components/dashboard/Dashboard';
 import SpendingAnalysis from './components/spending/SpendingAnalysis';
 import TestComponent from './TestComponent';
@@ -14,9 +15,9 @@ import { mockSpendingData, mockSetAsideData } from './data/mockData';
 // Create a component that includes the routes and will be wrapped by PasswordProtection
 const AppRoutes = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 flex flex-col">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <Routes>
           <Route 
             path="/" 
@@ -48,6 +49,7 @@ const AppRoutes = () => {
           />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 };

@@ -102,7 +102,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-16 responsive-container">
+    <div className="space-y-8 responsive-container">{/* Reduced spacing for better layout */}
       {/* Error Banner - Compact */}
       {error && (
         <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-4 py-2 scroll-animate">
@@ -117,9 +117,15 @@ const Dashboard: React.FC = () => {
 
       {/* Hero Section - Enhanced with scroll animations */}
       <div className="text-center max-w-6xl mx-auto scroll-animate">
-        {/* Main Headline Box - Static container */}
+        {/* Main Headline Box - Enhanced with grid background */}
         <div className="relative mb-8">
-          <div className="bg-white/70 dark:bg-gray-800/80 backdrop-blur-lg border border-gray-300/40 dark:border-gray-600/40 rounded-3xl shadow-2xl overflow-hidden static-container">
+          <div className="relative bg-white/70 dark:bg-gray-800/80 backdrop-blur-lg border border-gray-300/40 dark:border-gray-600/40 rounded-3xl shadow-2xl overflow-hidden static-container">
+            {/* Grid background pattern */}
+            <div className="absolute inset-0 opacity-20 dark:opacity-15">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-purple-50/30 to-indigo-50/40 dark:from-blue-900/20 dark:via-purple-900/15 dark:to-indigo-900/20"></div>
+              <div className="absolute inset-0 grid-pattern"></div>
+            </div>
+            
             {/* Subtle background pattern - darker with gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100/40 via-blue-50/30 to-purple-50/25 dark:from-gray-900/30 dark:via-blue-900/20 dark:to-purple-900/15"></div>
             
@@ -271,9 +277,14 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Description Box */}
+        {/* Description Box - Enhanced with grid background */}
         <div className="mb-12">
-          <div className="bg-white/60 dark:bg-gray-800/75 backdrop-blur-md border border-gray-300/35 dark:border-gray-600/35 rounded-lg shadow-lg">
+          <div className="relative bg-white/60 dark:bg-gray-800/75 backdrop-blur-md border border-gray-300/35 dark:border-gray-600/35 rounded-lg shadow-lg overflow-hidden">
+            {/* Grid background pattern */}
+            <div className="absolute inset-0 opacity-30 dark:opacity-20">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-purple-50/30 to-indigo-50/40 dark:from-blue-900/20 dark:via-purple-900/15 dark:to-indigo-900/20"></div>
+              <div className="absolute inset-0 grid-pattern"></div>
+            </div>
             {/* Subtle gradient background */}
             <div className="absolute inset-0 bg-gradient-to-r from-gray-50/20 via-blue-50/15 to-gray-50/20 dark:from-gray-900/20 dark:via-blue-900/15 dark:to-gray-900/20 rounded-lg"></div>
             <div className="relative px-6 py-8">
@@ -334,12 +345,11 @@ const Dashboard: React.FC = () => {
               return (
                 <div
                   key={tool.title}
-                  className={`group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 dark:border-gray-700/60 p-4 sm:p-6 transition-all duration-500 card-hover scroll-animate ${
+                  className={`group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 dark:border-gray-700/60 p-4 sm:p-6 transition-all duration-500 card-hover scroll-animate tool-card-${index} ${
                     isActive 
                       ? 'hover:border-emerald-300 dark:hover:border-emerald-600 cursor-pointer shadow-lg hover:shadow-2xl' 
                       : 'opacity-75 cursor-not-allowed shadow-md'
                   }`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   {/* Enhanced glow effect */}
                   {isActive && (
@@ -430,8 +440,7 @@ const Dashboard: React.FC = () => {
               {contracts.slice(0, 3).map((contract, index) => (
                 <div 
                   key={contract.id} 
-                  className="flex items-center justify-between p-4 bg-gray-50/80 dark:bg-gray-700/80 backdrop-blur-sm rounded-2xl hover:bg-gray-100/80 dark:hover:bg-gray-600/80 transition-all duration-500 card-hover shadow-md hover:shadow-xl scroll-animate-right border border-gray-200/50 dark:border-gray-600/50"
-                  style={{ animationDelay: `${index * 0.15}s` }}
+                  className={`flex items-center justify-between p-4 bg-gray-50/80 dark:bg-gray-700/80 backdrop-blur-sm rounded-2xl hover:bg-gray-100/80 dark:hover:bg-gray-600/80 transition-all duration-500 card-hover shadow-md hover:shadow-xl scroll-animate-right border border-gray-200/50 dark:border-gray-600/50 contract-card-${index}`}
                 >
                   <div className="flex-1">
                     <h3 className="font-medium text-gray-900 dark:text-white mb-1">

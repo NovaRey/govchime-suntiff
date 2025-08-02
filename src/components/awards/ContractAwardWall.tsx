@@ -103,10 +103,10 @@ const ContractAwardWall: React.FC = () => {
             <button
               type="button"
               onClick={handleCustomReport}
-              className="flex items-center justify-center px-4 py-3 bg-gray-800 dark:bg-gray-900 hover:bg-orange-600 hover:shadow-orange-glow dark:hover:bg-orange-600 text-white rounded-lg transition-all duration-300 shadow-soft hover:shadow-elevated transform hover:scale-[1.02]"
+              className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-slate-50/80 to-slate-100/80 dark:from-slate-800/80 dark:to-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 text-white dark:text-white rounded-xl hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(255,165,0,0.3)] backdrop-blur-sm transform hover:scale-[1.02] font-medium group"
               title="Generate Custom Contract Report - Pro Feature"
             >
-              <FileText className="w-5 h-5 mr-2" />
+              <FileText className="w-5 h-5 mr-2 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300 drop-shadow-sm" />
               <span className="text-sm font-medium text-center">Custom Report</span>
             </button>
           </form>
