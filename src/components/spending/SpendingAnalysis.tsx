@@ -652,22 +652,46 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
                 </button>
               </div>
 
-              {/* Custom Report Button */}
-              <div className="relative group">
-                <button
-                  onClick={handleCustomReport}
-                  className="flex items-center px-3 py-2 bg-gradient-to-r from-slate-50/80 to-slate-100/80 dark:from-slate-800/80 dark:to-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 text-white dark:text-white rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(147,51,234,0.3)] backdrop-blur-sm group text-sm font-medium"
-                  title="Generate Customized Report"
-                >
-                  <Crown className="w-3.5 h-3.5 mr-1.5 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300 drop-shadow-sm" />
-                  <span className="font-medium text-xs">Custom</span>
-                </button>
-                {/* Pro feature tooltip */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
-                  ⚡ Pro Feature
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-900"></div>
+              {/* Custom Report Button - Enhanced Pro Style */}
+              <button
+                type="button"
+                onClick={handleCustomReport}
+                className="relative flex items-center justify-center px-6 py-4 bg-gradient-to-r from-gray-100/90 to-gray-200/90 dark:from-gray-700/90 dark:to-gray-800/90 border-2 border-gray-200/60 dark:border-gray-600/60 text-gray-700 dark:text-gray-300 rounded-2xl hover:!bg-gradient-to-br hover:!from-[#ff6900] hover:!via-[#ff7a00] hover:!to-[#ff4500] hover:border-transparent transition-all duration-300 ease-out shadow-xl backdrop-blur-sm transform hover:scale-[1.02] font-semibold group overflow-hidden"
+                title="Generate Custom Contract Report - Pro Feature"
+              >
+                {/* Animated Glowing Border */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#ff6900] via-[#ff7a00] to-[#ff4500] animate-pulse"></div>
+                  <div className="absolute inset-[2px] rounded-2xl bg-gradient-to-br from-[#ff6900] via-[#ff7a00] to-[#ff4500]"></div>
                 </div>
-              </div>
+                
+                {/* Glass Shimmer Effect */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/30 via-transparent to-white/10"></div>
+                  <div className="absolute top-0 left-0 right-0 h-1/2 rounded-t-2xl bg-gradient-to-b from-white/20 to-transparent"></div>
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+                
+                {/* Flowing Border Animation */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="relative z-10 flex items-center">
+                  <Crown className="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400 group-hover:text-black transition-colors duration-300 ease-out" />
+                  <div className="relative overflow-hidden">
+                    <span className="inline-block transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-y-full group-hover:text-black">
+                      Custom Report
+                    </span>
+                    <span className="absolute inset-0 inline-block transition-all duration-300 ease-out opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 text-black font-bold">
+                      Pro Feature
+                    </span>
+                  </div>
+                </div>
+              </button>
             </div>
           </div>
         </div>
@@ -1479,7 +1503,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
       {showProModal && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowProModal(false)} />
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full animate-fade-in-scale">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -1547,7 +1571,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
       {showCustomReportModal && (
         <>
           <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowCustomReportModal(false)} />
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full animate-fade-in-scale">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -1647,7 +1671,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
             onClick={() => setNaicsModal({ visible: false, data: null })}
           />
           
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-fade-in-scale">
               <div className="p-6">
                 {/* Header */}
@@ -1777,7 +1801,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
             onClick={() => setSetAsideModal({ visible: false, data: null })}
           />
           
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-2xl max-w-4xl w-full my-8 animate-fade-in-scale">
               <div className="p-6 max-h-[85vh] overflow-y-auto">
                 <style>{`

@@ -113,26 +113,26 @@ const ContractCard: React.FC<ContractCardProps> = ({
 
   return (
     <div 
-      className="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 dark:border-gray-700/60 p-4 sm:p-6 cursor-pointer group hover:border-emerald-400 dark:hover:border-emerald-500 shadow-lg hover:shadow-2xl transition-all duration-500"
+      className="card-hover bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 dark:border-gray-700/60 p-4 sm:p-6 cursor-pointer group hover:border-emerald-400 dark:hover:border-emerald-500 shadow-lg hover:shadow-2xl transition-all duration-150"
       onClick={handleClick}
     >
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 sm:mb-4 gap-3">
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+          <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-150">
             {contract.description} 
-            <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 inline ml-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110" />
+            <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 inline ml-2 opacity-0 group-hover:opacity-100 transition-all duration-150 transform group-hover:scale-110" />
           </h3>
           <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">
-            <Building className="w-3 h-3 sm:w-4 sm:h-4 mr-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300 flex-shrink-0" />
+            <Building className="w-3 h-3 sm:w-4 sm:h-4 mr-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-150 flex-shrink-0" />
             <span className="font-medium truncate">{contract.vendor}</span>
           </div>
         </div>
         <div className="text-right">
-          <div className="text-2xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300">
+          <div className="text-2xl font-bold text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-150">
             {formatCurrency(contract.amount)}
           </div>
           {contract.setAside && (
-            <div className="mt-2 transform group-hover:scale-105 transition-transform duration-300">
+            <div className="mt-2 transform group-hover:scale-105 transition-transform duration-150">
               {getSetAsideBadge(contract.setAside)}
             </div>
           )}
@@ -140,29 +140,29 @@ const ContractCard: React.FC<ContractCardProps> = ({
       </div>
 
       <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
-        <div className="flex items-center group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
-          <Calendar className="w-4 h-4 mr-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300" />
+        <div className="flex items-center group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-150">
+          <Calendar className="w-4 h-4 mr-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-150" />
           <span>{format(new Date(contract.awardDate), 'MMM dd, yyyy')}</span>
         </div>
-        <div className="flex items-center group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
-          <MapPin className="w-4 h-4 mr-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300" />
+        <div className="flex items-center group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-150">
+          <MapPin className="w-4 h-4 mr-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-150" />
           <span>{contract.location.city}, {contract.location.state}</span>
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 group-hover:border-blue-200 dark:group-hover:border-blue-700 transition-colors duration-300">
+      <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 group-hover:border-blue-200 dark:group-hover:border-blue-700 transition-colors duration-150">
         <div className="flex justify-between items-center flex-wrap gap-2">
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">{contract.agency}</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-150">{contract.agency}</span>
             <DataSourceBadge source="SAM.gov" />
           </div>
           <div className="flex items-center space-x-2">
-            <span className="naics-code-hover text-xs px-2 py-1 rounded text-orange-warm dark:text-orange-warm-dark transition-all duration-300">
+            <span className="naics-code-hover text-xs px-2 py-1 rounded text-orange-warm dark:text-orange-warm-dark transition-all duration-150">
               NAICS {contract.naicsCode}
             </span>
           </div>
         </div>
-        <div className="mt-2 text-xs text-gray-500 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="mt-2 text-xs text-gray-500 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-all duration-150">
           <ExternalLink className="w-3 h-3 inline mr-1" />
           Click to view full contract details on SAM.gov
         </div>

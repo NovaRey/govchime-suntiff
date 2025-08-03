@@ -129,13 +129,20 @@ a[class*="no-focus-outline"] *:focus {
 
 /* GovChime specific hover animation */
 .govchime-hover-group:hover .govchime-text {
-  transform: scale(1.05) rotate(1deg);
+  transform: scale(1.01) translateY(-1px);
   filter: drop-shadow(0 8px 32px rgba(34, 197, 94, 0.3));
 }
 
 .govchime-text {
   transform-origin: center;
   transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Improved text shadow for light mode readability */
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Dark mode maintains the lighter shadow */
+.dark .govchime-text {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 /* TikTok icon glow effect */
@@ -970,9 +977,9 @@ html {
   border: 1px solid rgba(148, 163, 184, 0.3);
   color: rgb(249, 115, 22);
   text-shadow: 
-    0 0 8px rgba(249, 115, 22, 0.6),
-    0 0 16px rgba(249, 115, 22, 0.4),
-    0 0 24px rgba(249, 115, 22, 0.2);
+    0 0 4px rgba(249, 115, 22, 0.3),
+    0 0 8px rgba(249, 115, 22, 0.2),
+    0 0 12px rgba(249, 115, 22, 0.1);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: 
@@ -992,15 +999,19 @@ html {
 .chatter-card-compact:hover .chatter-naics-desc-compact {
   color: rgb(249, 115, 22);
   text-shadow: 
-    0 0 6px rgba(249, 115, 22, 0.5),
-    0 0 12px rgba(249, 115, 22, 0.3),
-    0 0 18px rgba(249, 115, 22, 0.1);
+    0 0 3px rgba(249, 115, 22, 0.3),
+    0 0 6px rgba(249, 115, 22, 0.2),
+    0 0 9px rgba(249, 115, 22, 0.1);
   font-weight: 600;
 }
 
 /* Custom ping animations */
 .animate-ping-slow {
   animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-delay-1000 {
+  animation-delay: 1s;
 }
 
 .animate-ping-slower {
@@ -1515,16 +1526,18 @@ html {
 @keyframes pulse-glow {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.6), 0 0 24px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.7), 0 0 30px rgba(34, 197, 94, 0.4), 0 0 45px rgba(34, 197, 94, 0.2);
+    transform: scale(1);
   }
   50% {
-    opacity: 0.8;
-    box-shadow: 0 0 18px rgba(34, 197, 94, 0.8), 0 0 36px rgba(34, 197, 94, 0.4);
+    opacity: 0.9;
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.9), 0 0 50px rgba(34, 197, 94, 0.6), 0 0 75px rgba(34, 197, 94, 0.3);
+    transform: scale(1.05);
   }
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulse-glow 1.5s ease-in-out infinite;
 }
 
 /* Apple-style Scroll Animations */
@@ -1834,5 +1847,44 @@ html {
   .contract-card:active {
     transform: scale(0.98);
     opacity: 0.9;
+  }
+}
+
+/* Platform Tools Glowing Letters Effect */
+.platform-tools-glow {
+  transition: all 0.4s ease-out;
+}
+
+.platform-tools-glow:hover {
+  background: linear-gradient(90deg, #22d3ee, #3b82f6, #60a5fa);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  animation: glow-flow 0.6s ease-in-out infinite;
+  text-shadow: 
+    0 0 1px rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  filter: 
+    drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3))
+    drop-shadow(0 4px 12px rgba(59, 130, 246, 0.2))
+    drop-shadow(0 -1px 0px rgba(255, 255, 255, 0.4));
+}
+
+@keyframes glow-flow {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: 
+      drop-shadow(0 2px 8px rgba(59, 130, 246, 0.3))
+      drop-shadow(0 4px 12px rgba(59, 130, 246, 0.2))
+      drop-shadow(0 -1px 0px rgba(255, 255, 255, 0.4));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: 
+      drop-shadow(0 2px 8px rgba(96, 165, 250, 0.3))
+      drop-shadow(0 4px 12px rgba(96, 165, 250, 0.2))
+      drop-shadow(0 -1px 0px rgba(255, 255, 255, 0.4));
   }
 }

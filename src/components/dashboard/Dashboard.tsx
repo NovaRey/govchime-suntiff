@@ -135,7 +135,7 @@ const Dashboard: React.FC = () => {
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight">
                   <span className="block text-gray-900 dark:text-white mb-2 sm:mb-4 filter drop-shadow-[0_2px_8px_rgba(255,255,255,0.6)] dark:drop-shadow-[0_2px_8px_rgba(255,255,255,0.3)]">Welcome to</span>
                   <span className="relative inline-block group govchime-hover-group no-border-container">
-                    <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-500 bg-clip-text text-transparent animate-shimmer bg-size-200 bg-pos-0 leading-none tracking-tighter no-border-container transition-all duration-500 govchime-text group-hover:scale-105 group-hover:rotate-1">
+                    <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-black bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-500 bg-clip-text text-transparent bg-size-200 bg-pos-0 leading-none tracking-tighter no-border-container transition-all duration-500 govchime-text">
                       GovChime
                     </span>
                     
@@ -329,7 +329,7 @@ const Dashboard: React.FC = () => {
         {/* Platform Tools Section - Enhanced with scroll animations */}
         <div className="mb-12 scroll-animate-scale">
           <div className="text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 dark:from-cyan-300 dark:via-blue-400 dark:to-emerald-300 bg-clip-text text-transparent animate-shimmer bg-size-200 bg-pos-0 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400 dark:from-cyan-300 dark:via-blue-400 dark:to-emerald-300 bg-clip-text text-transparent bg-size-200 bg-pos-0 mb-4 transition-all duration-700 ease-out cursor-pointer hover:text-shadow-glow hover:scale-105 platform-tools-glow">
               Platform Tools
             </h2>
             <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">

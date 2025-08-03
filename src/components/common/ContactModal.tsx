@@ -33,8 +33,9 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4 animate-fadeIn">
-      <div className="relative bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-slideUp">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm animate-fadeIn" onClick={onClose}></div>
+      <div className="relative bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 max-w-4xl w-full max-h-[80vh] overflow-y-auto animate-slideUp z-10">
         {/* Grid Background Pattern */}
         <div className="absolute inset-0 opacity-30 dark:opacity-20">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-purple-50/30 to-indigo-50/40 dark:from-blue-900/20 dark:via-purple-900/15 dark:to-indigo-900/20"></div>

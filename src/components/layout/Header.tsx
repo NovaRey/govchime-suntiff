@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useClickTracking } from '../../hooks/useClickTracking';
-import { Menu, X, Bell, Sun, Moon, Telescope, Mailbox } from 'lucide-react';
+import { Menu, X, Bell, Sun, Moon, Telescope, Mailbox, Home, TrendingUp, FileText, MessageCircle, GraduationCap } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import ContactModal from '../common/ContactModal';
 
@@ -13,12 +13,17 @@ const Header: React.FC = () => {
   const location = useLocation();
   const { isDarkMode, toggleTheme } = useTheme();
 
+  // Scroll to top when route changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
+
   const navigation = [
-    { name: 'Dashboard', href: '/', short: 'Home' },
-    { name: 'Spending Analysis', href: '/spending', short: 'Spending' },
-    { name: 'Contracts', href: '/awards', short: 'Awards' },
-    { name: 'Chatter Wall', href: '/chatter', short: 'Chatter' },
-    { name: 'Learning Center', href: '/learning', short: 'Learning' },
+    { name: 'Dashboard', href: '/', short: 'Home', icon: Home },
+    { name: 'Spending Analysis', href: '/spending', short: 'Spending', icon: TrendingUp },
+    { name: 'Contracts', href: '/awards', short: 'Awards', icon: FileText },
+    { name: 'Chatter Wall', href: '/chatter', short: 'Chatter', icon: MessageCircle },
+    { name: 'Learning Center', href: '/learning', short: 'Learning', icon: GraduationCap },
   ];
 
   const isActiveRoute = (href: string) => {
@@ -45,10 +50,10 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 navbar-container">
         <div className="flex justify-between items-center h-16 relative">
           {/* Logo - Fixed width */}
-          <div className="flex items-center flex-shrink-0 w-48">
+          <div className="flex items-center flex-shrink-0 w-56">
             <Link 
               to="/" 
-              className="flex items-center space-x-3 group no-focus-outline" 
+              className="govchime-hover-group flex items-center space-x-3 group no-focus-outline" 
               style={{
                 outline: 'none !important', 
                 border: 'none !important', 
@@ -57,20 +62,20 @@ const Header: React.FC = () => {
               }}
               onFocus={(e) => e.target.style.outline = 'none'}
             >
-              <div className="relative w-10 h-10 flex items-center justify-center transform group-hover:scale-105 transition-all duration-300">
+              <div className="relative w-12 h-12 flex items-center justify-center transform group-hover:-translate-y-0.5 transition-all duration-300">
                 {/* Minimal, tight background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-slate-800/98 via-gray-900/98 to-black/98 dark:from-slate-700/98 dark:via-gray-800/98 dark:to-black/98 rounded-lg shadow-[0_4px_16px_rgba(0,0,0,0.4)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.6)] group-hover:shadow-[0_6px_20px_rgba(139,92,246,0.4)] transition-all duration-500"></div>
                 
                 {/* Clean G+C lettering */}
                 <div className="relative z-10 flex items-center justify-center space-x-0.5">
-                  <span className="text-white font-black text-lg tracking-tighter drop-shadow-lg">G</span>
-                  <span className="text-white font-black text-lg tracking-tighter drop-shadow-lg">C</span>
+                  <span className="text-white font-black text-xl tracking-tighter drop-shadow-lg">G</span>
+                  <span className="text-white font-black text-xl tracking-tighter drop-shadow-lg">C</span>
                 </div>
               </div>
               
               <div className="flex flex-col relative no-border-container">
                 <div className="relative inline-block no-border-container">
-                  <span className="text-lg font-black bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 dark:from-purple-400 dark:via-blue-400 dark:to-indigo-500 bg-clip-text text-transparent tracking-tight leading-none group-hover:animate-shimmer bg-size-200 bg-pos-0 transition-all duration-300 filter drop-shadow-sm">
+                  <span className="govchime-text text-lg font-black bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 dark:from-purple-400 dark:via-blue-400 dark:to-indigo-500 bg-clip-text text-transparent tracking-tight leading-none bg-size-200 bg-pos-0 transition-all duration-300">
                     GovChime
                   </span>
                   
@@ -174,74 +179,96 @@ const Header: React.FC = () => {
           {/* Medium Screen Navigation - Compact */}
           <nav className="hidden md:flex lg:hidden items-center space-x-0.5 transition-all duration-500 flex-1 justify-center nav-container">
             <div className="flex items-center bg-slate-50/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl px-2 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-slate-200/30 dark:border-slate-700/30 transition-all duration-500">
-              {navigation.map((item, index) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`relative px-2.5 py-2 mx-0.5 text-xs font-medium nav-item flex items-center justify-center min-h-[36px] transition-all duration-400 overflow-hidden whitespace-nowrap group hover:scale-[1.02] ${
-                    isActiveRoute(item.href)
-                      ? 'text-slate-800 dark:text-slate-100 active-nav'
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                  }`}
-                  style={{ 
-                    animationDelay: `${index * 0.08}s`,
-                    outline: 'none',
-                    border: 'none',
-                  }}
-                >
-                  {/* Pulsing Green Active Indicator Line */}
-                  {isActiveRoute(item.href) && (
-                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.6)] animate-pulse-glow"></div>
-                  )}
-                  
-                  {/* Subtle hover background */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-100/0 via-slate-100/40 to-slate-100/0 dark:from-slate-800/0 dark:via-slate-800/40 dark:to-slate-800/0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
-                  
-                  <span className="relative z-10 tracking-wide font-semibold">{item.short}</span>
-                  
-                  {/* Elegant separators */}
-                  {index < navigation.length - 1 && (
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-px h-5 bg-gradient-to-b from-transparent via-slate-300/60 to-transparent dark:via-slate-600/60"></div>
-                  )}
-                </Link>
-              ))}
+              {navigation.map((item, index) => {
+                const IconComponent = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`relative px-2.5 py-2 mx-0.5 text-xs font-medium nav-item flex flex-col items-center justify-center min-h-[36px] transition-all duration-400 overflow-hidden whitespace-nowrap group hover:scale-[1.02] ${
+                      isActiveRoute(item.href)
+                        ? 'text-slate-800 dark:text-slate-100 active-nav'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                    }`}
+                    style={{ 
+                      animationDelay: `${index * 0.08}s`,
+                      outline: 'none',
+                      border: 'none',
+                    }}
+                  >
+                    {/* Pulsing Green Active Indicator Line */}
+                    {isActiveRoute(item.href) && (
+                      <div className="absolute bottom-1 left-[15%] right-[15%] mx-auto h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.6)] animate-pulse-glow"></div>
+                    )}
+                    
+                    {/* Subtle hover background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-100/0 via-slate-100/40 to-slate-100/0 dark:from-slate-800/0 dark:via-slate-800/40 dark:to-slate-800/0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                    
+                    <IconComponent className={`w-3 h-3 mb-0.5 relative z-10 transition-all duration-300 ${
+                      item.name === 'Dashboard' ? 'group-hover:text-orange-500 group-hover:drop-shadow-[0_0_6px_rgba(249,115,22,0.6)]' :
+                      item.name === 'Spending Analysis' ? 'group-hover:text-emerald-500 group-hover:drop-shadow-[0_0_6px_rgba(16,185,129,0.6)]' :
+                      item.name === 'Contracts' ? 'group-hover:text-yellow-500 group-hover:drop-shadow-[0_0_6px_rgba(234,179,8,0.6)]' :
+                      item.name === 'Chatter Wall' ? 'group-hover:text-indigo-500 group-hover:drop-shadow-[0_0_6px_rgba(99,102,241,0.6)]' :
+                      item.name === 'Learning Center' ? 'group-hover:text-purple-500 group-hover:drop-shadow-[0_0_6px_rgba(168,85,247,0.6)]' :
+                      ''
+                    }`} />
+                    <span className="relative z-10 tracking-wide font-semibold text-[10px]">{item.short}</span>
+                    
+                    {/* Elegant separators */}
+                    {index < navigation.length - 1 && (
+                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-px h-5 bg-gradient-to-b from-transparent via-slate-300/60 to-transparent dark:via-slate-600/60"></div>
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           </nav>
 
           {/* Desktop Navigation - Ultra Modern Fintech Design - Optimized for 5 items */}
           <nav className="hidden lg:flex items-center space-x-0.5 transition-all duration-500 flex-1 justify-center nav-container">
             <div className="flex items-center bg-slate-50/60 dark:bg-slate-900/60 backdrop-blur-md rounded-2xl px-2 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)] border border-slate-200/30 dark:border-slate-700/30 transition-all duration-500">
-              {navigation.map((item, index) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`relative px-3 py-2 mx-0.5 text-xs lg:text-sm font-medium nav-item flex items-center justify-center min-h-[36px] transition-all duration-400 overflow-hidden whitespace-nowrap group hover:scale-[1.02] ${
-                    isActiveRoute(item.href)
-                      ? 'text-slate-800 dark:text-slate-100 active-nav'
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                  }`}
-                  style={{ 
-                    animationDelay: `${index * 0.08}s`,
-                    outline: 'none',
-                    border: 'none',
-                  }}
-                >
-                  {/* Pulsing Green Active Indicator Line */}
-                  {isActiveRoute(item.href) && (
-                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-10 h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.6)] animate-pulse-glow"></div>
-                  )}
-                  
-                  {/* Subtle hover background */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-100/0 via-slate-100/40 to-slate-100/0 dark:from-slate-800/0 dark:via-slate-800/40 dark:to-slate-800/0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
-                  
-                  <span className="relative z-10 tracking-wide font-semibold">{item.name}</span>
-                  
-                  {/* Elegant separators */}
-                  {index < navigation.length - 1 && (
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-px h-5 bg-gradient-to-b from-transparent via-slate-300/60 to-transparent dark:via-slate-600/60"></div>
-                  )}
-                </Link>
-              ))}
+              {navigation.map((item, index) => {
+                const IconComponent = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className={`relative px-3 py-2 mx-0.5 text-xs lg:text-sm font-medium nav-item flex items-center justify-center gap-2 min-h-[36px] transition-all duration-400 overflow-hidden whitespace-nowrap group hover:scale-[1.02] ${
+                      isActiveRoute(item.href)
+                        ? 'text-slate-800 dark:text-slate-100 active-nav'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                    }`}
+                    style={{ 
+                      animationDelay: `${index * 0.08}s`,
+                      outline: 'none',
+                      border: 'none',
+                    }}
+                  >
+                    {/* Pulsing Green Active Indicator Line */}
+                    {isActiveRoute(item.href) && (
+                      <div className="absolute bottom-1 left-[15%] right-[15%] mx-auto h-0.5 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.6)] animate-pulse-glow"></div>
+                    )}
+                    
+                    {/* Subtle hover background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-100/0 via-slate-100/40 to-slate-100/0 dark:from-slate-800/0 dark:via-slate-800/40 dark:to-slate-800/0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl"></div>
+                    
+                    <IconComponent className={`w-4 h-4 relative z-10 transition-all duration-300 ${
+                      item.name === 'Dashboard' ? 'group-hover:text-orange-500 group-hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.6)]' :
+                      item.name === 'Spending Analysis' ? 'group-hover:text-emerald-500 group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]' :
+                      item.name === 'Contracts' ? 'group-hover:text-yellow-500 group-hover:drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]' :
+                      item.name === 'Chatter Wall' ? 'group-hover:text-indigo-500 group-hover:drop-shadow-[0_0_8px_rgba(99,102,241,0.6)]' :
+                      item.name === 'Learning Center' ? 'group-hover:text-purple-500 group-hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]' :
+                      ''
+                    }`} />
+                    <span className="relative z-10 tracking-wide font-semibold">{item.name}</span>
+                    
+                    {/* Elegant separators */}
+                    {index < navigation.length - 1 && (
+                      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-px h-5 bg-gradient-to-b from-transparent via-slate-300/60 to-transparent dark:via-slate-600/60"></div>
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           </nav>
 
@@ -283,7 +310,7 @@ const Header: React.FC = () => {
                   
                   {/* Telescope Icon - Always Visible */}
                   <div className="flex items-center justify-center w-10 h-10 flex-shrink-0 z-10">
-                    <Telescope className="w-5 h-5 text-emerald-500 dark:text-emerald-400 group-hover/search:text-emerald-400 dark:group-hover/search:text-emerald-300 group-focus-within/search:text-emerald-600 dark:group-focus-within/search:text-emerald-400 transition-all duration-300 drop-shadow-sm" />
+                    <Telescope className="w-5 h-5 text-orange-400 dark:text-orange-300 group-hover/search:text-orange-500 dark:group-hover/search:text-orange-200 group-focus-within/search:text-orange-600 dark:group-focus-within/search:text-orange-300 transition-all duration-300 drop-shadow-sm" />
                   </div>
                   
                   {/* Expanding Input Field - Hidden by default, appears on hover/focus */}
@@ -323,23 +350,36 @@ const Header: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className={`relative flex items-center px-4 py-3 rounded-lg text-base font-semibold figma-button overflow-hidden ${
-                  isActiveRoute(item.href)
-                    ? 'text-purple-400 dark:text-purple-300 glow-text'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400 hover:bg-purple-50/30 dark:hover:bg-purple-900/10 hover:shadow-3d dark:hover:shadow-dark-3d'
-                }`}
-              >
-                <span className="relative z-10">{item.name}</span>
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`relative flex items-center gap-3 px-4 py-3 rounded-lg text-base font-semibold figma-button overflow-hidden ${
+                    isActiveRoute(item.href)
+                      ? 'text-purple-400 dark:text-purple-300 glow-text'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-purple-500 dark:hover:text-purple-400 hover:bg-purple-50/30 dark:hover:bg-purple-900/10 hover:shadow-3d dark:hover:shadow-dark-3d'
+                  }`}
+                >
+                  <IconComponent className={`w-5 h-5 transition-all duration-300 ${
+                    isActiveRoute(item.href) 
+                      ? 'text-purple-400 dark:text-purple-300' 
+                      : item.name === 'Dashboard' ? 'text-gray-500 dark:text-gray-400 group-hover:text-orange-500 group-hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.6)]' :
+                        item.name === 'Spending Analysis' ? 'text-gray-500 dark:text-gray-400 group-hover:text-emerald-500 group-hover:drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]' :
+                        item.name === 'Contracts' ? 'text-gray-500 dark:text-gray-400 group-hover:text-yellow-500 group-hover:drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]' :
+                        item.name === 'Chatter Wall' ? 'text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 group-hover:drop-shadow-[0_0_8px_rgba(99,102,241,0.6)]' :
+                        item.name === 'Learning Center' ? 'text-gray-500 dark:text-gray-400 group-hover:text-purple-500 group-hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]' :
+                        'text-gray-500 dark:text-gray-400'
+                  }`} />
+                  <span className="relative z-10">{item.name}</span>
+                </Link>
+              );
+            })}
             <div className="mt-4 px-3">
               <form onSubmit={handleSearch} className="relative">
-                <Telescope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                <Telescope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 dark:text-orange-300 w-4 h-4" />
                 <input
                   type="text"
                   placeholder="Search..."

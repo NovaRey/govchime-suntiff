@@ -410,7 +410,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 overflow-y-auto flex items-center justify-center p-4">
       <div className="bg-gradient-to-br from-slate-950/95 to-gray-950/95 border border-slate-700/60 rounded-2xl shadow-[0_32px_80px_rgba(0,0,0,0.8)] w-full max-w-2xl h-[600px] flex flex-col backdrop-blur-xl">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700/60 bg-gradient-to-r from-slate-900/80 to-gray-900/80 rounded-t-2xl">

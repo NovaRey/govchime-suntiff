@@ -159,7 +159,7 @@ const Footer: React.FC = () => {
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-black bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                <h3 className="govchime-text text-xl font-black bg-gradient-to-r from-purple-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
                   GovChime
                 </h3>
                 <p className="text-xs text-slate-400 font-semibold tracking-widest">INTEL</p>

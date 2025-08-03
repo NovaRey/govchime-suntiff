@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ChevronDown, ChevronRight, Shield, Flag, Users, MapPin, Filter, Crown, Sparkles, FileText } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, Shield, Flag, Users, MapPin, Filter, Crown, Sparkles, FileText, X } from 'lucide-react';
 import { useSamGovData } from '../../hooks/useSamGovData';
 import ContractCard from '../dashboard/ContractCard';
 import NAICSCodeDirectory from './NAICSCodeDirectory';
@@ -61,65 +61,131 @@ const ContractAwardWall: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Federal Contract Awards</h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              {filteredOpportunities.length.toLocaleString()} opportunities found
-            </p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Hero Header Section - Apple Style */}
+      <div className="relative overflow-hidden pb-12">
+        {/* Extended Background gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/30 dark:from-gray-900/90 dark:via-gray-800/95 dark:to-indigo-900/50"></div>
+        
+        {/* Professional background extension */}
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white/80 via-blue-50/40 to-transparent dark:from-gray-900/80 dark:via-gray-800/40 dark:to-transparent"></div>
+        
+        {/* Subtle animated background elements */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-20 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-100/40 to-purple-100/20 dark:from-blue-900/20 dark:to-purple-900/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-gradient-to-br from-indigo-100/30 to-blue-100/20 dark:from-indigo-900/15 dark:to-blue-900/10 rounded-full blur-3xl animate-pulse animate-delay-1000"></div>
         </div>
 
-        {/* Search and Filters */}
-        <div className="space-y-4">
-          <form onSubmit={handleSearch} className="flex gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search opportunities, agencies, keywords..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-              />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
+          {/* Title Section */}
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-gray-900 via-blue-800 to-indigo-900 dark:from-white dark:via-blue-200 dark:to-indigo-200 bg-clip-text text-transparent leading-tight tracking-tight">
+              Federal Contract Awards
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-light max-w-3xl mx-auto leading-relaxed">
+              Discover opportunities, analyze trends, and navigate the federal contracting landscape with intelligence.
+            </p>
+            <div className="mt-8 flex items-center justify-center space-x-8">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                  {filteredOpportunities.length.toLocaleString()}
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">
+                  Opportunities
+                </div>
+              </div>
+              <div className="w-px h-12 bg-gray-300 dark:bg-gray-600"></div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+                  Live
+                </div>
+                <div className="text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wide">
+                  Data Feed
+                </div>
+              </div>
             </div>
-            <button
-              type="button"
-              onClick={() => setShowSearchFilters(!showSearchFilters)}
-              className="flex items-center px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-            >
-              <Filter className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-              Filters
-              {showSearchFilters ? (
-                <ChevronDown className="w-4 h-4 ml-2 text-gray-600 dark:text-gray-400" />
-              ) : (
-                <ChevronRight className="w-4 h-4 ml-2 text-gray-600 dark:text-gray-400" />
-              )}
-            </button>
-            {/* Custom Report Button */}
-            <button
-              type="button"
-              onClick={handleCustomReport}
-              className="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-slate-50/80 to-slate-100/80 dark:from-slate-800/80 dark:to-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 text-white dark:text-white rounded-xl hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_40px_rgba(255,165,0,0.3)] backdrop-blur-sm transform hover:scale-[1.02] font-medium group"
-              title="Generate Custom Contract Report - Pro Feature"
-            >
-              <FileText className="w-5 h-5 mr-2 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300 drop-shadow-sm" />
-              <span className="text-sm font-medium text-center">Custom Report</span>
-            </button>
-          </form>
+          </div>
 
-          {/* Filter Options */}
-          {showSearchFilters && (
-            <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          </div>
+
+          {/* Search Section - Apple Style */}
+          <div className="max-w-4xl mx-auto">
+            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4 items-center">
+              <div className="flex-1 relative group">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 w-6 h-6 transition-colors duration-200" />
+                <input
+                  type="text"
+                  placeholder="Search opportunities, agencies, keywords..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-12 pr-6 py-4 text-lg border-2 border-gray-200/60 dark:border-gray-600/60 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none bg-white/90 dark:bg-gray-800/90 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 backdrop-blur-sm transition-all duration-300 shadow-xl"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowSearchFilters(!showSearchFilters)}
+                className="flex items-center px-6 py-4 bg-white/90 dark:bg-gray-800/90 border-2 border-gray-200/60 dark:border-gray-600/60 rounded-2xl hover:bg-gray-50/90 dark:hover:bg-gray-700/90 transition-all duration-300 backdrop-blur-sm shadow-xl group"
+              >
+                <Filter className="w-5 h-5 mr-3 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-200" />
+                <span className="text-gray-900 dark:text-gray-100 font-semibold">Filters</span>
+                {showSearchFilters ? (
+                  <ChevronDown className="w-5 h-5 ml-3 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-200" />
+                ) : (
+                  <ChevronRight className="w-5 h-5 ml-3 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-200" />
+                )}
+              </button>
+              {/* Custom Report Button - Enhanced iOS Style */}
+              <button
+                type="button"
+                onClick={handleCustomReport}
+                className="relative flex items-center justify-center px-6 py-4 bg-gradient-to-r from-gray-100/90 to-gray-200/90 dark:from-gray-700/90 dark:to-gray-800/90 border-2 border-gray-200/60 dark:border-gray-600/60 text-gray-700 dark:text-gray-300 rounded-2xl hover:!bg-gradient-to-br hover:!from-[#ff6900] hover:!via-[#ff7a00] hover:!to-[#ff4500] hover:border-transparent transition-all duration-300 ease-out shadow-xl backdrop-blur-sm transform hover:scale-[1.02] font-semibold group overflow-hidden"
+                title="Generate Custom Contract Report - Pro Feature"
+              >
+                {/* Animated Glowing Border */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#ff6900] via-[#ff7a00] to-[#ff4500] animate-pulse"></div>
+                  <div className="absolute inset-[2px] rounded-2xl bg-gradient-to-br from-[#ff6900] via-[#ff7a00] to-[#ff4500]"></div>
+                </div>
+                
+                {/* Glass Shimmer Effect */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/30 via-transparent to-white/10"></div>
+                  <div className="absolute top-0 left-0 right-0 h-1/2 rounded-t-2xl bg-gradient-to-b from-white/20 to-transparent"></div>
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+                </div>
+                
+                {/* Flowing Border Animation */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+                  </div>
+                </div>
+                
+                {/* Content */}
+                <div className="relative z-10 flex items-center">
+                  <Crown className="w-5 h-5 mr-3 text-gray-500 dark:text-gray-400 group-hover:text-black transition-colors duration-300 ease-out" />
+                  <div className="relative overflow-hidden">
+                    <span className="inline-block transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-y-full group-hover:text-black">
+                      Custom Report
+                    </span>
+                    <span className="absolute inset-0 inline-block transition-all duration-300 ease-out opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 text-black font-bold">
+                      Pro Feature
+                    </span>
+                  </div>
+                </div>
+              </button>
+            </form>
+
+            {/* Filter Options */}
+            {showSearchFilters && (
+              <div className="mt-8 bg-white/90 dark:bg-gray-800/90 p-6 rounded-2xl border-2 border-gray-200/60 dark:border-gray-600/60 backdrop-blur-sm shadow-xl">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Set-Aside Type
                   </label>
                   <select
+                    title="Select set-aside type"
                     value={selectedSetAside}
                     onChange={(e) => setSelectedSetAside(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -137,6 +203,7 @@ const ContractAwardWall: React.FC = () => {
                     Agency
                   </label>
                   <select
+                    title="Select agency"
                     value={selectedAgency}
                     onChange={(e) => setSelectedAgency(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -154,6 +221,7 @@ const ContractAwardWall: React.FC = () => {
                     Date Range
                   </label>
                   <select
+                    title="Select date range"
                     value={dateRange}
                     onChange={(e) => setDateRange(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
@@ -170,8 +238,8 @@ const ContractAwardWall: React.FC = () => {
         </div>
       </div>
 
-      {/* Results */}
-      <div className="p-6">
+      {/* Results Section */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
         {error && (
           <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-4 py-2 mb-6">
             <div className="flex items-center justify-center">
@@ -224,73 +292,128 @@ const ContractAwardWall: React.FC = () => {
         </div>
       </div>
 
-      {/* Pro Features Modal */}
+      {/* Pro Features Modal - Orange Professional Theme */}
       {showProModal && (
-        <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowProModal(false)} />
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full animate-fade-in-scale">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-2">
-                    <Crown className="w-6 h-6 text-yellow-500" />
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Premium Feature
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] flex items-start justify-center pt-8 pb-8 px-4 overflow-y-auto">
+          <div 
+            className="relative bg-gradient-to-br from-white via-orange-50/50 to-orange-100/30 dark:from-gray-900 dark:via-orange-900/10 dark:to-orange-800/20 rounded-3xl shadow-2xl border-2 border-orange-200/50 dark:border-orange-600/30 max-w-2xl w-full animate-fade-in-scale backdrop-blur-md"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-100/40 via-amber-50/30 to-yellow-100/20 dark:from-orange-900/20 dark:via-amber-900/15 dark:to-yellow-900/10 rounded-3xl"></div>
+              <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(249,115,22,0.1),transparent_50%)] rounded-3xl"></div>
+            </div>
+
+            {/* Header */}
+            <div className="relative z-10 p-8 pb-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl shadow-lg">
+                    <Crown className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold bg-gradient-to-r from-orange-600 via-orange-700 to-red-600 dark:from-orange-400 dark:via-orange-300 dark:to-red-400 bg-clip-text text-transparent">
+                      Pro Contract Reports
                     </h3>
+                    <p className="text-sm text-orange-600/80 dark:text-orange-300/80 font-medium">
+                      Professional Intelligence Platform
+                    </p>
                   </div>
-                  <button
-                    onClick={() => setShowProModal(false)}
-                    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                  >
-                    ✕
-                  </button>
                 </div>
-                
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    Professional Contract Reports
+                <button
+                  onClick={() => setShowProModal(false)}
+                  title="Close modal"
+                  className="p-2 rounded-full bg-orange-100/50 dark:bg-orange-900/30 hover:bg-orange-200/70 dark:hover:bg-orange-800/50 text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-all duration-200"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Preview Report Card */}
+              <div className="mb-6 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl border border-orange-200/50 dark:border-orange-600/30 shadow-lg backdrop-blur-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white">
+                    📊 Sample Contract Intelligence Report
                   </h4>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    Generate comprehensive contract award reports with AI-powered insights, 
-                    custom filtering, and professional formatting for competitive intelligence.
-                  </p>
-                  
-                  <div className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-4 rounded-lg mb-4">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Sparkles className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-                      <span className="font-medium text-orange-800 dark:text-orange-200">Pro Features Include:</span>
-                    </div>
-                    <ul className="text-sm text-orange-700 dark:text-orange-300 space-y-1">
-                      <li>• Contract award trend analysis</li>
-                      <li>• Competitor intelligence reports</li>
-                      <li>• Advanced filtering & segmentation</li>
-                      <li>• Export to PDF with branding</li>
-                      <li>• Historical award data access</li>
-                    </ul>
+                  <div className="px-3 py-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-xs font-bold rounded-full">
+                    PRO
                   </div>
                 </div>
                 
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => setShowProModal(false)}
-                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    Maybe Later
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowProModal(false);
-                      window.open('https://govchime.com/pro', '_blank');
-                    }}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white rounded-lg transition-all duration-300 shadow-orange-glow"
-                  >
-                    Upgrade Now
-                  </button>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-lg">
+                    <span className="font-medium text-gray-700 dark:text-gray-300">📈 Market Analysis</span>
+                    <span className="text-orange-600 dark:text-orange-400 font-bold">$2.4B Identified</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-lg">
+                    <span className="font-medium text-gray-700 dark:text-gray-300">🎯 Win Probability</span>
+                    <span className="text-green-600 dark:text-green-400 font-bold">87% Match</span>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-lg">
+                    <span className="font-medium text-gray-700 dark:text-gray-300">🏆 Competitive Edge</span>
+                    <span className="text-blue-600 dark:text-blue-400 font-bold">12 Insights</span>
+                  </div>
                 </div>
+              </div>
+
+              {/* Features Grid */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl border border-orange-200/40 dark:border-orange-600/20">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Sparkles className="w-4 h-4 text-orange-500" />
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">AI Insights</span>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Smart trend analysis & predictions</p>
+                </div>
+                
+                <div className="p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl border border-orange-200/40 dark:border-orange-600/20">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <FileText className="w-4 h-4 text-orange-500" />
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">PDF Export</span>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Professional branded reports</p>
+                </div>
+                
+                <div className="p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl border border-orange-200/40 dark:border-orange-600/20">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Filter className="w-4 h-4 text-orange-500" />
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">Advanced Filters</span>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Custom segmentation tools</p>
+                </div>
+                
+                <div className="p-4 bg-white/60 dark:bg-gray-800/60 rounded-xl border border-orange-200/40 dark:border-orange-600/20">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <Users className="w-4 h-4 text-orange-500" />
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">Competitor Intel</span>
+                  </div>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Market positioning analysis</p>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setShowProModal(false)}
+                  className="flex-1 px-6 py-3 border-2 border-orange-200 dark:border-orange-600/50 text-orange-700 dark:text-orange-300 rounded-xl hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-all duration-300 font-semibold"
+                >
+                  Maybe Later
+                </button>
+                <button
+                  onClick={() => {
+                    setShowProModal(false);
+                    window.open('https://govchime.com/pro', '_blank');
+                  }}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 via-orange-600 to-red-600 hover:from-orange-600 hover:via-orange-700 hover:to-red-700 text-white rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] font-bold flex items-center justify-center space-x-2"
+                >
+                  <Crown className="w-4 h-4" />
+                  <span>Upgrade to Pro</span>
+                </button>
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
