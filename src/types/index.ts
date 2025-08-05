@@ -13,6 +13,19 @@ export interface ContractAward {
     city: string;
   };
   type: 'contract' | 'grant' | 'other';
+  // AI Enhancement properties
+  enhancedTitle?: {
+    original: string;
+    enhanced: string;
+    confidence: number;
+    category: string;
+    keywords: string[];
+  };
+  insights?: {
+    riskLevel: 'low' | 'medium' | 'high';
+    competitiveness: 'low' | 'medium' | 'high';
+    recommendations: string[];
+  };
 }
 
 export interface SpendingData {

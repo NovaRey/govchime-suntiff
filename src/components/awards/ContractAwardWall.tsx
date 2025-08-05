@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Search, ChevronDown, ChevronRight, Shield, Flag, Users, MapPin, Filter, Crown, Sparkles, FileText, X } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search, ChevronDown, ChevronRight, Shield, Flag, Users, MapPin, Filter, Crown, Sparkles, FileText, X, Zap, Brain } from 'lucide-react';
 import { useSamGovData } from '../../hooks/useSamGovData';
-import ContractCard from '../dashboard/ContractCard';
 import NAICSCodeDirectory from './NAICSCodeDirectory';
+import { enhanceContractTitle, getContractInsights, type ContractData } from '../../services/aiTitleEnhancer';
 
 const ContractAwardWall: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,8 +11,34 @@ const ContractAwardWall: React.FC = () => {
   const [selectedAgency, setSelectedAgency] = useState<string>('');
   const [dateRange, setDateRange] = useState<string>('30');
   const [showProModal, setShowProModal] = useState<boolean>(false);
+  const [useAITitles, setUseAITitles] = useState<boolean>(true);
 
   const { data: opportunities, loading, error } = useSamGovData();
+
+  // Enhanced contract data with AI-generated titles
+  const enhancedOpportunities = useMemo(() => {
+    if (!useAITitles) return opportunities;
+    
+    return opportunities.map(opportunity => {
+      const contractData: ContractData = {
+        description: opportunity.description,
+        naicsCode: opportunity.naicsCode,
+        naicsDescription: opportunity.naicsDescription,
+        agency: opportunity.agency,
+        amount: opportunity.amount,
+        setAside: opportunity.setAside
+      };
+      
+      const enhancedTitle = enhanceContractTitle(contractData);
+      const insights = getContractInsights(contractData);
+      
+      return {
+        ...opportunity,
+        enhancedTitle,
+        insights
+      };
+    });
+  }, [opportunities, useAITitles]);
 
   useEffect(() => {
     // Initial load - the hook will automatically fetch data
@@ -48,7 +74,7 @@ const ContractAwardWall: React.FC = () => {
     'National Aeronautics and Space Administration',
   ];
 
-  const filteredOpportunities = opportunities.filter(opportunity => {
+  const filteredOpportunities = enhancedOpportunities.filter(opportunity => {
     const matchesSearch = searchTerm === '' || 
       opportunity.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       opportunity.agency.toLowerCase().includes(searchTerm.toLowerCase());
@@ -260,28 +286,259 @@ const ContractAwardWall: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredOpportunities.map((opportunity) => (
-                <ContractCard
-                  key={opportunity.id}
-                  contract={{
-                    id: opportunity.id,
-                    awardDate: opportunity.awardDate,
-                    agency: opportunity.agency || 'Unknown Agency',
-                    vendor: opportunity.vendor || 'TBD',
-                    description: opportunity.description || 'No description available',
-                    amount: typeof opportunity.amount === 'number' ? opportunity.amount : 0,
-                    naicsCode: opportunity.naicsCode || '',
-                    naicsDescription: opportunity.naicsDescription || '',
-                    setAside: opportunity.setAside || '',
-                    location: {
-                      state: opportunity.location?.state || 'Unknown',
-                      city: opportunity.location?.city || 'Unknown'
-                    },
-                    type: 'contract' as const
-                  }}
-                />
-              ))}
+            {/* Results Summary */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-4">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Contract Opportunities
+                </h2>
+                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium">
+                  {filteredOpportunities.length} results
+                </span>
+              </div>
+              
+              {/* AI Enhancement Toggle */}
+              <div className="flex items-center space-x-3">
+                <label className="flex items-center space-x-2 cursor-pointer">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">AI Enhanced Titles</span>
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={useAITitles}
+                      onChange={(e) => setUseAITitles(e.target.checked)}
+                      className="sr-only"
+                    />
+                    <div className={`w-10 h-6 rounded-full transition-colors duration-200 ${
+                      useAITitles ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}>
+                      <div className={`w-4 h-4 bg-white rounded-full transition-transform duration-200 transform translate-y-1 ${
+                        useAITitles ? 'translate-x-5' : 'translate-x-1'
+                      }`}></div>
+                    </div>
+                  </div>
+                  <Brain className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                </label>
+              </div>
+            </div>
+
+            {/* Table Layout */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
+                    <tr>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Title
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Type
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Agency
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Set Aside
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Posted
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Deadline
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Tools
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {filteredOpportunities.map((opportunity) => (
+                      <tr 
+                        key={opportunity.id}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200 group"
+                      >
+                        <td className="px-6 py-6">
+                          <div className="space-y-2">
+                            {/* Enhanced Title */}
+                            {useAITitles && opportunity.enhancedTitle ? (
+                              <div className="space-y-1">
+                                <div className="flex items-center space-x-2">
+                                  <h3 className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer transition-colors duration-200">
+                                    {opportunity.enhancedTitle.enhanced}
+                                  </h3>
+                                  <div className="flex items-center space-x-1">
+                                    <Zap className="w-3 h-3 text-green-500" />
+                                    <span className="text-xs text-green-600 dark:text-green-400 font-medium">
+                                      {Math.round(opportunity.enhancedTitle.confidence * 100)}%
+                                    </span>
+                                  </div>
+                                </div>
+                                <details className="group">
+                                  <summary className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
+                                    View original description
+                                  </summary>
+                                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mt-1 pl-2 border-l-2 border-gray-200 dark:border-gray-600">
+                                    {opportunity.description.length > 150 
+                                      ? `${opportunity.description.substring(0, 150)}...` 
+                                      : opportunity.description}
+                                  </p>
+                                </details>
+                              </div>
+                            ) : (
+                              <div className="space-y-1">
+                                <h3 className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 cursor-pointer transition-colors duration-200">
+                                  {opportunity.description.length > 80 
+                                    ? `${opportunity.description.substring(0, 80)}...` 
+                                    : opportunity.description}
+                                </h3>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                  {opportunity.naicsDescription && opportunity.naicsDescription.length > 100
+                                    ? `${opportunity.naicsDescription.substring(0, 100)}...`
+                                    : opportunity.naicsDescription || 'No description available'}
+                                </p>
+                              </div>
+                            )}
+                            
+                            {/* Contract Value */}
+                            {opportunity.amount > 0 && (
+                              <div className="flex items-center space-x-2">
+                                <span className="text-xs font-medium text-green-600 dark:text-green-400">
+                                  Estimated Value:
+                                </span>
+                                <span className="text-xs font-bold text-green-700 dark:text-green-300">
+                                  ${opportunity.amount.toLocaleString()}
+                                </span>
+                              </div>
+                            )}
+                            
+                            {/* AI Insights */}
+                            {useAITitles && opportunity.insights && (
+                              <div className="flex items-center space-x-2 pt-1">
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                  opportunity.insights.riskLevel === 'high' 
+                                    ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
+                                    : opportunity.insights.riskLevel === 'medium'
+                                    ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
+                                    : 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
+                                }`}>
+                                  {opportunity.insights.riskLevel} risk
+                                </span>
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                                  opportunity.insights.competitiveness === 'high'
+                                    ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300'
+                                    : opportunity.insights.competitiveness === 'medium'
+                                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
+                                    : 'bg-gray-100 dark:bg-gray-700/30 text-gray-800 dark:text-gray-300'
+                                }`}>
+                                  {opportunity.insights.competitiveness} competition
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="flex flex-col space-y-1">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+                              Contract Opportunity
+                            </span>
+                            {opportunity.naicsCode && (
+                              <span className="text-xs text-gray-500 dark:text-gray-400">
+                                NAICS: {opportunity.naicsCode}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <div>
+                              <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                {opportunity.agency.length > 25 
+                                  ? `${opportunity.agency.substring(0, 25)}...` 
+                                  : opportunity.agency}
+                              </div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400">
+                                {opportunity.location?.state || 'Unknown'}, {opportunity.location?.city || 'Unknown'}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-6">
+                          {opportunity.setAside ? (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                              {opportunity.setAside}
+                            </span>
+                          ) : (
+                            <span className="text-xs text-gray-400 dark:text-gray-500">None</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="text-sm text-gray-900 dark:text-white">
+                            {new Date(opportunity.awardDate).toLocaleDateString('en-US', {
+                              month: '2-digit',
+                              day: '2-digit',
+                              year: '2-digit'
+                            })}
+                          </div>
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="flex items-center space-x-1">
+                            <span className="text-sm text-gray-900 dark:text-white">
+                              {new Date(new Date(opportunity.awardDate).getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
+                                month: '2-digit',
+                                day: '2-digit',
+                                year: '2-digit'
+                              })}
+                            </span>
+                            <div className="w-3 h-3 bg-green-500 rounded-full opacity-75"></div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="flex items-center space-x-2">
+                            <button
+                              title="View Details"
+                              className="p-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-200"
+                            >
+                              <Search className="w-4 h-4" />
+                            </button>
+                            <button
+                              title="Save Opportunity"
+                              className="p-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 text-gray-600 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-yellow-400 transition-all duration-200"
+                            >
+                              <Flag className="w-4 h-4" />
+                            </button>
+                            <button
+                              title="Export"
+                              className="p-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-green-100 dark:hover:bg-green-900/30 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-all duration-200"
+                            >
+                              <FileText className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Table Footer */}
+              <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Showing {filteredOpportunities.length} of {opportunities.length} opportunities
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button className="px-3 py-1 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200">
+                      Previous
+                    </button>
+                    <button className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                      1
+                    </button>
+                    <button className="px-3 py-1 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors duration-200">
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
