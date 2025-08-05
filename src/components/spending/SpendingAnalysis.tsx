@@ -477,7 +477,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
   };
 
   const handleCustomReport = () => {
-    setShowCustomReportModal(true);
+    navigate('/signup');
   };
 
   const generateCustomReport = (location: string, contractingType: string) => {

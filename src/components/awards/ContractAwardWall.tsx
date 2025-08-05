@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search, ChevronDown, ChevronRight, Shield, Flag, Users, MapPin, Filter, Crown, Sparkles, FileText, X, Zap, Brain } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useSamGovData } from '../../hooks/useSamGovData';
 import NAICSCodeDirectory from './NAICSCodeDirectory';
 import { enhanceContractTitle, getContractInsights, type ContractData } from '../../services/aiTitleEnhancer';
 
 const ContractAwardWall: React.FC = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [showSearchFilters, setShowSearchFilters] = useState(false);
   const [selectedSetAside, setSelectedSetAside] = useState<string>('');
@@ -51,7 +53,7 @@ const ContractAwardWall: React.FC = () => {
   };
 
   const handleCustomReport = () => {
-    setShowProModal(true);
+    navigate('/signup');
   };
 
   const setAsideTypes = [

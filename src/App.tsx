@@ -10,6 +10,7 @@ import SetAsideIntelligence from './components/setaside/SetAsideIntelligence';
 import LearningCenter from './components/learning/LearningCenter';
 import ChatterWall from './components/chatter/ChatterWall';
 import PasswordProtection from './components/auth/PasswordProtection';
+import SignUpPage from './components/auth/SignUpPage';
 import { mockSpendingData, mockSetAsideData } from './data/mockData';
 
 // Create a component that includes the routes and will be wrapped by PasswordProtection
@@ -46,6 +47,10 @@ const AppRoutes = () => {
           <Route 
             path="/chatter" 
             element={<ChatterWall />} 
+          />
+          <Route 
+            path="/signup" 
+            element={<SignUpPage />} 
           />
         </Routes>
       </main>
