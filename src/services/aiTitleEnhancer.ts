@@ -1,6 +1,7 @@
 /**
  * AI-powered title enhancement service for federal contract opportunities
  * Analyzes NAICS codes, descriptions, and scope of work to generate clearer titles
+ * Enhanced version with better preservation of original meaning and SAM.gov compliance
  */
 
 export interface ContractData {
@@ -18,6 +19,8 @@ export interface EnhancedTitle {
   confidence: number;
   category: string;
   keywords: string[];
+  preservationScore: number; // How well we preserved original meaning
+  samCompliance: boolean; // Whether enhancement maintains SAM.gov intent
 }
 
 // NAICS code mapping for better categorization
@@ -204,10 +207,23 @@ export function enhanceContractTitle(contract: ContractData): EnhancedTitle {
     enhancedTitle = enhancedTitle.substring(0, 77) + '...';
   }
   
-  // Adjust confidence based on available data
+  // Calculate preservation score and SAM compliance
+  const originalWords = new Set(description.toLowerCase().split(/\s+/));
+  const enhancedWords = new Set(enhancedTitle.toLowerCase().split(/\s+/));
+  const commonWords = [...originalWords].filter(word => enhancedWords.has(word));
+  const preservationScore = commonWords.length / originalWords.size;
+  
+  // SAM.gov compliance check - ensure we haven't changed core meaning
+  const samCompliance = preservationScore >= 0.6 && 
+                       enhancedTitle.length <= description.length * 1.5 &&
+                       enhancedTitle.length >= description.length * 0.8;
+  
+  // Adjust confidence based on available data and compliance
   if (naicsCode) confidence += 0.1;
   if (naicsDescription) confidence += 0.1;
   if (amount) confidence += 0.05;
+  if (samCompliance) confidence += 0.1;
+  if (preservationScore >= 0.8) confidence += 0.1;
   
   confidence = Math.min(confidence, 0.95); // Cap at 95%
   
@@ -216,7 +232,9 @@ export function enhanceContractTitle(contract: ContractData): EnhancedTitle {
     enhanced: enhancedTitle,
     confidence,
     category: analysis.contractType,
-    keywords: analysis.keywords
+    keywords: analysis.keywords,
+    preservationScore,
+    samCompliance
   };
 }
 

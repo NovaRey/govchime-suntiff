@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Crown, Building2, Code, Shield, CheckCircle, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Crown, Building2, Code, Shield, CheckCircle, ArrowRight, ArrowLeft, Sparkles, Bell, Zap } from 'lucide-react';
 
 interface SignUpFormData {
   firstName: string;
@@ -11,6 +11,15 @@ interface SignUpFormData {
   businessType: string;
   targetAgencies: string[];
   interests: string[];
+}
+
+interface AIOpportunity {
+  title: string;
+  agency: string;
+  value: string;
+  deadline: string;
+  matchReason: string;
+  isNew: boolean;
 }
 
 const SignUpPage: React.FC = () => {
@@ -26,6 +35,9 @@ const SignUpPage: React.FC = () => {
     targetAgencies: [],
     interests: []
   });
+  const [aiOpportunities, setAiOpportunities] = useState<AIOpportunity[]>([]);
+  const [showOpportunities, setShowOpportunities] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const industries = [
     { value: 'technology', label: 'Information Technology', icon: '💻', description: 'Software, cybersecurity, cloud services' },
@@ -75,8 +87,84 @@ const SignUpPage: React.FC = () => {
     }));
   };
 
-  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, 4));
-  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+  // AI Opportunity Detection
+  useEffect(() => {
+    if (formData.industry && formData.cageCode && formData.cageCode.length >= 5) {
+      // Simulate AI analysis based on industry and CAGE code
+      const generateOpportunities = () => {
+        const opportunityPool = [
+          {
+            title: "IT Infrastructure Modernization Program",
+            agency: "Department of Defense",
+            value: "$45M",
+            deadline: "45 days",
+            matchReason: "Matches your IT services capability",
+            isNew: true
+          },
+          {
+            title: "Cybersecurity Assessment Services",
+            agency: "Department of Homeland Security",
+            value: "$12M",
+            deadline: "30 days",
+            matchReason: "Aligns with your CAGE code classification",
+            isNew: true
+          },
+          {
+            title: "Cloud Migration Support",
+            agency: "General Services Administration",
+            value: "$8.5M",
+            deadline: "60 days",
+            matchReason: "Perfect fit for your industry expertise",
+            isNew: false
+          }
+        ];
+
+        // Filter based on industry
+        const relevantOpportunities = opportunityPool.filter(opp => {
+          if (formData.industry === 'technology') return true;
+          if (formData.industry === 'defense' && opp.agency.includes('Defense')) return true;
+          if (formData.industry === 'healthcare' && opp.title.includes('Health')) return true;
+          return Math.random() > 0.5; // Random relevance for demo
+        });
+
+        setAiOpportunities(relevantOpportunities.slice(0, 2));
+        setShowOpportunities(true);
+      };
+
+      const timeout = setTimeout(generateOpportunities, 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [formData.industry, formData.cageCode]);
+
+  const handleStepClick = (step: number) => {
+    if (step <= 4) {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentStep(step);
+        setIsTransitioning(false);
+      }, 150);
+    }
+  };
+
+  const nextStep = () => {
+    if (currentStep < 4) {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentStep(currentStep + 1);
+        setIsTransitioning(false);
+      }, 150);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentStep(currentStep - 1);
+        setIsTransitioning(false);
+      }, 150);
+    }
+  };
 
   const handleSubmit = () => {
     console.log('Signup data:', formData);
@@ -111,24 +199,72 @@ const SignUpPage: React.FC = () => {
         <div className="flex items-center justify-between mb-8">
           {[1, 2, 3, 4].map((step) => (
             <div key={step} className="flex items-center">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                step <= currentStep 
-                  ? 'bg-orange-500 text-white' 
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-400'
-              }`}>
+              <button
+                onClick={() => handleStepClick(step)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300 transform hover:scale-110 shadow-lg ${
+                  step <= currentStep 
+                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-orange-500/30' 
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600'
+                } ${step === currentStep ? 'ring-4 ring-orange-500/30 scale-110' : ''}`}
+              >
                 {step < currentStep ? <CheckCircle className="w-5 h-5" /> : step}
-              </div>
+              </button>
               {step < 4 && (
-                <div className={`w-20 h-1 mx-4 ${
-                  step < currentStep ? 'bg-orange-500' : 'bg-gray-200 dark:bg-gray-700'
+                <div className={`w-20 h-1 mx-4 transition-all duration-500 ${
+                  step < currentStep ? 'bg-gradient-to-r from-orange-500 to-orange-600' : 'bg-gray-200 dark:bg-gray-700'
                 }`}></div>
               )}
             </div>
           ))}
         </div>
 
+        {/* AI Opportunities Alert */}
+        {showOpportunities && (
+          <div className="mb-8 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6 shadow-lg animate-pulse">
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <div className="relative">
+                  <Bell className="w-6 h-6 text-red-500 animate-bounce" />
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                  <Zap className="w-5 h-5 text-yellow-500 mr-2" />
+                  AI-Discovered Opportunities
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                  Based on your industry and CAGE code, we found {aiOpportunities.length} potential matches:
+                </p>
+                <div className="space-y-3">
+                  {aiOpportunities.map((opportunity, index) => (
+                    <div key={index} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-medium text-gray-900 dark:text-white">{opportunity.title}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{opportunity.agency}</p>
+                          <p className="text-xs text-orange-600 dark:text-orange-400 mt-1">{opportunity.matchReason}</p>
+                        </div>
+                        <div className="text-right ml-4">
+                          <p className="font-semibold text-green-600 dark:text-green-400">{opportunity.value}</p>
+                          <p className="text-sm text-gray-500">{opportunity.deadline}</p>
+                          {opportunity.isNew && (
+                            <span className="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full mt-1">
+                              New!
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Step Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden">
+        <div className={`bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200/50 dark:border-gray-700/50 overflow-hidden transition-all duration-300 ${isTransitioning ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
           {currentStep === 1 && (
             <div className="p-8">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
@@ -143,7 +279,7 @@ const SignUpPage: React.FC = () => {
                     type="text"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200 shadow-sm hover:shadow-md focus:shadow-lg"
                     placeholder="Enter your first name"
                   />
                 </div>
@@ -155,7 +291,7 @@ const SignUpPage: React.FC = () => {
                     type="text"
                     value={formData.lastName}
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200 shadow-sm hover:shadow-md focus:shadow-lg"
                     placeholder="Enter your last name"
                   />
                 </div>
@@ -350,10 +486,10 @@ const SignUpPage: React.FC = () => {
               <button
                 onClick={prevStep}
                 disabled={currentStep === 1}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-200 ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
                   currentStep === 1
                     ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm hover:shadow-md transform hover:scale-[1.02]'
                 }`}
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -371,7 +507,7 @@ const SignUpPage: React.FC = () => {
               ) : (
                 <button
                   onClick={nextStep}
-                  className="flex items-center space-x-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl transition-all duration-200 font-semibold"
+                  className="flex items-center space-x-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-xl transition-all duration-200 font-semibold shadow-md hover:shadow-lg transform hover:scale-[1.02]"
                 >
                   <span>Next</span>
                   <ArrowRight className="w-4 h-4" />
