@@ -8,6 +8,8 @@ export interface ContractAward {
   naicsCode: string;
   naicsDescription: string;
   setAside?: string;
+  solicitationNumber?: string;
+  title?: string;
   location: {
     state: string;
     city: string;

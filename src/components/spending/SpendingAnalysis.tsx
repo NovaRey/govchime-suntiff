@@ -473,7 +473,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
 
   // Export functionality
   const handleExportPDF = () => {
-    setShowProModal(true);
+    navigate('/signup');
   };
 
   const handleCustomReport = () => {
@@ -1554,7 +1554,7 @@ const SpendingAnalysis: React.FC<SpendingAnalysisProps> = ({ spendingData = [] }
                   <button
                     onClick={() => {
                       setShowProModal(false);
-                      window.open('https://govchime.com/pro', '_blank');
+                      navigate('/signup');
                     }}
                     className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white rounded-lg transition-all duration-300 shadow-orange-glow"
                   >

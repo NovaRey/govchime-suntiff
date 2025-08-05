@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSamGovData } from '../../hooks/useSamGovData';
 import NAICSCodeDirectory from './NAICSCodeDirectory';
 import { enhanceContractTitle, getContractInsights, type ContractData } from '../../services/aiTitleEnhancer';
+import { GrokLoadingBar } from '../common/GrokLoadingBar';
 
 const ContractAwardWall: React.FC = () => {
   const navigate = useNavigate();
@@ -14,8 +15,43 @@ const ContractAwardWall: React.FC = () => {
   const [dateRange, setDateRange] = useState<string>('30');
   const [showProModal, setShowProModal] = useState<boolean>(false);
   const [useAITitles, setUseAITitles] = useState<boolean>(true);
+  const [selectedOpportunity, setSelectedOpportunity] = useState<any>(null);
+  const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
 
   const { data: opportunities, loading, error } = useSamGovData();
+
+  // Function to get agency icon
+  const getAgencyIcon = (agency: string) => {
+    const agencyLower = agency.toLowerCase();
+    if (agencyLower.includes('defense') || agencyLower.includes('dod')) return '🛡️';
+    if (agencyLower.includes('health') || agencyLower.includes('hhs')) return '🏥';
+    if (agencyLower.includes('homeland') || agencyLower.includes('dhs')) return '🔒';
+    if (agencyLower.includes('energy') || agencyLower.includes('doe')) return '⚡';
+    if (agencyLower.includes('transportation') || agencyLower.includes('dot')) return '🚛';
+    if (agencyLower.includes('agriculture') || agencyLower.includes('usda')) return '🌾';
+    if (agencyLower.includes('nasa')) return '🚀';
+    if (agencyLower.includes('veterans') || agencyLower.includes('va')) return '🎖️';
+    if (agencyLower.includes('gsa') || agencyLower.includes('general services')) return '🏛️';
+    if (agencyLower.includes('justice') || agencyLower.includes('doj')) return '⚖️';
+    if (agencyLower.includes('commerce') || agencyLower.includes('doc')) return '💼';
+    if (agencyLower.includes('education')) return '🎓';
+    if (agencyLower.includes('treasury')) return '💰';
+    if (agencyLower.includes('state') || agencyLower.includes('dos')) return '🌍';
+    if (agencyLower.includes('interior')) return '🏞️';
+    return '🏛️'; // Default government building icon
+  };
+
+  // Function to open detail modal
+  const openDetailModal = (opportunity: any) => {
+    setSelectedOpportunity(opportunity);
+    setShowDetailModal(true);
+  };
+
+  // Function to close detail modal
+  const closeDetailModal = () => {
+    setSelectedOpportunity(null);
+    setShowDetailModal(false);
+  };
 
   // Enhanced contract data with AI-generated titles
   const enhancedOpportunities = useMemo(() => {
@@ -282,7 +318,7 @@ const ContractAwardWall: React.FC = () => {
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <GrokLoadingBar color="blue" size="lg" className="mb-4" />
               <p className="text-gray-600 dark:text-gray-400">Loading opportunities...</p>
             </div>
           </div>
@@ -374,6 +410,14 @@ const ContractAwardWall: React.FC = () => {
                                     </span>
                                   </div>
                                 </div>
+                                {/* Solicitation Number */}
+                                {opportunity.solicitationNumber && (
+                                  <div className="flex items-center space-x-2">
+                                    <span className="text-xs font-mono text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                                      SOL: {opportunity.solicitationNumber}
+                                    </span>
+                                  </div>
+                                )}
                                 <details className="group">
                                   <summary className="text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300">
                                     View original description
@@ -392,6 +436,14 @@ const ContractAwardWall: React.FC = () => {
                                     ? `${opportunity.description.substring(0, 80)}...` 
                                     : opportunity.description}
                                 </h3>
+                                {/* Solicitation Number */}
+                                {opportunity.solicitationNumber && (
+                                  <div className="flex items-center space-x-2">
+                                    <span className="text-xs font-mono text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                                      SOL: {opportunity.solicitationNumber}
+                                    </span>
+                                  </div>
+                                )}
                                 <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                                   {opportunity.naicsDescription && opportunity.naicsDescription.length > 100
                                     ? `${opportunity.naicsDescription.substring(0, 100)}...`
@@ -451,7 +503,7 @@ const ContractAwardWall: React.FC = () => {
                         </td>
                         <td className="px-6 py-6">
                           <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <div className="text-lg">{getAgencyIcon(opportunity.agency)}</div>
                             <div>
                               <div className="text-sm font-medium text-gray-900 dark:text-white">
                                 {opportunity.agency.length > 25 

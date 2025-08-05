@@ -66,10 +66,10 @@ export function useSamGovData(options: UseSamGovDataOptions = {}): UseSamGovData
         
         response = await samGovApi.getOpportunities({
           limit: limit,
-          offset: currentOffset,
+          page: Math.floor(currentOffset / limit),
           state: filters.state,
-          ncode: filters.naics,
-          organizationName: filters.department,
+          naics: filters.naics,
+          department: filters.department,
           postedFrom: formatDateForSamGov(filters.dateFrom || '2025-01-01'),
           postedTo: formatDateForSamGov(filters.dateTo || (() => {
             const now = new Date();

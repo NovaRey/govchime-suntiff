@@ -11,10 +11,10 @@ import {
   Users,
   Search,
   AlertCircle,
-  Loader2,
   BarChart3,
   MessageSquare
 } from 'lucide-react';
+import { GrokLoadingBar } from '../common/GrokLoadingBar';
 
 const Dashboard: React.FC = () => {
   // Auto-initialize scroll animations
@@ -433,7 +433,7 @@ const Dashboard: React.FC = () => {
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-600 dark:text-blue-400" />
+              <GrokLoadingBar color="blue" size="md" />
             </div>
           ) : (
             <div className="space-y-4">

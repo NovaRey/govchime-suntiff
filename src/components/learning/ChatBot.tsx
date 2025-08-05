@@ -4,9 +4,9 @@ import {
   Send, 
   Bot, 
   User, 
-  Loader2,
   ExternalLink
 } from 'lucide-react';
+import { GrokLoadingBar } from '../common/GrokLoadingBar';
 
 interface Message {
   id: string;
@@ -494,7 +494,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ onClose }) => {
                 </div>
                 <div className="p-4 bg-gradient-to-br from-slate-900/95 to-gray-950/95 border border-slate-600/50 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.6)] backdrop-blur-sm">
                   <div className="flex items-center space-x-3">
-                    <Loader2 className="w-5 h-5 animate-spin text-cyan-400 drop-shadow-sm" />
+                    <GrokLoadingBar color="blue" size="sm" />
                     <span className="text-sm text-slate-300 font-mono">PROCESSING...</span>
                   </div>
                 </div>

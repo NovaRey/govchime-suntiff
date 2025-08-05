@@ -282,9 +282,9 @@ const Header: React.FC = () => {
                 title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {isDarkMode ? (
-                  <Sun className="w-5 h-5 text-yellow-500 hover:text-yellow-400 icon-hover transition-all duration-300" />
+                  <Sun key="sun" className="w-5 h-5 text-yellow-500 hover:text-yellow-400 icon-hover transition-all duration-300 animate-theme-toggle" />
                 ) : (
-                  <Moon className="w-5 h-5 text-indigo-600 hover:text-indigo-500 icon-hover transition-all duration-300" />
+                  <Moon key="moon" className="w-5 h-5 text-indigo-600 hover:text-indigo-500 icon-hover transition-all duration-300 animate-theme-toggle" />
                 )}
               </button>
               <button 
@@ -393,9 +393,9 @@ const Header: React.FC = () => {
                 className="mt-3 flex items-center w-full px-3 py-2 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-md figma-button"
               >
                 {isDarkMode ? (
-                  <Sun className="w-5 h-5 mr-2 text-yellow-500 icon-hover" />
+                  <Sun key="sun-mobile" className="w-5 h-5 mr-2 text-yellow-500 icon-hover animate-theme-toggle" />
                 ) : (
-                  <Moon className="w-5 h-5 mr-2 text-indigo-600 icon-hover" />
+                  <Moon key="moon-mobile" className="w-5 h-5 mr-2 text-indigo-600 icon-hover animate-theme-toggle" />
                 )}
                 <span className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
                   {isDarkMode ? 'Light Mode' : 'Dark Mode'}

@@ -85,7 +85,7 @@ const SetAsideIntelligence: React.FC<SetAsideIntelligenceProps> = ({ setAsideDat
           <div className="space-y-1 text-sm">
             {payload.map((entry: any, index: number) => (
               <p key={index} className="text-gray-200">
-                <span className="font-medium" style={{ color: entry.color }}>{entry.dataKey}:</span> {entry.value}
+                <span className={`font-medium tooltip-color-${entry.dataKey.replace(/[^a-zA-Z0-9]/g, '')}`}>{entry.dataKey}:</span> {entry.value}
               </p>
             ))}
           </div>
@@ -391,10 +391,12 @@ const SetAsideIntelligence: React.FC<SetAsideIntelligenceProps> = ({ setAsideDat
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{content.title}</h2>
             <button
               onClick={closeModal}
+              title="Close modal"
               className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
+
           </div>
           <div className="p-6">
             {content.content}
@@ -478,9 +480,14 @@ const SetAsideIntelligence: React.FC<SetAsideIntelligenceProps> = ({ setAsideDat
       {/* Program Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {setAsideData.map((program) => {
+          if (!programDescriptions[program.type]) {
+            // Optionally log a warning for missing description
+            // eslint-disable-next-line no-console
+            console.warn(`No programDescriptions entry for set-aside type: ${program.type}`);
+            return null;
+          }
           const iconData = getSetAsideIcon(program.type);
           const IconComponent = iconData.icon;
-          
           return (
             <div key={program.type} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-3d dark:shadow-dark-3d hover:shadow-3d-hover dark:hover:shadow-dark-3d-hover transition-all duration-200 group">
               <div className="flex items-start justify-between mb-4">
@@ -496,7 +503,6 @@ const SetAsideIntelligence: React.FC<SetAsideIntelligenceProps> = ({ setAsideDat
                     <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">{programDescriptions[program.type].description}</p>
                   </div>
                 </div>
-                
                 {/* Growth Rate with Hover Info */}
                 <div className="relative group/percentage">
                   <div className={`flex items-center px-2 py-1 rounded-full text-xs font-medium cursor-help ${
@@ -511,7 +517,6 @@ const SetAsideIntelligence: React.FC<SetAsideIntelligenceProps> = ({ setAsideDat
                     )}
                     {program.growthRate}%
                   </div>
-                  
                   {/* Hover Info Tooltip */}
                   <div className="absolute -top-12 right-0 bg-gray-900 dark:bg-gray-700 text-white text-xs px-3 py-2 rounded-lg shadow-lg opacity-0 group-hover/percentage:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
                     Year-over-year growth rate
@@ -519,7 +524,6 @@ const SetAsideIntelligence: React.FC<SetAsideIntelligenceProps> = ({ setAsideDat
                   </div>
                 </div>
               </div>
-
               <div className="grid grid-cols-2 gap-4">
                 <div className="group/value">
                   <p className="text-sm text-gray-600 dark:text-gray-400">Total Value</p>
@@ -532,7 +536,6 @@ const SetAsideIntelligence: React.FC<SetAsideIntelligenceProps> = ({ setAsideDat
                   <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{program.contractCount.toLocaleString()}</p>
                 </div>
               </div>
-
               <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 space-y-2">
                 <a
                   href={programDescriptions[program.type].samGovUrl}

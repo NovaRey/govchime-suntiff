@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Lock, Eye, EyeOff, Shield } from 'lucide-react';
+import { GrokLoadingBar } from '../common/GrokLoadingBar';
 
 interface PasswordProtectionProps {
   children: React.ReactNode;
@@ -206,7 +207,7 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="relative">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-500/30 border-t-purple-400"></div>
+          <GrokLoadingBar color="blue" size="lg" />
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-xl animate-pulse"></div>
         </div>
       </div>
@@ -419,12 +420,12 @@ const PasswordProtection: React.FC<PasswordProtectionProps> = ({ children }) => 
                 <span className="relative flex items-center">
                   {isSuccessMode ? (
                     <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white mr-3"></div>
+                      <GrokLoadingBar color="blue" size="sm" className="mr-3" />
                       Unlocking Platform...
                     </>
                   ) : isAnimating ? (
                     <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white mr-3"></div>
+                      <GrokLoadingBar color="blue" size="sm" className="mr-3" />
                       {isErrorMode ? 'Checking Security...' : 'Authenticating...'}
                     </>
                   ) : (

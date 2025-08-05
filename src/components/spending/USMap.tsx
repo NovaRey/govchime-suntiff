@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { feature } from 'topojson-client';
 import { SpendingData } from '../../types';
 import DataSourceBadge from '../common/DataSourceBadge';
+import { GrokLoadingBar } from '../common/GrokLoadingBar';
 
 interface USMapProps {
   spendingData: SpendingData[];
@@ -215,7 +216,7 @@ const USMap: React.FC<USMapProps> = ({ spendingData, onStateSelect, selectedStat
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-3d dark:shadow-dark-3d">
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+            <GrokLoadingBar color="blue" size="lg" className="mb-4" />
             <p className="text-gray-600 dark:text-gray-400">Loading US map...</p>
           </div>
         </div>

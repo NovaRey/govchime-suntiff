@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSamGovData } from '../../hooks/useSamGovData';
-import { ChevronDown, Calendar, Building2, MapPin, Award, Loader2, Shield, Server, Wrench, Users, Globe, Flag } from 'lucide-react';
+import { ChevronDown, Calendar, Building2, MapPin, Award, Shield, Server, Wrench, Users, Globe, Flag } from 'lucide-react';
 import { format } from 'date-fns';
+import { GrokLoadingBar } from '../common/GrokLoadingBar';
 
 const ChatterWall: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -73,7 +74,7 @@ const ChatterWall: React.FC = () => {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-blue-600 dark:text-blue-400 mx-auto mb-4" />
+          <GrokLoadingBar color="blue" size="lg" className="mb-4" />
           <p className="text-gray-600 dark:text-gray-400">Loading contract data...</p>
         </div>
       </div>

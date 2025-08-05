@@ -1,3 +1,21 @@
+/* Tooltip color classes for SetAsideIntelligence chart lines */
+.tooltip-color-WOSB { color: #EC4899; }
+.tooltip-color-SDVOSB { color: #3B82F6; }
+.tooltip-color-8a { color: #10B981; }
+.tooltip-color-HubZone { color: #F59E0B; }
+.tooltip-color-SDB { color: #8B5CF6; }
+.tooltip-color-VOSB { color: #EF4444; }
+.tooltip-color-EDWOSB { color: #EC4899; }
+@keyframes theme-toggle-rotate {
+  0% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 0px #facc15); }
+  40% { transform: rotate(180deg) scale(1.15); filter: drop-shadow(0 0 8px #facc15); }
+  60% { transform: rotate(200deg) scale(1.1); filter: drop-shadow(0 0 12px #6366f1); }
+  100% { transform: rotate(360deg) scale(1); filter: drop-shadow(0 0 0px #6366f1); }
+}
+
+.animate-theme-toggle {
+  animation: theme-toggle-rotate 0.7s cubic-bezier(0.4,0,0.2,1);
+}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;

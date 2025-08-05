@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useClickTracking } from '../../hooks/useClickTracking';
 import { 
   BookOpen, 
@@ -17,8 +18,11 @@ import ChatBot from './ChatBot';
 
 const LearningCenter: React.FC = () => {
   const { trackExternalClick } = useClickTracking();
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('set-asides');
   const [showChatBot, setShowChatBot] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [selectedResource, setSelectedResource] = useState<any>(null);
 
   const categories = [
     {
@@ -351,10 +355,149 @@ const LearningCenter: React.FC = () => {
     ]
   };
 
+  const getSetAsideDetails = (programTitle: string) => {
+    const details: Record<string, {
+      overview: string;
+      eligibility: string[];
+      benefits: string[];
+      nextSteps: string;
+    }> = {
+      'Service-Disabled Veteran-Owned Small Business (SDVOSB)': {
+        overview: 'The SDVOSB program provides contracting opportunities for service-disabled veterans who own and control small businesses. This program recognizes the sacrifices made by disabled veterans and helps them compete for federal contracts.',
+        eligibility: [
+          'Business must be at least 51% owned by one or more service-disabled veterans',
+          'Service-disabled veteran(s) must control day-to-day operations',
+          'Business must meet SBA small business size standards',
+          'Service-disabled veteran must have a service-connected disability rating from VA',
+          'Must be a U.S. citizen'
+        ],
+        benefits: [
+          'Access to set-aside contracts exclusively for SDVOSBs',
+          'Sole source contracts up to $4 million for most industries',
+          'Priority in federal procurement opportunities',
+          'Networking opportunities with other veteran-owned businesses',
+          'Access to VA verification program for enhanced credibility'
+        ],
+        nextSteps: 'Start by obtaining your disability rating documentation from the VA, then register in SAM.gov and consider getting VA verification to enhance your credibility with contracting officers.'
+      },
+      'Women-Owned Small Business (WOSB)': {
+        overview: 'The WOSB program levels the playing field for women entrepreneurs by providing access to federal contracting opportunities in industries where women are underrepresented.',
+        eligibility: [
+          'Business must be at least 51% owned by one or more women',
+          'Women must control day-to-day operations and long-term decision making',
+          'Business must meet SBA small business size standards',
+          'Women owners must be U.S. citizens',
+          'For EDWOSB: women must be economically disadvantaged'
+        ],
+        benefits: [
+          'Access to set-aside contracts in underrepresented industries',
+          'Sole source contracts up to $4 million',
+          'Competitive advantages in federal procurement',
+          'Networking and mentorship opportunities',
+          'Access to SBA resources and training programs'
+        ],
+        nextSteps: 'Determine if your industry qualifies for WOSB set-asides, gather required documentation, and complete the certification process through an approved third-party certifier.'
+      },
+      '8(a) Business Development Program': {
+        overview: 'The 8(a) program is a comprehensive 9-year business development program for socially and economically disadvantaged small businesses, providing access to government contracts and business development assistance.',
+        eligibility: [
+          'Business owner must be socially and economically disadvantaged',
+          'Owner must demonstrate potential for success',
+          'Business must be at least 51% owned by disadvantaged individual(s)',
+          'Owner must control day-to-day operations',
+          'Business must meet SBA small business size standards'
+        ],
+        benefits: [
+          'Sole source contracts up to $4 million (goods) or $7 million (services)',
+          'Access to exclusive 8(a) set-aside contracts',
+          'Business development assistance and mentoring',
+          'Training workshops and technical assistance',
+          'Competitive advantages for 9 years'
+        ],
+        nextSteps: 'Prepare detailed financial and personal documentation, complete the extensive application process, and be prepared for a thorough review that can take 6-12 months.'
+      },
+      'HUBZone Program': {
+        overview: 'The HUBZone program stimulates economic development in historically underutilized business zones by providing federal contracting opportunities to small businesses located in these areas.',
+        eligibility: [
+          'Business must be located in a qualified HUBZone area',
+          'At least 35% of employees must live in a HUBZone',
+          'Business must be at least 51% owned by U.S. citizens',
+          'Principal office must be located in a HUBZone',
+          'Business must meet SBA small business size standards'
+        ],
+        benefits: [
+          'Access to HUBZone set-aside contracts',
+          'Sole source contracts up to $4 million',
+          'Price evaluation preference in full and open competition',
+          'Contributes to community economic development',
+          'Competitive advantages in federal procurement'
+        ],
+        nextSteps: 'Verify your location qualifies as a HUBZone using SBA\'s mapping tool, ensure employee residency requirements are met, and complete the certification application.'
+      },
+      'Small Disadvantaged Business (SDB)': {
+        overview: 'The SDB program provides contracting opportunities for small businesses owned by socially and economically disadvantaged individuals, helping to address historical barriers to federal contracting.',
+        eligibility: [
+          'Business must be at least 51% owned by disadvantaged individual(s)',
+          'Owner must be socially and economically disadvantaged',
+          'Owner must control day-to-day operations',
+          'Business must meet SBA small business size standards',
+          'Must demonstrate good character and business integrity'
+        ],
+        benefits: [
+          'Access to SDB set-aside contracts',
+          'Price evaluation credits in certain competitions',
+          'Subcontracting opportunities with large prime contractors',
+          'Enhanced visibility to contracting officers',
+          'Participation in mentor-protégé programs'
+        ],
+        nextSteps: 'Determine if you qualify as socially and economically disadvantaged, gather required documentation including financial statements, and complete the SBA certification process.'
+      },
+      'AbilityOne Program': {
+        overview: 'AbilityOne creates employment opportunities for people who are blind or have significant disabilities by providing government contracts to qualified nonprofits.',
+        eligibility: [
+          'Must be a qualified nonprofit agency',
+          'At least 75% of direct labor hours must be performed by people who are blind or have significant disabilities',
+          'Must be designated by National Industries for the Blind or SourceAmerica',
+          'Must meet quality and delivery standards',
+          'Must comply with AbilityOne pricing policies'
+        ],
+        benefits: [
+          'Access to mandatory source contracts',
+          'Stable, long-term contracting opportunities',
+          'Job creation for people with disabilities',
+          'Direct sales authority with government agencies',
+          'Priority in federal procurement for designated products/services'
+        ],
+        nextSteps: 'Contact National Industries for the Blind or SourceAmerica to begin the qualification process and learn about available contract opportunities in your area.'
+      }
+    };
+
+    return details[programTitle] || {
+      overview: 'This set-aside program provides specialized contracting opportunities for qualifying small businesses.',
+      eligibility: ['Must meet specific program requirements', 'Business must qualify as a small business'],
+      benefits: ['Access to set-aside contracts', 'Competitive advantages in federal procurement'],
+      nextSteps: 'Visit the official program website to learn about specific requirements and application processes.'
+    };
+  };
+
   const handleResourceClick = async (resource: any, position: number) => {
+    // Special handling for Set-Aside program resources - show info modal
+    if (selectedCategory === 'set-asides' && !resource.internal && resource.type !== 'dashboard') {
+      setSelectedResource(resource);
+      setShowInfoModal(true);
+      return;
+    }
+    
     if (resource.url) {
-      await trackExternalClick(resource.url, `learning center ${selectedCategory}`, position);
-      window.open(resource.url, '_blank', 'noopener,noreferrer');
+      // Check if it's an internal link
+      if (resource.internal || resource.url.startsWith('/')) {
+        // Handle internal navigation
+        navigate(resource.url);
+      } else {
+        // Handle external links
+        await trackExternalClick(resource.url, `learning center ${selectedCategory}`, position);
+        window.open(resource.url, '_blank', 'noopener,noreferrer');
+      }
     }
   };
 
@@ -754,6 +897,125 @@ const LearningCenter: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Enhanced Info Modal for Set-Aside Programs */}
+      {showInfoModal && selectedResource && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-end p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 w-full max-w-md mt-16 mr-8 shadow-2xl dark:shadow-dark-3d-hover overflow-hidden">
+            {/* Header with gradient */}
+            <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 text-white">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="text-lg font-bold mb-1">
+                    {selectedResource.title}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium">
+                      {selectedResource.type}
+                    </span>
+                    <span className="text-sm opacity-90">
+                      {selectedResource.duration}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowInfoModal(false)}
+                  aria-label="Close modal"
+                  className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            {/* Content */}
+            <div className="p-4 max-h-[60vh] overflow-y-auto">
+              <div className="space-y-4">
+                {/* Program Details */}
+                <div>
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2 flex items-center">
+                    <Award className="w-4 h-4 mr-2 text-purple-600" />
+                    Program Overview
+                  </h4>
+                  <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                    {getSetAsideDetails(selectedResource.title).overview}
+                  </p>
+                </div>
+
+                {/* Eligibility */}
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                  <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2 flex items-center">
+                    <Users className="w-4 h-4 mr-2" />
+                    Eligibility Requirements
+                  </h4>
+                  <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                    {getSetAsideDetails(selectedResource.title).eligibility.map((req, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                        {req}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Benefits */}
+                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                  <h4 className="font-semibold text-green-800 dark:text-green-300 mb-2 flex items-center">
+                    <Star className="w-4 h-4 mr-2" />
+                    Key Benefits
+                  </h4>
+                  <ul className="text-sm text-green-700 dark:text-green-300 space-y-1">
+                    {getSetAsideDetails(selectedResource.title).benefits.map((benefit, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Next Steps */}
+                <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                  <h4 className="font-semibold text-purple-800 dark:text-purple-300 mb-2 flex items-center">
+                    <ChevronRight className="w-4 h-4 mr-2" />
+                    Getting Started
+                  </h4>
+                  <p className="text-sm text-purple-700 dark:text-purple-300">
+                    {getSetAsideDetails(selectedResource.title).nextSteps}
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Actions */}
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={async () => {
+                    setShowInfoModal(false);
+                    if (selectedResource.url) {
+                      await trackExternalClick(selectedResource.url, `learning center ${selectedCategory} modal`, 1);
+                      window.open(selectedResource.url, '_blank', 'noopener,noreferrer');
+                    }
+                  }}
+                  className="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Learn More on SBA.gov
+                </button>
+                <button
+                  onClick={() => setShowInfoModal(false)}
+                  className="flex items-center justify-center px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ChatBot */}
       {showChatBot && (

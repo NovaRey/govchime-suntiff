@@ -1,5 +1,73 @@
 // SAM.gov API service for pulling live federal contract opportunities
-const SAM_GOV_BASE_URL = '/api/sam/opportunities/v2';
+const SAM_GOV_BASE_URL = '/api/sam/prod/opportunities/v2';
+const SAM_GOV_API_KEY = 'uWiwJAsOb46Qfwd39xkOzCJCHwMVIVr1nyrtRvc8';
+
+// Debug function to test API connectivity
+const testApiConnection = async () => {
+  console.log('🔍 Testing SAM.gov API connection with required parameters...');
+  
+  try {
+    const testUrl = '/api/sam/prod/opportunities/v2/search';
+    
+    // Create date range (last 30 days to today)
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+    
+    const testPayload = {
+      limit: 10,
+      offset: 0,
+      postedFrom: thirtyDaysAgo.toISOString().split('T')[0], // YYYY-MM-DD format
+      postedTo: today.toISOString().split('T')[0], // YYYY-MM-DD format
+      ptype: "o", // opportunities
+      solicitationNumber: "",
+      state: "",
+      zip: "",
+      typeOfSetAside: "",
+      typeOfSetAsideDescription: ""
+    };
+    
+    console.log('� Test payload:', testPayload);
+    
+    const response = await fetch(testUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-Api-Key': SAM_GOV_API_KEY,
+        'User-Agent': 'GovChime/1.0'
+      },
+      body: JSON.stringify(testPayload)
+    });
+    
+    console.log('📊 Test Response Status:', response.status);
+    
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ API SUCCESS! Data received:', {
+        totalRecords: data.totalRecords || 0,
+        opportunitiesCount: data.opportunitiesData?.length || 0
+      });
+      return { 
+        status: response.status, 
+        ok: response.ok, 
+        data: JSON.stringify(data, null, 2).substring(0, 1000) + '...',
+        totalRecords: data.totalRecords,
+        opportunities: data.opportunitiesData?.length || 0
+      };
+    } else {
+      const errorText = await response.text();
+      console.error('❌ API Error:', errorText);
+      return { 
+        status: response.status, 
+        ok: response.ok, 
+        data: errorText 
+      };
+    }
+  } catch (error: any) {
+    console.error('❌ API Test Failed:', error);
+    return { error: error?.message || 'Unknown error' };
+  }
+};
 
 // Rate limiting and caching
 interface CacheEntry {
@@ -201,6 +269,7 @@ class SamGovApiService {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'User-Agent': 'GovChime/1.0 (Federal Contracting Platform)',
+          'X-Api-Key': SAM_GOV_API_KEY,
           'Cache-Control': 'no-cache',
         },
         body: JSON.stringify(payload)
@@ -289,47 +358,42 @@ class SamGovApiService {
     postedFrom?: string;
     postedTo?: string;
   } = {}): Promise<SamGovApiResponse> {
-    // Calculate date range - default to last 7 days for more data
+    // Calculate date range - default to last 30 days for more data
     const today = new Date();
-    const daysBack = params.daysBack || 7;
+    const daysBack = params.daysBack || 30;
     const fromDate = new Date(today.getTime() - (daysBack * 24 * 60 * 60 * 1000));
     
-    // Format dates for SAM.gov API
+    // Format dates for SAM.gov API (YYYY-MM-DD format)
     const formatDate = (date: Date): string => {
-      return date.toISOString();
+      return date.toISOString().split('T')[0];
     };
 
     const payload: any = {
-      size: params.limit || 50,
-      from: (params.page || 0) * (params.limit || 50),
-      filters: {
-        noticeType: [
-          "Solicitation",
-          "Presolicitation", 
-          "Sources Sought",
-          "Combined Synopsis/Solicitation",
-          "Award Notice",
-          "Intent to Bundle Requirements (DoD-Funded)"
-        ],
-        publicationDate: {
-          from: params.postedFrom || formatDate(fromDate),
-          to: params.postedTo || formatDate(today)
-        }
-      }
+      limit: params.limit || 50,
+      offset: (params.page || 0) * (params.limit || 50),
+      postedFrom: params.postedFrom ? params.postedFrom.split('T')[0] : formatDate(fromDate),
+      postedTo: params.postedTo ? params.postedTo.split('T')[0] : formatDate(today),
+      ptype: "o", // opportunities
+      solicitationNumber: "",
+      zip: "",
+      typeOfSetAside: "",
+      typeOfSetAsideDescription: ""
     };
 
     // Add optional filters
     if (params.state) {
-      payload.filters.state = params.state;
+      payload.state = params.state;
     }
     
     if (params.naics) {
-      payload.filters.naics = params.naics;
+      payload.ncode = params.naics; // SAM.gov uses 'ncode' for NAICS
     }
     
     if (params.department) {
-      payload.filters.organizationName = params.department;
-    }    return this.makeRequest<SamGovApiResponse>('/search', payload);
+      payload.organizationName = params.department;
+    }
+
+    return this.makeRequest<SamGovApiResponse>('/search', payload);
   }
 
   async getRecentOpportunities(limit: number = 50): Promise<SamGovApiResponse> {
@@ -365,3 +429,6 @@ class SamGovApiService {
 }
 
 export const samGovApi = new SamGovApiService();
+
+// Export test function for debugging
+export { testApiConnection };
